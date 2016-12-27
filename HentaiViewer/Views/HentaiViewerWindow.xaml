@@ -1,0 +1,74 @@
+﻿<controls:MetroWindow
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:local="clr-namespace:HentaiViewer.Views"
+	xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+	xmlns:viewModel="clr-namespace:HentaiViewer.ViewModels"
+	xmlns:Converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
+	xmlns:models="clr-namespace:HentaiViewer.Models"
+	x:Class="HentaiViewer.Views.HentaiViewerWindow"
+	mc:Ignorable="d"
+	Title="HentaiViewer" Height="800" Width="900" MinWidth="400"
+	d:DataContext="{d:DesignInstance {x:Type viewModel:HentaiViewerWindowViewModel}, IsDesignTimeCreatable=False}"
+	Closing="HentaiViewerWindow_OnClosed">
+	<controls:MetroWindow.Resources>
+		<Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+	</controls:MetroWindow.Resources>
+	<controls:MetroWindow.LeftWindowCommands>
+		<controls:WindowCommands>
+			<Label HorizontalAlignment="Left" Content="Viewer - Pages" />
+			<TextBlock>
+				<Run Text="{Binding ImageObjects.Count, Mode=OneWay}" /><Run Text=" " /><Run Text=" / " /><Run Text=" " />
+				<Run Text="{Binding Pages}" />
+			</TextBlock>
+			<Button Command="{Binding SaveImagesCommand}">Save</Button>
+			<ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" IsIndeterminate="True"
+			             Visibility="{Binding SaveProgress}" />
+		</controls:WindowCommands>
+	</controls:MetroWindow.LeftWindowCommands>
+	<Grid Margin="0" MouseDown="Grid_MouseDown">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="35" />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+		<StackPanel x:Name="stackPanel1" Grid.Row="0" Orientation="Horizontal" Margin="5,0" HorizontalAlignment="Left"
+		            VerticalAlignment="Center">
+			<Label Margin="5,0" VerticalAlignment="Center">Click to Scroll</Label>
+			<ToggleButton x:Name="toggleButton" IsChecked="True" />
+			<Separator VerticalAlignment="Stretch" Height="30" />
+		</StackPanel>
+		<StackPanel Grid.Row="0" x:Name="stackPanel"
+		            Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=toggleButton}"
+		            Orientation="Horizontal" VerticalAlignment="Center" Margin="140,0,0,0">
+			<Label Margin="5,0" VerticalAlignment="Center">Scrollspeed</Label>
+			<Slider x:Name="SliderScrollSpeed" Minimum="1" Maximum="101" Value="10" Width="300" TickFrequency="10"
+			        IsSnapToTickEnabled="True" VerticalAlignment="Center" />
+			<Label HorizontalAlignment="Center" Content="{Binding Value, ElementName=SliderScrollSpeed}" />
+		</StackPanel>
+		<ScrollViewer Grid.Row="1" x:Name="scviewer" Margin="0,0,0,20" CanContentScroll="True">
+			<ItemsControl x:Name="Images" ItemsSource="{Binding ImageObjects}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<models:ImageView/>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
+
+		<ProgressBar Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+		             Style="{StaticResource MaterialDesignCircularProgressBar}" Width="100" Height="100"
+		             Visibility="{Binding PregressBarVisibility}" IsIndeterminate="True" />
+		<!--<Button HorizontalAlignment="Center" VerticalAlignment="Center"
+				Visibility="{Binding ErrorVisibility}" Content="Error! click to close" />-->
+		<Canvas Grid.Row="1" Height="Auto" Background="Transparent" MouseDown="Canvas_MouseDown" MouseUp="Canvas_MouseUp"
+		        MouseLeave="Canvas_MouseLeave"
+		        Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=toggleButton}"
+		        Margin="0,0,20,0" />
+		<Button Grid.Row="1" Command="{Binding GetImagesCommand}" HorizontalAlignment="Center"
+		        VerticalAlignment="Center" Width="200" Height="100" Visibility="{Binding FetchButtonVisibility}"
+		        Content="Fetch Images" />
+	</Grid>
+</controls:MetroWindow>

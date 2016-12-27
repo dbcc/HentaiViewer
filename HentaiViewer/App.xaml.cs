@@ -1,15 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows;
+using HentaiViewer.Common;
+using HentaiViewer.ViewModels;
+using HentaiViewer.Views;
 
 namespace HentaiViewer {
 	/// <summary>
-	/// Interaction logic for App.xaml
+	///     Interaction logic for App.xaml
 	/// </summary>
 	public partial class App : Application {
+		private async void AppStartup(object sender, StartupEventArgs args) {
+			HistoryController.Load();
+			SettingsController.Load();
+			await Task.Delay(200);
+			var mainWindow = new MainWindow {
+				DataContext = new MainWindowViewModel()
+			};
+			mainWindow.Show();
+		}
 	}
 }

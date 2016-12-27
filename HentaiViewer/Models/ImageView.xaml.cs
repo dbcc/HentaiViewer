@@ -13,13 +13,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HentaiViewer {
+namespace HentaiViewer.Models {
 	/// <summary>
-	/// Interaction logic for MainWindow.xaml
+	/// Interaction logic for ImageView.xaml
 	/// </summary>
-	public partial class MainWindow : Window {
-		public MainWindow() {
+	public partial class ImageView : UserControl {
+		public ImageView() {
 			InitializeComponent();
+		}
+
+		private void Image_OnImageFailed(object sender, ExceptionRoutedEventArgs e) {
+			((Image)sender).Source = new BitmapImage(new Uri("/Resources/hmmm.jpg", UriKind.Relative));
 		}
 	}
 }
