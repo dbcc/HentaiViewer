@@ -74,6 +74,9 @@ namespace HentaiViewer.ViewModels {
 			                                 $"&f_misc={SettingsController.Settings.ExHentai.Misc}" +
 			                                 $"&f_search={searchQuery}&f_apply=Apply+Filter");
 			foreach (var hentaiModel in i) {
+				if (FavoritesController.FavoriteMd5s.Contains(hentaiModel.Md5)) {
+					hentaiModel.Favorite = true;
+				}
 				_exHentai.Add(hentaiModel);
 				await Task.Delay(100);
 			}

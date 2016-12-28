@@ -12,6 +12,7 @@ namespace HentaiViewer {
 		private async void AppStartup(object sender, StartupEventArgs args) {
 			HistoryController.Load();
 			SettingsController.Load();
+			FavoritesController.Load();
 			await Task.Delay(200);
 			var mainWindow = new MainWindow {
 				DataContext = new MainWindowViewModel()

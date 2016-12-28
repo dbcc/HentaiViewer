@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Controls;
 using HentaiViewer.Models;
 using PropertyChanged;
 
@@ -19,7 +20,7 @@ namespace HentaiViewer.ViewModels {
 
 		public ReadOnlyObservableCollection<HentaiModel> ExHentaiItems { get; }
 
-		public List<string> Sites => new List<string> {"Home", "ExHentai", "nHentai", "Cafe" };
+		public IEnumerable<object> Sites => new List<object> {"Home", new Separator(), "ExHentai", "nHentai", "Cafe", new Separator(), "Favorites", "Saved Galleries" };
 
 		public int SelectedSite { get; set; }
 		//				break;

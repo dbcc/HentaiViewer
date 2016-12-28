@@ -25,14 +25,17 @@
 			           FontWeight="Medium" HorizontalAlignment="Left" />
 			<Canvas Grid.Row="0" Grid.RowSpan="2" Background="Black" Opacity="0.5"
 			        Visibility="{Binding Seen, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
-			<Grid Grid.Row="0" x:Name="MouseOverGrid"
+			<Grid Grid.Row="0"
 			      Visibility="{Binding IsMouseOver, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Grid, Mode=OneWay}">
 				<Canvas Background="Black" Opacity="0.6" />
 				<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
-					<Button Margin="5" Command="{Binding ViewCommand}">View</Button>
-					<Button Command="{Binding MarkasReadCommand}">Mark as read</Button>
+					<Button Command="{Binding ViewCommand}">View</Button>
+					<Button Margin="5" Command="{Binding MarkasReadCommand}">Mark as read</Button>
+					<Button Command="{Binding FavoriteCommand}">Favorite</Button>
 				</StackPanel>
 			</Grid>
+			<materialDesign:PackIcon Grid.Row="0" Kind="Heart" HorizontalAlignment="Right" Foreground="Red" Margin="5" Width="25" Height="25" 
+									 Visibility="{Binding Favorite, Converter={StaticResource BooleanToVisibilityConverter}}"></materialDesign:PackIcon>
 		</Grid>
 	</materialDesign:Card>
 </UserControl>

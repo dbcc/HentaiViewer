@@ -98,6 +98,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Common\FavoritesController.cs" />
     <Compile Include="Common\HistoryController.cs" />
     <Compile Include="Common\MD5Converter.cs" />
     <Compile Include="Common\SettingsController.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Sites\nHentai.cs" />
     <Compile Include="ViewModels\ActionCommand.cs" />
     <Compile Include="ViewModels\ExHentaiViewModel.cs" />
+    <Compile Include="ViewModels\FavoritesViewModel.cs" />
     <Compile Include="ViewModels\HentaiCafeViewModel.cs" />
     <Compile Include="ViewModels\HentaiViewerWindowViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
@@ -123,6 +125,9 @@
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="Views\CafeView.xaml.cs">
       <DependentUpon>CafeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FavoritesView.xaml.cs">
+      <DependentUpon>FavoritesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HentaiViewerWindow.xaml.cs">
       <DependentUpon>HentaiViewerWindow.xaml</DependentUpon>
@@ -146,6 +151,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ExHentaiView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FavoritesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

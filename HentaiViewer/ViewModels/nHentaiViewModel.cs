@@ -61,6 +61,9 @@ namespace HentaiViewer.ViewModels {
 				$"https://nhentai.net/search/?q={searchquery.Replace(" ", "+")}&sort={SortItems[SelectedSort].ToLower()}&page={nHentaiLoadedPage}");	
 			}
 			foreach (var hentaiModel in i) {
+				if (FavoritesController.FavoriteMd5s.Contains(hentaiModel.Md5)) {
+					hentaiModel.Favorite = true;
+				}
 				_nHentai.Add(hentaiModel);
 				await Task.Delay(100);
 			}

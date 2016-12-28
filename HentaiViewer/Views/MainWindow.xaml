@@ -22,9 +22,12 @@
 		         Background="#FF191919" />
 		<materialDesign:Transitioner Grid.Column="1" SelectedIndex="{Binding SelectedSite}">
 			<views:SettingsView />
+			<Separator/> <!--workaround-->
 			<views:ExHentaiView />
 			<views:nHentaiView />
 			<views:CafeView />
+			<Separator/> <!--workaround-->
+			<views:FavoritesView/>
 		</materialDesign:Transitioner>
 	</Grid>
 </controls:MetroWindow>

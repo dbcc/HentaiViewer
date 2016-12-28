@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using HentaiViewer.Common;
 using HentaiViewer.Models;
 using HentaiViewer.Sites;
 using HentaiViewer.Views;
@@ -51,6 +52,9 @@ namespace HentaiViewer.ViewModels {
 			CafeView.Instance.ScrollViewer.ScrollToTop();
 			var i = await HentaiCafe.GetLatest($"https://hentai.cafe/page/{CafeLoadedPage}");
 			foreach (var hentaiModel in i) {
+				if (FavoritesController.FavoriteMd5s.Contains(hentaiModel.Md5)) {
+					hentaiModel.Favorite = true;
+				}
 				_cafe.Add(hentaiModel);
 				await Task.Delay(100);
 			}
