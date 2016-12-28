@@ -19,7 +19,7 @@ namespace HentaiViewer.ViewModels {
 
 		public ReadOnlyObservableCollection<HentaiModel> ExHentaiItems { get; }
 
-		public List<string> Sites => new List<string> {"Settings", "ExHentai", "nHentai", "Cafe" };
+		public List<string> Sites => new List<string> {"Home", "ExHentai", "nHentai", "Cafe" };
 
 		public int SelectedSite { get; set; }
 		//				break;

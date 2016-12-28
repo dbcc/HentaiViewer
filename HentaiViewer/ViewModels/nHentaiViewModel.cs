@@ -18,7 +18,7 @@ namespace HentaiViewer.ViewModels {
 			Instance = this;
 			NHentaiItems = new ReadOnlyObservableCollection<HentaiModel>(_nHentai);
 
-			RefreshnHentaiAsync();
+			//RefreshnHentaiAsync();
 			RefreshnHentaiCommand = new ActionCommand(RefreshnHentaiAsync);
 			LoadMorenHentaiCommand = new ActionCommand(async () => {
 				nHentaiLoadedPage++;

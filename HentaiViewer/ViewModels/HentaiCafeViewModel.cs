@@ -17,7 +17,7 @@ namespace HentaiViewer.ViewModels {
 			Instance = this;
 			CafeItems = new ReadOnlyObservableCollection<HentaiModel>(_cafe);
 
-			RefreshCafeAsync();
+			//RefreshCafeAsync();
 			RefreshCafeCommand = new ActionCommand(RefreshCafeAsync);
 			LoadMoreCafeCommand = new ActionCommand(async () => {
 				CafeLoadedPage++;

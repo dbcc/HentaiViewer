@@ -65,7 +65,7 @@
 							<materialDesign:Chip.Icon>
 								<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}" IsChecked="{Binding Setting.ExHentai.Doujinshi}" >
 									<ToggleButton.Content>
-										<materialDesign:PackIcon Kind="Close" />
+										<materialDesign:PackIcon Kind="Close"/>
 									</ToggleButton.Content>
 									<materialDesign:ToggleButtonAssist.OnContent>
 										<materialDesign:PackIcon Kind="Check" />

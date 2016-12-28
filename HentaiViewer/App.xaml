@@ -21,9 +21,9 @@
 				<ResourceDictionary
 					Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
 				<ResourceDictionary
-					Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.blue.xaml" />
+					Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.indigo.xaml" />
 				<ResourceDictionary
-					Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.blue.xaml" />
+					Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.indigo.xaml" />
 
 				<!-- Material Design: MahApps Compatibility -->
 				<ResourceDictionary
@@ -39,7 +39,7 @@
 			<SolidColorBrush x:Key="AccentColorBrush2" Color="{DynamicResource Primary400}" />
 			<SolidColorBrush x:Key="AccentColorBrush3" Color="{DynamicResource Primary300}" />
 			<SolidColorBrush x:Key="AccentColorBrush4" Color="{DynamicResource Primary200}" />
-			<SolidColorBrush x:Key="WindowTitleColorBrush" Color="{DynamicResource Primary700}" />
+			<!--<SolidColorBrush x:Key="WindowTitleColorBrush" Color="{DynamicResource Primary700}" />-->
 			<SolidColorBrush x:Key="AccentSelectedColorBrush" Color="{DynamicResource Primary500Foreground}" />
 			<LinearGradientBrush x:Key="ProgressBrush" EndPoint="0.001,0.5" StartPoint="1.002,0.5">
 				<GradientStop Color="{DynamicResource Primary700}" Offset="0" />
@@ -49,6 +49,8 @@
 			<SolidColorBrush x:Key="RightArrowFill" Color="{DynamicResource Primary500}" />
 			<SolidColorBrush x:Key="IdealForegroundColorBrush" Color="{DynamicResource Primary500Foreground}" />
 			<SolidColorBrush x:Key="IdealForegroundDisabledBrush" Color="{DynamicResource Primary500}" Opacity="0.4" />
+			<SolidColorBrush x:Key="WindowTitleColorBrush" Color="#FF0F0F0F"/>
+			
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>
