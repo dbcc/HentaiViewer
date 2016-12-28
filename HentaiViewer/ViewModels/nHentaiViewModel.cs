@@ -22,13 +22,11 @@ namespace HentaiViewer.ViewModels {
 			//RefreshnHentaiAsync();
 			RefreshnHentaiCommand = new ActionCommand(RefreshnHentaiAsync);
 			LoadMorenHentaiCommand = new ActionCommand(async () => {
-				nHentaiLoadedPage++;
-				await LoadnHentaiPage();
+				await LoadnHentaiPage(1);
 			});
 			LoadPrevnHentaiCommand = new ActionCommand(async () => {
 				if (nHentaiLoadedPage == 1) return;
-				nHentaiLoadedPage--;
-				await LoadnHentaiPage();
+				await LoadnHentaiPage(-1);
 			});
 		}
 
@@ -46,10 +44,11 @@ namespace HentaiViewer.ViewModels {
 		public int SelectedSort { get; set; } = 0;
 
 
-		public async Task LoadnHentaiPage(bool delete = true) {
+		private async Task LoadnHentaiPage(int value, bool delete = true) {
 			if (nHentaiPageLoading) return;
 			nHentaiPageLoading = true;
-			NextnHentaiPage = nHentaiLoadedPage + 1;
+			NextnHentaiPage = NextnHentaiPage + value;
+			nHentaiLoadedPage = nHentaiLoadedPage + value;
 			if (_nHentai.Count > 0 && delete) _nHentai.Clear();
 			nHentaiView.Instance.ScrollViewer.ScrollToTop();
 			string searchquery = SettingsController.Settings.nHentai.SearchQuery;
@@ -69,7 +68,7 @@ namespace HentaiViewer.ViewModels {
 		}
 
 		private async void RefreshnHentaiAsync() {
-			await LoadnHentaiPage();
+			await LoadnHentaiPage(0);
 		}
 	}
 }

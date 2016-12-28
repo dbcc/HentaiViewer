@@ -21,13 +21,11 @@ namespace HentaiViewer.ViewModels {
 			//RefreshCafeAsync();
 			RefreshCafeCommand = new ActionCommand(RefreshCafeAsync);
 			LoadMoreCafeCommand = new ActionCommand(async () => {
-				CafeLoadedPage++;
-				await LoadCafePage();
+				await LoadCafePage(1);
 			});
 			LoadPrevCafeCommand = new ActionCommand(async () => {
 				if (CafeLoadedPage == 1) return;
-				CafeLoadedPage--;
-				await LoadCafePage();
+				await LoadCafePage(-1);
 			});
 		}
 
@@ -41,13 +39,14 @@ namespace HentaiViewer.ViewModels {
 		public ICommand LoadPrevCafeCommand { get; }
 
 		private async void RefreshCafeAsync() {
-			await LoadCafePage();
+			await LoadCafePage(0);
 		}
 
-		private async Task LoadCafePage() {
+		private async Task LoadCafePage(int value) {
 			if (CafePageLoading) return;
 			CafePageLoading = true;
-			NextCafePage = CafeLoadedPage + 1;
+			NextCafePage = NextCafePage + value ;
+			CafeLoadedPage = CafeLoadedPage + value;
 			if (_cafe.Count > 0) _cafe.Clear();
 			CafeView.Instance.ScrollViewer.ScrollToTop();
 			var i = await HentaiCafe.GetLatest($"https://hentai.cafe/page/{CafeLoadedPage}");

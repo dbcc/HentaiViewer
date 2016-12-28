@@ -11,7 +11,9 @@
 	xmlns:models="clr-namespace:HentaiViewer.Models"
 	x:Class="HentaiViewer.Views.HentaiViewerWindow"
 	mc:Ignorable="d"
-	Title="HentaiViewer" Height="800" Width="900" MinWidth="400"
+	Title="HentaiViewer" Height="800" Width="900" MinWidth="400" BorderThickness="1"
+    GlowBrush="Black" NonActiveGlowBrush="Black" NonActiveBorderBrush="Black" BorderBrush="Black"
+    NonActiveWindowTitleBrush="{DynamicResource WindowTitleColorBrush}"
 	d:DataContext="{d:DesignInstance {x:Type viewModel:HentaiViewerWindowViewModel}, IsDesignTimeCreatable=False}"
 	Closing="HentaiViewerWindow_OnClosed">
 	<controls:MetroWindow.Resources>

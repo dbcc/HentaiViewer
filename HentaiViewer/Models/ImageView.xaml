@@ -8,7 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance {x:Type local:ImageModel}, IsDesignTimeCreatable=False}">
 	<Grid>
-		<Image Source="{Binding Source}" ImageFailed="Image_OnImageFailed" />
+		<Image x:Name="Image" Source="{Binding Source}" ImageFailed="Image_OnImageFailed" />
 		<Label Content="{Binding PageNumber}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5"
 		       Foreground="{DynamicResource AccentColorBrush}" FontSize="20" FontWeight="Bold" />
 	</Grid>

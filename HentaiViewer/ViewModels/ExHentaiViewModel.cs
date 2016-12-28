@@ -23,13 +23,11 @@ namespace HentaiViewer.ViewModels {
 			//RefreshExHentaiAsync();
 			RefreshExHentaiCommand = new ActionCommand(RefreshExHentaiAsync);
 			LoadMoreExHentaiCommand = new ActionCommand(async () => {
-				ExHentaiLoadedPage++;
-				await LoadExHentaiPage();
+				await LoadExHentaiPage(1);
 			});
 			LoadPrevExHentaiCommand = new ActionCommand(async () => {
 				if (ExHentaiLoadedPage == 0) return;
-				ExHentaiLoadedPage--;
-				await LoadExHentaiPage();
+				await LoadExHentaiPage(-1);
 			});
 		}
 
@@ -43,10 +41,10 @@ namespace HentaiViewer.ViewModels {
 		public ICommand LoadPrevExHentaiCommand { get; }
 
 		private async void RefreshExHentaiAsync() {
-			await LoadExHentaiPage();
+			await LoadExHentaiPage(0);
 		}
 
-		private async Task LoadExHentaiPage() {
+		private async Task LoadExHentaiPage(int value) {
 			var pass = SettingsController.Settings.ExHentai.IpbPassHash;
 			var memid = SettingsController.Settings.ExHentai.IpbMemberId;
 			var sessip = SettingsController.Settings.ExHentai.IpbSessionId;
@@ -55,7 +53,8 @@ namespace HentaiViewer.ViewModels {
 			}
 			if (ExHentaiPageLoading) return;
 			ExHentaiPageLoading = true;
-			NextExHentaiPage = ExHentaiLoadedPage + 1;
+			NextExHentaiPage = NextExHentaiPage + value;
+			ExHentaiLoadedPage = ExHentaiLoadedPage + value;
 			if (_exHentai.Count > 0) _exHentai.Clear();
 			ExHentaiView.Instance.ScrollViewer.ScrollToTop();
 			var searchQuery = string.Empty;

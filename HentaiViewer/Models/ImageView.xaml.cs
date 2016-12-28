@@ -23,7 +23,7 @@ namespace HentaiViewer.Models {
 		}
 
 		private void Image_OnImageFailed(object sender, ExceptionRoutedEventArgs e) {
-			((Image)sender).Source = new BitmapImage(new Uri("/Resources/hmmm.jpg", UriKind.Relative));
+			Image.Source = new BitmapImage(new Uri("/Resources/hmmm.jpg", UriKind.Relative));
 		}
 	}
 }
