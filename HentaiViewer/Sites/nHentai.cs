@@ -61,16 +61,12 @@ namespace HentaiViewer.Sites {
 			if (Directory.Exists(hentai.SavePath)) {
 				var files = Directory.GetFiles(hentai.SavePath).Where(f => f.EndsWith(".png"));
 				if (files.ToList().Count == pages) {
-
+					return new Tuple<List<object>, int>(new List<object>(Directory.GetFiles(hentai.SavePath).Where(f => f.EndsWith(".png"))), pages);
 				}
-				return new Tuple<List<object>, int>(new List<object>(Directory.GetFiles(hentai.SavePath).Where(f => f.EndsWith(".png"))), pages);
 			}
 			var imgTags = document.All.Where(i => i.LocalName == "img" && i.ClassList.Contains("lazyload"));
 
-			var images = new List<object>();
-			foreach (var element in imgTags)
-				images.Add(
-					$"https:{element.GetAttribute("data-src").Replace("t.j", ".j").Replace("/t.", "/i.").Replace("t.pn", ".pn")}");
+			var images = imgTags.Select(element => $"https:{element.GetAttribute("data-src").Replace("t.j", ".j").Replace("/t.", "/i.").Replace("t.pn", ".pn")}").Cast<object>().ToList();
 			//img link https://t.nhentai.net/galleries/775571/6.jpg
 			// overview link https://nhentai.net/g/124787/
 

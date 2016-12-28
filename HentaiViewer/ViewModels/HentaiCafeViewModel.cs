@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using HentaiViewer.Models;
 using HentaiViewer.Sites;
+using HentaiViewer.Views;
 using PropertyChanged;
 using HentaiCafe = HentaiViewer.Sites.HentaiCafe;
 
@@ -48,6 +49,7 @@ namespace HentaiViewer.ViewModels {
 			CafePageLoading = true;
 			NextCafePage = CafeLoadedPage + 1;
 			if (_cafe.Count > 0) _cafe.Clear();
+			CafeView.Instance.ScrollViewer.ScrollToTop();
 			var i = await HentaiCafe.GetLatest($"https://hentai.cafe/page/{CafeLoadedPage}");
 			foreach (var hentaiModel in i) {
 				_cafe.Add(hentaiModel);

@@ -6,7 +6,9 @@ namespace HentaiViewer.Views {
 	///     Interaction logic for ExHentaiView.xaml
 	/// </summary>
 	public partial class ExHentaiView : UserControl {
+		public static ExHentaiView Instance;
 		public ExHentaiView() {
+			Instance = this;
 			InitializeComponent();
 			DataContext = new ExHentaiViewModel();
 		}

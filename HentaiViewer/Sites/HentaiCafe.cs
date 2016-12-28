@@ -73,9 +73,8 @@ namespace HentaiViewer.Sites {
 			if (Directory.Exists(hentai.SavePath)) {
 				var files = Directory.GetFiles(hentai.SavePath).Where(f => f.EndsWith(".png"));
 				if (files.ToList().Count == lastChapterNumber) {
-
+					return new Tuple<List<object>, int>(new List<object>(Directory.GetFiles(hentai.SavePath).Where(f => f.EndsWith(".png"))), lastChapterNumber);
 				}
-				return new Tuple<List<object>, int>(new List<object>(Directory.GetFiles(hentai.SavePath).Where(f => f.EndsWith(".png"))), lastChapterNumber);
 			}
 			var slitlink = entryLink.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
 			slitlink[slitlink.Length - 1] = "1";

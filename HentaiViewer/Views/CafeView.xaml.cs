@@ -6,7 +6,9 @@ namespace HentaiViewer.Views {
 	///     Interaction logic for CafeView.xaml
 	/// </summary>
 	public partial class CafeView : UserControl {
+		public static CafeView Instance;
 		public CafeView() {
+			Instance = this;
 			InitializeComponent();
 			DataContext = new HentaiCafeViewModel();
 		}

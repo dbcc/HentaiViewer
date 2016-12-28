@@ -6,6 +6,7 @@ using System.Windows.Input;
 using HentaiViewer.Common;
 using HentaiViewer.Models;
 using HentaiViewer.Sites;
+using HentaiViewer.Views;
 using PropertyChanged;
 
 namespace HentaiViewer.ViewModels {
@@ -56,6 +57,7 @@ namespace HentaiViewer.ViewModels {
 			ExHentaiPageLoading = true;
 			NextExHentaiPage = ExHentaiLoadedPage + 1;
 			if (_exHentai.Count > 0) _exHentai.Clear();
+			ExHentaiView.Instance.ScrollViewer.ScrollToTop();
 			var searchQuery = string.Empty;
 			if (!string.IsNullOrEmpty(SettingsController.Settings.ExHentai.SearchQuery)) {
 				searchQuery = SettingsController.Settings.ExHentai.SearchQuery.Replace(" ", "" + "+");

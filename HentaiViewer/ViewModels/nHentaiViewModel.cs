@@ -5,6 +5,7 @@ using System.Windows.Input;
 using HentaiViewer.Common;
 using HentaiViewer.Models;
 using HentaiViewer.Sites;
+using HentaiViewer.Views;
 using PropertyChanged;
 
 namespace HentaiViewer.ViewModels {
@@ -45,11 +46,12 @@ namespace HentaiViewer.ViewModels {
 		public int SelectedSort { get; set; } = 0;
 
 
-		private async Task LoadnHentaiPage() {
+		public async Task LoadnHentaiPage(bool delete = true) {
 			if (nHentaiPageLoading) return;
 			nHentaiPageLoading = true;
 			NextnHentaiPage = nHentaiLoadedPage + 1;
-			if (_nHentai.Count > 0) _nHentai.Clear();
+			if (_nHentai.Count > 0 && delete) _nHentai.Clear();
+			nHentaiView.Instance.ScrollViewer.ScrollToTop();
 			string searchquery = SettingsController.Settings.nHentai.SearchQuery;
 			List<HentaiModel> i;
 			if (string.IsNullOrEmpty(searchquery)) {

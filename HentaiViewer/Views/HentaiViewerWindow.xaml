@@ -44,7 +44,7 @@
 		            Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=toggleButton}"
 		            Orientation="Horizontal" VerticalAlignment="Center" Margin="140,0,0,0">
 			<Label Margin="5,0" VerticalAlignment="Center">Scrollspeed</Label>
-			<Slider x:Name="SliderScrollSpeed" Minimum="1" Maximum="101" Value="10" Width="300" TickFrequency="10"
+			<Slider x:Name="SliderScrollSpeed" Minimum="1" Maximum="100" Value="10" Width="300" TickFrequency="1"
 			        IsSnapToTickEnabled="True" VerticalAlignment="Center" />
 			<Label HorizontalAlignment="Center" Content="{Binding Value, ElementName=SliderScrollSpeed}" />
 		</StackPanel>
@@ -52,7 +52,7 @@
 			<ItemsControl x:Name="Images" ItemsSource="{Binding ImageObjects}">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						<models:ImageView/>
+						<models:ImageView />
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>

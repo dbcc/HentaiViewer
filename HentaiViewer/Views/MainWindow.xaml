@@ -7,12 +7,12 @@
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                       mc:Ignorable="d"
-                      Title="Hentai Viewer" Height="600" Width="1000" BorderThickness="1" 
-					  GlowBrush="Black" NonActiveGlowBrush="Black" NonActiveBorderBrush="Black" BorderBrush="Black"
-					  NonActiveWindowTitleBrush="{DynamicResource WindowTitleColorBrush}"
+                      Title="Hentai Viewer" Height="600" Width="1000" BorderThickness="1"
+                      GlowBrush="Black" NonActiveGlowBrush="Black" NonActiveBorderBrush="Black" BorderBrush="Black"
+                      NonActiveWindowTitleBrush="{DynamicResource WindowTitleColorBrush}"
                       xmlns:viewModel="clr-namespace:HentaiViewer.ViewModels"
                       xmlns:views="clr-namespace:HentaiViewer.Views"
-                      d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=False}" >
+                      d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=False}">
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto" MinWidth="100" />
@@ -21,7 +21,7 @@
 		<ListBox ItemsSource="{Binding Sites}" HorizontalContentAlignment="Stretch" SelectedIndex="{Binding SelectedSite}"
 		         Background="#FF191919" />
 		<materialDesign:Transitioner Grid.Column="1" SelectedIndex="{Binding SelectedSite}">
-			<views:SettingsView/>
+			<views:SettingsView />
 			<views:ExHentaiView />
 			<views:nHentaiView />
 			<views:CafeView />
