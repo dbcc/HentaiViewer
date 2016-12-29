@@ -58,7 +58,10 @@ namespace HentaiViewer.Sites {
 
 		public static async Task<Tuple<List<object>, int>> CollectImagesTaskAsync(HentaiModel hentai) {
 			var url = hentai.Link;
-			var entryPage = await ParseHtmlString(await GetHtmlString(url));
+			//Let's create a new parser using this configuration
+			var parser = new HtmlParser();
+			//Just get the DOM representation
+			var entryPage = await parser.ParseAsync(await GetHtmlString(url));
 			var entryLink =
 				entryPage.All.Where(l => l.LocalName == "a" && l.ClassList.Contains("x-btn-large")).ToList()[0].GetAttribute("href");
 
@@ -84,18 +87,36 @@ namespace HentaiViewer.Sites {
 			var htmlimg = await GetHtmlString(newlink);
 
 			var imgLink = Regex.Match(htmlimg,
-				@"([https|http]+://[a-z]+\.?[a-z]+?\.[a-z]+.+/content/comics/.+[\.jpg|\.png])");
+				@"(https://cdn.hentai.cafe/manga/content/comics/.+/([0-9]+)[\.jpg|\.png]+)");
 			retlist.Add(imgLink.Groups[1].Value);
+			var zeros = imgLink.Groups[2].Value;
 
+			var img = imgLink.Groups[1].Value.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
+			var suffixsplit = img.Last().Split(new[] {'.'}, StringSplitOptions.RemoveEmptyEntries);
+			var extension = suffixsplit.Last();
+			var list = new List<string>(img);
+			list.RemoveAt(img.Length-1);
+			img = list.ToArray();
+			var nlink = string.Join("/", img).Replace(":/", "://");
 			for (var i = 2; i <= lastChapterNumber; i++) {
-				var img = imgLink.Groups[1].Value.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
-				var suffixsplit = img.Last().Split(new[] {'.'}, StringSplitOptions.RemoveEmptyEntries);
-				var extension = suffixsplit.Last();
 				//var imgnumber = int.Parse(suffixsplit[0]);
-				var newsuffix = i < 10 ? $"0{i}.{extension}" : $"{i}.{extension}";
-				img[img.Length - 1] = newsuffix;
-				var nimg = string.Join("/", img).Replace(":/", "://");
-				retlist.Add(nimg);
+				//var newsuffix = i < 10 ? $"0{i}.{extension}" : $"{i}.{extension}";
+				var newsuffix = string.Empty;
+				if (zeros.StartsWith("00")) {
+					if (i<10) {
+						newsuffix = $"00{i}.{extension}";
+					}
+					else if (i < 100 && i > 9) {
+						newsuffix = $"0{i}.{extension}";
+					}
+					else if (i>99) {
+						newsuffix = $"{i}.{extension}";
+					}
+				}
+				else {
+					newsuffix = i < 10 ? $"0{i}.{extension}" : $"{i}.{extension}";
+				}
+				retlist.Add($"{nlink}/{newsuffix}");
 			}
 			return new Tuple<List<object>, int>(retlist, lastChapterNumber);
 		}

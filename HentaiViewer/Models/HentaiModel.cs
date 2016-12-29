@@ -44,11 +44,10 @@ namespace HentaiViewer.Models {
 			}
 			else {
 				foreach (var hentaiModel in FavoritesViewModel.Instance._favorites) {
-					if (hentaiModel.Md5 == Md5) {
-						FavoritesController.Favorites.Remove(hentaiModel);
-						FavoritesViewModel.Instance._favorites.Remove(hentaiModel);
-						break;
-					}
+					if (hentaiModel.Md5 != Md5) continue;
+					FavoritesController.Favorites.Remove(hentaiModel);
+					FavoritesViewModel.Instance._favorites.Remove(hentaiModel);
+					break;
 				}
 			}
 			FavoritesController.Save();
