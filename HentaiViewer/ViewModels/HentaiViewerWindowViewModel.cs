@@ -9,6 +9,8 @@ using System.Windows.Media.Imaging;
 using HentaiViewer.Common;
 using HentaiViewer.Models;
 using HentaiViewer.Sites;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using PropertyChanged;
 using RestSharp;
 
@@ -36,7 +38,11 @@ namespace HentaiViewer.ViewModels {
 					await Task.Delay(200);
 				}
 			});
-			SaveImagesCommand = new ActionCommand(SaveImages);
+			SaveImagesCommand = new ActionCommand((() => {
+				if (SaveProgress == Visibility.Collapsed) {
+					SaveImages();
+				}
+			}));
 		}
 
 		public ReadOnlyObservableCollection<object> ImageObjects { get; }
@@ -63,15 +69,15 @@ namespace HentaiViewer.ViewModels {
 		private async Task<List<object>> SelectSite(HentaiModel hentai) {
 			Tuple<List<object>, int> tpl;
 			switch (hentai.Site) {
-				case "hentaicafe":
+				case "Hentai.cafe":
 					tpl = await Sites.HentaiCafe.CollectImagesTaskAsync(hentai);
 					Pages = $"{tpl.Item1.Count} : {tpl.Item2}";
 					return tpl.Item1;
-				case "nhentai":
+				case "nHentai.net":
 					tpl = await nHentai.CollectImagesTaskAsync(hentai);
 					Pages = $"{tpl.Item1.Count} : {tpl.Item2}";
 					return tpl.Item1;
-				case "exhentai":
+				case "ExHentai.org":
 					tpl = await ExHentai.CollectImagesTaskAsync(hentai);
 					Pages = $"{tpl.Item1.Count} : {tpl.Item2}";
 					return tpl.Item1;
@@ -98,11 +104,10 @@ namespace HentaiViewer.ViewModels {
 					encoder.Save(stream);
 				}
 			}
-			File.WriteAllText(Path.Combine(folder, "INFO.txt"), $"{_hentai.Title}\n" +
-			                                                    $"{_hentai.Link}\n" +
-			                                                    $"Created: {DateTime.Now}\n" +
-			                                                    $"{_imageObjects.Count} images\n" +
-			                                                    $"");
+			var output = JsonConvert.SerializeObject(new InfoModel(_hentai, _imageObjects.Count), Formatting.Indented,
+				new StringEnumConverter { CamelCaseText = true });
+			
+			File.WriteAllText(Path.Combine(folder, "INFO.json"), output);
 			SaveProgress = Visibility.Collapsed;
 		}
 	}

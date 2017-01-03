@@ -22,7 +22,10 @@ namespace HentaiViewer.Models {
 		public string Title { get; set; }
 		public string Site { get; set; }
 		public bool Seen { get; set; }
+		public string ThumbnailLink { get; set; }
 		public string Md5 => MD5Converter.MD5Hash(Title);
+
+		public bool isSavedGallery { get; set; } = true;
 
 		public string SavePath => Path.Combine(Directory.GetCurrentDirectory(), "Saves", Site, Md5);
 		[JsonIgnore]
@@ -35,6 +38,7 @@ namespace HentaiViewer.Models {
 		public bool Favorite { get; set; }
 
 		private void ToggleFavorite() {
+			if (isSavedGallery) {return;}
 			Favorite = !Favorite;
 			if (Favorite) {
 				if (!FavoritesController.FavoriteMd5s.Contains(Md5)) {
@@ -54,6 +58,7 @@ namespace HentaiViewer.Models {
 		}
 
 		private void Mark(bool toggle = true) {
+			if (isSavedGallery) { return; }
 			if (toggle) {Seen = !Seen;}
 			else {
 				Seen = true;

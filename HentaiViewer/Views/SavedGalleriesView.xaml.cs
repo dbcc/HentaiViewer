@@ -12,18 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using HentaiViewer.ViewModels;
 
-namespace HentaiViewer.Models {
+namespace HentaiViewer.Views {
 	/// <summary>
-	/// Interaction logic for ImageView.xaml
+	/// Interaction logic for SavedGalleriesView.xaml
 	/// </summary>
-	public partial class ImageView : UserControl {
-		public ImageView() {
+	public partial class SavedGalleriesView : UserControl {
+		public SavedGalleriesView() {
 			InitializeComponent();
-		}
-
-		private void Image_OnImageFailed(object sender, ExceptionRoutedEventArgs e) {
-			//Image.Source = new BitmapImage(new Uri("/Resources/hmmm.jpg", UriKind.Relative));
+			DataContext = new SavedGalleriesViewModel();
 		}
 	}
 }

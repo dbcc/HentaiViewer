@@ -25,7 +25,8 @@ namespace HentaiViewer.Sites {
 					Title = img.All[0].TextContent,
 					Link = $"https://nhentai.net{element.GetAttribute("href").Replace("about:", string.Empty)}",
 					Img = new Uri($"https:{img.Images[0].Source.Replace("about:", string.Empty)}"),
-					Site = "nhentai",
+					ThumbnailLink = $"https:{img.Images[0].Source.Replace("about:", string.Empty)}",
+					Site = "nHentai.net",
 					Seen = HistoryController.CheckHistory(MD5Converter.MD5Hash(img.All[0].TextContent))
 				});
 			}

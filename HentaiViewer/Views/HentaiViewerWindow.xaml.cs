@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,7 +14,7 @@ namespace HentaiViewer.Views {
 	public partial class HentaiViewerWindow {
 		private static Timer _loopTimer;
 
-		public int Direction;
+		private int _direction;
 
 		public HentaiViewerWindow() {
 			InitializeComponent();
@@ -23,17 +24,19 @@ namespace HentaiViewer.Views {
 				Enabled = false
 			};
 			// interval in milliseconds
-			_loopTimer.Elapsed += loopTimerEvent;
+			_loopTimer.Elapsed += LoopTimerEvent;
 			_loopTimer.AutoReset = true;
 		}
-
-		public string link { get; set; }
-
-		private void loopTimerEvent(object source, ElapsedEventArgs e) {
+		
+		private void LoopTimerEvent(object source, ElapsedEventArgs e) {
 			Application.Current.Dispatcher.BeginInvoke(new Action(() => {
 				var x = scviewer.VerticalOffset;
-				scviewer.ScrollToVerticalOffset(x + Direction);
+				scviewer.ScrollToVerticalOffset(x + _direction);
 				x = scviewer.VerticalOffset;
+				//todo load images
+				//if (scviewer.VerticalOffset + scviewer.ViewportHeight >= scviewer.ExtentHeight -100) {
+				//	Debug.Print("At the bottom of the list!");
+				//}
 			}));
 		}
 
@@ -45,12 +48,11 @@ namespace HentaiViewer.Views {
 		private void Canvas_MouseDown(object sender, MouseButtonEventArgs e) {
 			if (e.ChangedButton == MouseButton.Left) {
 				_loopTimer.Enabled = true;
-				Direction = (int) SliderScrollSpeed.Value;
+				_direction = (int) SliderScrollSpeed.Value;
 			}
-			if (e.ChangedButton == MouseButton.Right) {
-				_loopTimer.Enabled = true;
-				Direction = -(int) SliderScrollSpeed.Value;
-			}
+			if (e.ChangedButton != MouseButton.Right) return;
+			_loopTimer.Enabled = true;
+			_direction = -(int) SliderScrollSpeed.Value;
 		}
 
 		private void Canvas_MouseUp(object sender, MouseButtonEventArgs e) {
@@ -66,6 +68,11 @@ namespace HentaiViewer.Views {
 			data.Dispose();
 			GC.Collect();
 			DataContext = null;
+		}
+
+		private void Scviewer_OnScrollChanged(object sender, ScrollChangedEventArgs e) {
+
+
 		}
 	}
 }

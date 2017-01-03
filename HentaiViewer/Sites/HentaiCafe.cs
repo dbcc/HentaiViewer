@@ -26,7 +26,8 @@ namespace HentaiViewer.Sites {
 					Title = title,
 					Link = element.GetAttribute("href"),
 					Img = new Uri(img.Images[0].Source),
-					Site = "hentaicafe",
+					ThumbnailLink = img.Images[0].Source,
+					Site = "Hentai.cafe",
 					Seen = HistoryController.CheckHistory(MD5Converter.MD5Hash(title))
 				});
 			}

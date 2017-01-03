@@ -47,7 +47,8 @@ namespace HentaiViewer.Sites {
 					Title = atag.Images[0].Title,
 					Link = atag.Links[0].GetAttribute("href"),
 					Img = image,
-					Site = "exhentai",
+					ThumbnailLink = atag.Images[0].Source,
+					Site = "ExHentai.org",
 					Seen = HistoryController.CheckHistory(MD5Converter.MD5Hash(atag.Images[0].Title))
 				});
 				await Task.Delay(50);

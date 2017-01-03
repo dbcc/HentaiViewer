@@ -111,6 +111,7 @@
     <Compile Include="Models\ImageView.xaml.cs">
       <DependentUpon>ImageView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\InfoModel.cs" />
     <Compile Include="Models\SettingsModel.cs" />
     <Compile Include="Sites\HentaiCafe.cs" />
     <Compile Include="Sites\ExHentai.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="ViewModels\HentaiViewerWindowViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\nHentaiViewModel.cs" />
+    <Compile Include="ViewModels\SavedGalleriesViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="Views\CafeView.xaml.cs">
       <DependentUpon>CafeView.xaml</DependentUpon>
@@ -134,6 +136,9 @@
     </Compile>
     <Compile Include="Views\nHentaiView.xaml.cs">
       <DependentUpon>nHentaiView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SavedGalleriesView.xaml.cs">
+      <DependentUpon>SavedGalleriesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -178,6 +183,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\nHentaiView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SavedGalleriesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

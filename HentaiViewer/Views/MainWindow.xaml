@@ -28,6 +28,7 @@
 			<views:CafeView />
 			<Separator/> <!--workaround-->
 			<views:FavoritesView/>
+			<views:SavedGalleriesView/>
 		</materialDesign:Transitioner>
 	</Grid>
 </controls:MetroWindow>

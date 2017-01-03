@@ -50,7 +50,7 @@
 			        IsSnapToTickEnabled="True" VerticalAlignment="Center" />
 			<Label HorizontalAlignment="Center" Content="{Binding Value, ElementName=SliderScrollSpeed}" />
 		</StackPanel>
-		<ScrollViewer Grid.Row="1" x:Name="scviewer" Margin="0,0,0,20" CanContentScroll="True">
+		<ScrollViewer Grid.Row="1" x:Name="scviewer" Margin="0,0,0,20" CanContentScroll="True" ScrollChanged="Scviewer_OnScrollChanged">
 			<ItemsControl x:Name="Images" ItemsSource="{Binding ImageObjects}">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
