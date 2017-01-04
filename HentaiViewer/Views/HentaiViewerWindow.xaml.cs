@@ -34,9 +34,11 @@ namespace HentaiViewer.Views {
 				scviewer.ScrollToVerticalOffset(x + _direction);
 				x = scviewer.VerticalOffset;
 				//todo load images
-				//if (scviewer.VerticalOffset + scviewer.ViewportHeight >= scviewer.ExtentHeight -100) {
-				//	Debug.Print("At the bottom of the list!");
-				//}
+				if (scviewer.VerticalOffset + scviewer.ViewportHeight >= scviewer.ExtentHeight) {
+					Debug.Print("At the bottom of the list!");
+					var data = (HentaiViewerWindowViewModel) DataContext;
+					data.LoadMoreImages();
+				}
 			}));
 		}
 

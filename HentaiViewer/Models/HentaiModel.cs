@@ -38,7 +38,7 @@ namespace HentaiViewer.Models {
 		public bool Favorite { get; set; }
 
 		private void ToggleFavorite() {
-			if (isSavedGallery) {return;}
+			if (!isSavedGallery) {return;}
 			Favorite = !Favorite;
 			if (Favorite) {
 				if (!FavoritesController.FavoriteMd5s.Contains(Md5)) {
@@ -58,7 +58,7 @@ namespace HentaiViewer.Models {
 		}
 
 		private void Mark(bool toggle = true) {
-			if (isSavedGallery) { return; }
+			if (!isSavedGallery) { return; }
 			if (toggle) {Seen = !Seen;}
 			else {
 				Seen = true;

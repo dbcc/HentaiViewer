@@ -44,8 +44,8 @@
     <Reference Include="AngleSharp.Scripting.JavaScript, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\AngleSharp.Scripting.JavaScript.0.5.0\lib\portable-windows8+net45+windowsphone8+wpa+monoandroid+monotouch\AngleSharp.Scripting.JavaScript.dll</HintPath>
     </Reference>
-    <Reference Include="jint, Version=2.10.2.0, Culture=neutral, PublicKeyToken=2e92ba9c8d81157f, processorArchitecture=MSIL">
-      <HintPath>..\packages\jint.2.10.2\lib\net45\jint.dll</HintPath>
+    <Reference Include="jint, Version=2.10.3.0, Culture=neutral, PublicKeyToken=2e92ba9c8d81157f, processorArchitecture=MSIL">
+      <HintPath>..\packages\jint.2.10.3\lib\net45\jint.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.4.0.42, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.4.0\lib\net45\MahApps.Metro.dll</HintPath>

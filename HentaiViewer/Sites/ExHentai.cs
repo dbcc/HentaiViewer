@@ -129,9 +129,11 @@ namespace HentaiViewer.Sites {
 			var Showingimages = ptag.First().TextContent.Split(new []{' '}, StringSplitOptions.RemoveEmptyEntries);
 			var pages = int.Parse(Showingimages[Showingimages.Length - 2].Trim());
 			if (Directory.Exists(hentai.SavePath)) {
-				var files = Directory.GetFiles(hentai.SavePath).Where(f=>f.EndsWith(".png"));
+				var files = new DirectoryInfo(hentai.SavePath).GetFileSystemInfos("*.png").OrderBy(fs => int.Parse(fs.Name.Split('.')[0]));
+				var paths = new List<object>();
+				files.ToList().ForEach(p => paths.Add(p.FullName));
 				if (files.ToList().Count == pages) {
-					return new Tuple<List<object>, int>( new List<object>(Directory.GetFiles(hentai.SavePath).Where(f=> f.EndsWith(".png"))), pages);
+					return new Tuple<List<object>, int>(new List<object>(paths), pages);
 				}
 			}
 			var imgpagestd = document.All.Where(t => t.LocalName == "a" && t.HasAttribute("href") && t.GetAttribute("href").Contains("?p="));

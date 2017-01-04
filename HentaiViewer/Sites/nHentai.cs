@@ -60,9 +60,12 @@ namespace HentaiViewer.Sites {
 			var document = await ParseHtmlString(await GetHtmlString(url));
 			var pages = int.Parse(Regex.Match(document.DocumentElement.OuterHtml, "<div>([0-9]+) pages</div>").Groups[1].Value);
 			if (Directory.Exists(hentai.SavePath)) {
-				var files = Directory.GetFiles(hentai.SavePath).Where(f => f.EndsWith(".png"));
+				//var files = Directory.GetFiles(hentai.SavePath, "*.png");
+				var files = new DirectoryInfo(hentai.SavePath).GetFileSystemInfos("*.png").OrderBy(fs => int.Parse(fs.Name.Split('.')[0]));
+				var paths = new List<object>();
+				files.ToList().ForEach(p=> paths.Add(p.FullName));
 				if (files.ToList().Count == pages) {
-					return new Tuple<List<object>, int>(new List<object>(Directory.GetFiles(hentai.SavePath).Where(f => f.EndsWith(".png"))), pages);
+					return new Tuple<List<object>, int>(new List<object>(paths), pages);
 				}
 			}
 			var imgTags = document.All.Where(i => i.LocalName == "img" && i.ClassList.Contains("lazyload"));
