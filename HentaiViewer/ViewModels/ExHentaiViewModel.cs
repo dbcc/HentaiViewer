@@ -47,8 +47,8 @@ namespace HentaiViewer.ViewModels {
 		private async Task LoadExHentaiPage(int value) {
 			var pass = SettingsController.Settings.ExHentai.IpbPassHash;
 			var memid = SettingsController.Settings.ExHentai.IpbMemberId;
-			var sessip = SettingsController.Settings.ExHentai.IpbSessionId;
-			if (string.IsNullOrEmpty(memid)||string.IsNullOrEmpty(sessip)||string.IsNullOrEmpty(pass)) {
+			var igneous = SettingsController.Settings.ExHentai.Igneous;
+			if (string.IsNullOrEmpty(memid)||string.IsNullOrEmpty(igneous) ||string.IsNullOrEmpty(pass)) {
 				MessageBox.Show("Need Cookies for Exhentai", "Cookies missing", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			if (ExHentaiPageLoading) return;

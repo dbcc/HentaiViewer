@@ -36,6 +36,7 @@ namespace HentaiViewer.ViewModels {
 					_galleries.Add(new HentaiModel {
 						Link = hen.Link,
 						Img = new Uri(Path.Combine(Directory.GetCurrentDirectory(), files.First(i=>i.EndsWith(".png")))),
+						ThumbnailLink = Path.Combine(Directory.GetCurrentDirectory(), files.First(i=>i.EndsWith(".png"))),
 						Site = hen.Site,
 						Title = hen.Title,
 						isSavedGallery = false

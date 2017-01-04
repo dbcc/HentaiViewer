@@ -73,7 +73,7 @@ namespace HentaiViewer.Sites {
 		}
 
 		public static BitmapImage BytesToBitmapImage(byte[] bytes) {
-			using (var mem = new MemoryStream(bytes)) {
+			using (var mem = new MemoryStream(bytes, 0, bytes.Length)) {
 				mem.Position = 0;
 				var image = new BitmapImage();
 				image.BeginInit();
@@ -100,8 +100,8 @@ namespace HentaiViewer.Sites {
 				Domain = "exhentai.org"
 			});
 			cookieJar.Add(new Cookie {
-				Name = "ipb_session_id",
-				Value = SettingsController.Settings.ExHentai.IpbSessionId,
+				Name = "igneous",
+				Value = SettingsController.Settings.ExHentai.Igneous,
 				Domain = "exhentai.org"
 			});
 			cookieJar.Add(new Cookie {

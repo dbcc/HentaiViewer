@@ -44,9 +44,9 @@
 				<TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="5,0"
 				         Text="{Binding Setting.ExHentai.IpbPassHash, Mode=TwoWay}" />
 
-				<Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center">ipb__session__id</Label>
+				<Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center">Igneous</Label>
 				<TextBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="5,0"
-				         Text="{Binding Setting.ExHentai.IpbSessionId, Mode=TwoWay}" />
+				         Text="{Binding Setting.ExHentai.Igneous, Mode=TwoWay}" />
 
 				<Label Grid.Row="4" VerticalAlignment="Center" FontWeight="Bold" FontSize="14">Other</Label>
 				<Separator Grid.Row="4" Grid.ColumnSpan="3" Grid.Column="0" VerticalAlignment="Bottom" Margin="5,0" />

@@ -32,7 +32,7 @@ namespace HentaiViewer.Models {
 		public string IpbPassHash { get; set; }
 
 		[DefaultValue("")]
-		public string IpbSessionId { get; set; }
+		public string Igneous { get; set; }
 
 		[DefaultValue("")]
 		public string SearchQuery { get; set; }
