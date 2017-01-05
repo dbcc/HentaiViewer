@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using HentaiViewer.ViewModels;
 
 namespace HentaiViewer.Views {
@@ -27,18 +25,16 @@ namespace HentaiViewer.Views {
 			_loopTimer.Elapsed += LoopTimerEvent;
 			_loopTimer.AutoReset = true;
 		}
-		
-		private void LoopTimerEvent(object source, ElapsedEventArgs e) {
-			Application.Current.Dispatcher.BeginInvoke(new Action(() => {
+
+		private async void LoopTimerEvent(object source, ElapsedEventArgs e) {
+			await Application.Current.Dispatcher.BeginInvoke(new Action(async () => {
 				var x = scviewer.VerticalOffset;
 				scviewer.ScrollToVerticalOffset(x + _direction);
 				x = scviewer.VerticalOffset;
 				//todo load images
-				if (scviewer.VerticalOffset + scviewer.ViewportHeight >= scviewer.ExtentHeight) {
-					Debug.Print("At the bottom of the list!");
-					var data = (HentaiViewerWindowViewModel) DataContext;
-					data.LoadMoreImages();
-				}
+				if (!(scviewer.VerticalOffset + scviewer.ViewportHeight >= scviewer.ExtentHeight - 100)) return;
+				var data = (HentaiViewerWindowViewModel) DataContext;
+				await data.LoadMoreImages();
 			}));
 		}
 
@@ -72,9 +68,12 @@ namespace HentaiViewer.Views {
 			DataContext = null;
 		}
 
-		private void Scviewer_OnScrollChanged(object sender, ScrollChangedEventArgs e) {
-
-
+		private async void Scviewer_OnScrollChanged(object sender, ScrollChangedEventArgs e) {
+			if (!(scviewer.VerticalOffset + scviewer.ViewportHeight >= scviewer.ExtentHeight - 100)
+				|| Math.Abs(scviewer.VerticalOffset) <= 0 
+				|| CanvasMouseover.Visibility == Visibility) return;
+			var data = (HentaiViewerWindowViewModel)DataContext;
+			await data.LoadMoreImages();
 		}
 	}
 }

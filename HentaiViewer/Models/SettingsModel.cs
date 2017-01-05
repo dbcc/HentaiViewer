@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using System.ComponentModel;
 
 namespace HentaiViewer.Models {
 	public class SettingsModel {
@@ -14,17 +8,14 @@ namespace HentaiViewer.Models {
 	}
 
 	public class HentaiCafe {
-		
 	}
 
 	public class nHentaiOptions {
-
 		[DefaultValue("")]
 		public string SearchQuery { get; set; }
 	}
 
 	public class ExhentaiOption {
-
 		[DefaultValue("")]
 		public string IpbMemberId { get; set; }
 

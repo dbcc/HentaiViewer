@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -22,9 +21,7 @@ namespace HentaiViewer.ViewModels {
 
 			//RefreshExHentaiAsync();
 			RefreshExHentaiCommand = new ActionCommand(RefreshExHentaiAsync);
-			LoadMoreExHentaiCommand = new ActionCommand(async () => {
-				await LoadExHentaiPage(1);
-			});
+			LoadMoreExHentaiCommand = new ActionCommand(async () => { await LoadExHentaiPage(1); });
 			LoadPrevExHentaiCommand = new ActionCommand(async () => {
 				if (ExHentaiLoadedPage == 0) return;
 				await LoadExHentaiPage(-1);
@@ -48,9 +45,8 @@ namespace HentaiViewer.ViewModels {
 			var pass = SettingsController.Settings.ExHentai.IpbPassHash;
 			var memid = SettingsController.Settings.ExHentai.IpbMemberId;
 			var igneous = SettingsController.Settings.ExHentai.Igneous;
-			if (string.IsNullOrEmpty(memid)||string.IsNullOrEmpty(igneous) ||string.IsNullOrEmpty(pass)) {
+			if (string.IsNullOrEmpty(memid) || string.IsNullOrEmpty(igneous) || string.IsNullOrEmpty(pass))
 				MessageBox.Show("Need Cookies for Exhentai", "Cookies missing", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
 			if (ExHentaiPageLoading) return;
 			ExHentaiPageLoading = true;
 			NextExHentaiPage = NextExHentaiPage + value;
@@ -58,9 +54,8 @@ namespace HentaiViewer.ViewModels {
 			if (_exHentai.Count > 0) _exHentai.Clear();
 			ExHentaiView.Instance.ScrollViewer.ScrollToTop();
 			var searchQuery = string.Empty;
-			if (!string.IsNullOrEmpty(SettingsController.Settings.ExHentai.SearchQuery)) {
+			if (!string.IsNullOrEmpty(SettingsController.Settings.ExHentai.SearchQuery))
 				searchQuery = SettingsController.Settings.ExHentai.SearchQuery.Replace(" ", "" + "+");
-			}
 			var i = await ExHentai.GetLatest($"https://exhentai.org/?page={ExHentaiLoadedPage}" +
 			                                 $"&f_doujinshi={SettingsController.Settings.ExHentai.Doujinshi}" +
 			                                 $"&f_manga={SettingsController.Settings.ExHentai.Manga}" +
@@ -74,9 +69,7 @@ namespace HentaiViewer.ViewModels {
 			                                 $"&f_misc={SettingsController.Settings.ExHentai.Misc}" +
 			                                 $"&f_search={searchQuery}&f_apply=Apply+Filter");
 			foreach (var hentaiModel in i) {
-				if (FavoritesController.FavoriteMd5s.Contains(hentaiModel.Md5)) {
-					hentaiModel.Favorite = true;
-				}
+				if (FavoritesController.FavoriteMd5s.Contains(hentaiModel.Md5)) hentaiModel.Favorite = true;
 				_exHentai.Add(hentaiModel);
 				await Task.Delay(100);
 			}

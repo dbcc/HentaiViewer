@@ -1,17 +1,10 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.IO;
 using System.Windows.Input;
 using HentaiViewer.Common;
-using HentaiViewer.Sites;
 using HentaiViewer.ViewModels;
 using HentaiViewer.Views;
 using Newtonsoft.Json;
 using PropertyChanged;
-using RestSharp;
 
 namespace HentaiViewer.Models {
 	[ImplementPropertyChanged]
@@ -23,8 +16,10 @@ namespace HentaiViewer.Models {
 		}
 
 		public string Link { get; set; }
+
 		[JsonIgnore]
 		public object Img { get; set; }
+
 		public string Title { get; set; }
 		public string Site { get; set; }
 		public bool Seen { get; set; }
@@ -48,9 +43,7 @@ namespace HentaiViewer.Models {
 		public bool Favorite { get; set; }
 
 		private void ToggleFavorite() {
-			if (!isSavedGallery) {
-				return;
-			}
+			if (!isSavedGallery) return;
 			Favorite = !Favorite;
 			if (Favorite) {
 				if (!FavoritesController.FavoriteMd5s.Contains(Md5)) {
@@ -70,15 +63,9 @@ namespace HentaiViewer.Models {
 		}
 
 		private void Mark(bool toggle = true) {
-			if (!isSavedGallery) {
-				return;
-			}
-			if (toggle) {
-				Seen = !Seen;
-			}
-			else {
-				Seen = true;
-			}
+			if (!isSavedGallery) return;
+			if (toggle) Seen = !Seen;
+			else Seen = true;
 			if (Seen) {
 				if (!HistoryController.History.Items.Contains(Md5)) HistoryController.History.Items.Add(Md5);
 			}

@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Security.Permissions;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using HentaiViewer.Common;
 using HentaiViewer.Models;
 using HentaiViewer.Sites;
@@ -13,10 +8,8 @@ using RestSharp;
 
 namespace HentaiViewer.ViewModels {
 	public class FavoritesViewModel {
-		public ObservableCollection<HentaiModel> _favorites = new ObservableCollection<HentaiModel>();
-		public ReadOnlyObservableCollection<HentaiModel> FavoriteItems { get; }
-
 		public static FavoritesViewModel Instance;
+		public ObservableCollection<HentaiModel> _favorites = new ObservableCollection<HentaiModel>();
 
 		public FavoritesViewModel() {
 			Instance = this;
@@ -36,7 +29,8 @@ namespace HentaiViewer.ViewModels {
 						var img = ExHentai.BytesToBitmapImage(imgbytes.RawBytes);
 						hentaiModel.Img = img;
 					}
-					catch {//ignore
+					catch {
+//ignore
 					}
 				}
 				else {
@@ -45,5 +39,7 @@ namespace HentaiViewer.ViewModels {
 				_favorites.Add(hentaiModel);
 			}
 		}
+
+		public ReadOnlyObservableCollection<HentaiModel> FavoriteItems { get; }
 	}
 }

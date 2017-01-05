@@ -20,15 +20,26 @@ namespace HentaiViewer.ViewModels {
 
 		public ReadOnlyObservableCollection<HentaiModel> ExHentaiItems { get; }
 
-		public IEnumerable<object> Sites => new List<object> {"Home", new Separator(), "ExHentai", "nHentai", "Cafe", new Separator(), "Favorites", "Saved Galleries" };
+		public IEnumerable<object> Sites
+			=>
+				new List<object> {
+					"Home",
+					new Separator(),
+					"ExHentai",
+					"nHentai",
+					"Cafe",
+					new Separator(),
+					"Favorites",
+					"Saved Galleries"
+				};
 
 		public int SelectedSite { get; set; }
-		//				break;
-		//				ExHentaiViewModel.Instance.RefreshExHentaiCommand.Execute(null);
-		//			case 0:
-		//		switch (siteindex) {
 
 		//private void LoadContent(int siteindex) {
+		//		switch (siteindex) {
+		//			case 0:
+		//				ExHentaiViewModel.Instance.RefreshExHentaiCommand.Execute(null);
+		//				break;
 		//			case 1:
 		//				nHentaiViewModel.Instance.RefreshnHentaiCommand.Execute(null);
 		//				break;

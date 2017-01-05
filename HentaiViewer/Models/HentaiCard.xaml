@@ -28,19 +28,26 @@
 			<Grid Grid.Row="0"
 			      Visibility="{Binding IsMouseOver, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Grid, Mode=OneWay}">
 				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition/>
+					<RowDefinition Height="Auto" />
+					<RowDefinition />
 				</Grid.RowDefinitions>
 				<Canvas Background="Black" Opacity="0.6" Grid.RowSpan="2" />
-				<Label Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding Site}"/>
+				<Label Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding Site}" />
 				<StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
 					<Button Command="{Binding ViewCommand}">View</Button>
-					<Button Margin="5" Command="{Binding MarkasReadCommand}" Visibility="{Binding isSavedGallery, Converter={StaticResource BooleanToVisibilityConverter}}">Mark as read</Button>
-					<Button Command="{Binding FavoriteCommand}" Visibility="{Binding isSavedGallery, Converter={StaticResource BooleanToVisibilityConverter}}">Favorite</Button>
+					<Button Margin="5" Command="{Binding MarkasReadCommand}"
+					        Visibility="{Binding isSavedGallery, Converter={StaticResource BooleanToVisibilityConverter}}">
+						Mark as read
+					</Button>
+					<Button Command="{Binding FavoriteCommand}"
+					        Visibility="{Binding isSavedGallery, Converter={StaticResource BooleanToVisibilityConverter}}">
+						Favorite
+					</Button>
 				</StackPanel>
 			</Grid>
-			<materialDesign:PackIcon Grid.Row="0" Kind="Heart" HorizontalAlignment="Right" Foreground="Red" Margin="5" Width="25" Height="25" 
-									 Visibility="{Binding Favorite, Converter={StaticResource BooleanToVisibilityConverter}}"></materialDesign:PackIcon>
+			<materialDesign:PackIcon Grid.Row="0" Kind="Heart" HorizontalAlignment="Right" Foreground="Red" Margin="5"
+			                         Width="25" Height="25"
+			                         Visibility="{Binding Favorite, Converter={StaticResource BooleanToVisibilityConverter}}" />
 		</Grid>
 	</materialDesign:Card>
 </UserControl>

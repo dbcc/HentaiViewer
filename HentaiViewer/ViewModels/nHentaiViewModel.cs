@@ -21,9 +21,7 @@ namespace HentaiViewer.ViewModels {
 
 			//RefreshnHentaiAsync();
 			RefreshnHentaiCommand = new ActionCommand(RefreshnHentaiAsync);
-			LoadMorenHentaiCommand = new ActionCommand(async () => {
-				await LoadnHentaiPage(1);
-			});
+			LoadMorenHentaiCommand = new ActionCommand(async () => { await LoadnHentaiPage(1); });
 			LoadPrevnHentaiCommand = new ActionCommand(async () => {
 				if (nHentaiLoadedPage == 1) return;
 				await LoadnHentaiPage(-1);
@@ -51,19 +49,14 @@ namespace HentaiViewer.ViewModels {
 			nHentaiLoadedPage = nHentaiLoadedPage + value;
 			if (_nHentai.Count > 0 && delete) _nHentai.Clear();
 			nHentaiView.Instance.ScrollViewer.ScrollToTop();
-			string searchquery = SettingsController.Settings.nHentai.SearchQuery;
+			var searchquery = SettingsController.Settings.nHentai.SearchQuery;
 			List<HentaiModel> i;
-			if (string.IsNullOrEmpty(searchquery)) {
-				i = await nHentai.GetLatest($"https://nhentai.net/?page={nHentaiLoadedPage}");
-			}
-			else {
+			if (string.IsNullOrEmpty(searchquery)) i = await nHentai.GetLatest($"https://nhentai.net/?page={nHentaiLoadedPage}");
+			else
 				i = await nHentai.GetLatest(
-				$"https://nhentai.net/search/?q={searchquery.Replace(" ", "+")}&sort={SortItems[SelectedSort].ToLower()}&page={nHentaiLoadedPage}");	
-			}
+					$"https://nhentai.net/search/?q={searchquery.Replace(" ", "+")}&sort={SortItems[SelectedSort].ToLower()}&page={nHentaiLoadedPage}");
 			foreach (var hentaiModel in i) {
-				if (FavoritesController.FavoriteMd5s.Contains(hentaiModel.Md5)) {
-					hentaiModel.Favorite = true;
-				}
+				if (FavoritesController.FavoriteMd5s.Contains(hentaiModel.Md5)) hentaiModel.Favorite = true;
 				_nHentai.Add(hentaiModel);
 				await Task.Delay(100);
 			}

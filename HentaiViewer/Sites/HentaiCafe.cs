@@ -75,12 +75,12 @@ namespace HentaiViewer.Sites {
 			var retlist = new List<object>();
 			var lastChapterNumber = int.Parse(match.Groups[1].Value);
 			if (Directory.Exists(hentai.SavePath)) {
-				var files = new DirectoryInfo(hentai.SavePath).GetFileSystemInfos("*.png").OrderBy(fs => int.Parse(fs.Name.Split('.')[0]));
+				var files =
+					new DirectoryInfo(hentai.SavePath).GetFileSystemInfos("*.png").OrderBy(fs => int.Parse(fs.Name.Split('.')[0]));
 				var paths = new List<object>();
 				files.ToList().ForEach(p => paths.Add(p.FullName));
-				if (files.ToList().Count == lastChapterNumber) {
+				if (files.ToList().Count == lastChapterNumber)
 					return new Tuple<List<object>, int>(new List<object>(paths), lastChapterNumber);
-				}
 			}
 			var slitlink = entryLink.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
 			slitlink[slitlink.Length - 1] = "1";
@@ -98,7 +98,7 @@ namespace HentaiViewer.Sites {
 			var suffixsplit = img.Last().Split(new[] {'.'}, StringSplitOptions.RemoveEmptyEntries);
 			var extension = suffixsplit.Last();
 			var list = new List<string>(img);
-			list.RemoveAt(img.Length-1);
+			list.RemoveAt(img.Length - 1);
 			img = list.ToArray();
 			var nlink = string.Join("/", img).Replace(":/", "://");
 			for (var i = 2; i <= lastChapterNumber; i++) {
@@ -106,15 +106,9 @@ namespace HentaiViewer.Sites {
 				//var newsuffix = i < 10 ? $"0{i}.{extension}" : $"{i}.{extension}";
 				var newsuffix = string.Empty;
 				if (zeros.StartsWith("00")) {
-					if (i<10) {
-						newsuffix = $"00{i}.{extension}";
-					}
-					else if (i < 100 && i > 9) {
-						newsuffix = $"0{i}.{extension}";
-					}
-					else if (i>99) {
-						newsuffix = $"{i}.{extension}";
-					}
+					if (i < 10) newsuffix = $"00{i}.{extension}";
+					else if (i < 100 && i > 9) newsuffix = $"0{i}.{extension}";
+					else if (i > 99) newsuffix = $"{i}.{extension}";
 				}
 				else {
 					newsuffix = i < 10 ? $"0{i}.{extension}" : $"{i}.{extension}";

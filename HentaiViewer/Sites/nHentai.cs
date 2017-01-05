@@ -61,16 +61,20 @@ namespace HentaiViewer.Sites {
 			var pages = int.Parse(Regex.Match(document.DocumentElement.OuterHtml, "<div>([0-9]+) pages</div>").Groups[1].Value);
 			if (Directory.Exists(hentai.SavePath)) {
 				//var files = Directory.GetFiles(hentai.SavePath, "*.png");
-				var files = new DirectoryInfo(hentai.SavePath).GetFileSystemInfos("*.png").OrderBy(fs => int.Parse(fs.Name.Split('.')[0]));
+				var files =
+					new DirectoryInfo(hentai.SavePath).GetFileSystemInfos("*.png").OrderBy(fs => int.Parse(fs.Name.Split('.')[0]));
 				var paths = new List<object>();
-				files.ToList().ForEach(p=> paths.Add(p.FullName));
-				if (files.ToList().Count == pages) {
-					return new Tuple<List<object>, int>(new List<object>(paths), pages);
-				}
+				files.ToList().ForEach(p => paths.Add(p.FullName));
+				if (files.ToList().Count == pages) return new Tuple<List<object>, int>(new List<object>(paths), pages);
 			}
 			var imgTags = document.All.Where(i => i.LocalName == "img" && i.ClassList.Contains("lazyload"));
 
-			var images = imgTags.Select(element => $"https:{element.GetAttribute("data-src").Replace("t.j", ".j").Replace("/t.", "/i.").Replace("t.pn", ".pn")}").Cast<object>().ToList();
+			var images =
+				imgTags.Select(
+						element =>
+							$"https:{element.GetAttribute("data-src").Replace("t.j", ".j").Replace("/t.", "/i.").Replace("t.pn", ".pn")}")
+					.Cast<object>()
+					.ToList();
 			//img link https://t.nhentai.net/galleries/775571/6.jpg
 			// overview link https://nhentai.net/g/124787/
 

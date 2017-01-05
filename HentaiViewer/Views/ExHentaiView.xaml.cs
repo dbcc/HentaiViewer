@@ -7,6 +7,7 @@ namespace HentaiViewer.Views {
 	/// </summary>
 	public partial class ExHentaiView : UserControl {
 		public static ExHentaiView Instance;
+
 		public ExHentaiView() {
 			Instance = this;
 			InitializeComponent();

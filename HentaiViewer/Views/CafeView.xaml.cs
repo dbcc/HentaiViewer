@@ -7,6 +7,7 @@ namespace HentaiViewer.Views {
 	/// </summary>
 	public partial class CafeView : UserControl {
 		public static CafeView Instance;
+
 		public CafeView() {
 			Instance = this;
 			InitializeComponent();

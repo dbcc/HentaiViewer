@@ -12,8 +12,8 @@
 	x:Class="HentaiViewer.Views.HentaiViewerWindow"
 	mc:Ignorable="d"
 	Title="HentaiViewer" Height="800" Width="900" MinWidth="400" BorderThickness="1"
-    GlowBrush="Black" NonActiveGlowBrush="Black" NonActiveBorderBrush="Black" BorderBrush="Black"
-    NonActiveWindowTitleBrush="{DynamicResource WindowTitleColorBrush}"
+	GlowBrush="Black" NonActiveGlowBrush="Black" NonActiveBorderBrush="Black" BorderBrush="Black"
+	NonActiveWindowTitleBrush="{DynamicResource WindowTitleColorBrush}"
 	d:DataContext="{d:DesignInstance {x:Type viewModel:HentaiViewerWindowViewModel}, IsDesignTimeCreatable=False}"
 	Closing="HentaiViewerWindow_OnClosed">
 	<controls:MetroWindow.Resources>
@@ -50,7 +50,8 @@
 			        IsSnapToTickEnabled="True" VerticalAlignment="Center" />
 			<Label HorizontalAlignment="Center" Content="{Binding Value, ElementName=SliderScrollSpeed}" />
 		</StackPanel>
-		<ScrollViewer Grid.Row="1" x:Name="scviewer" Margin="0,0,0,20" CanContentScroll="True" ScrollChanged="Scviewer_OnScrollChanged">
+		<ScrollViewer Grid.Row="1" x:Name="scviewer" Margin="0,0,0,20" CanContentScroll="True"
+		              ScrollChanged="Scviewer_OnScrollChanged">
 			<ItemsControl x:Name="Images" ItemsSource="{Binding ImageObjects}">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
@@ -65,7 +66,7 @@
 		             Visibility="{Binding PregressBarVisibility}" IsIndeterminate="True" />
 		<!--<Button HorizontalAlignment="Center" VerticalAlignment="Center"
 				Visibility="{Binding ErrorVisibility}" Content="Error! click to close" />-->
-		<Canvas Grid.Row="1" Height="Auto" Background="Transparent" MouseDown="Canvas_MouseDown" MouseUp="Canvas_MouseUp"
+		<Canvas x:Name="CanvasMouseover" Grid.Row="1" Height="Auto" Background="Transparent" MouseDown="Canvas_MouseDown" MouseUp="Canvas_MouseUp"
 		        MouseLeave="Canvas_MouseLeave"
 		        Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=toggleButton}"
 		        Margin="0,0,20,0" />

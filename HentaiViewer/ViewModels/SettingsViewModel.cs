@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using HentaiViewer.Common;
 using HentaiViewer.Models;
 using PropertyChanged;
@@ -11,12 +6,11 @@ using PropertyChanged;
 namespace HentaiViewer.ViewModels {
 	[ImplementPropertyChanged]
 	public class SettingsViewModel {
-
 		public SettingsViewModel() {
-			SaveCommand = new ActionCommand((() => {
+			SaveCommand = new ActionCommand(() => {
 				SettingsController.Settings = Setting;
 				SettingsController.Save();
-			}));
+			});
 			Setting = SettingsController.Settings;
 		}
 
