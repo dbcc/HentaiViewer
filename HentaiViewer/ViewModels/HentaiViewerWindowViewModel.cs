@@ -125,6 +125,7 @@ namespace HentaiViewer.ViewModels {
 			_adding = true;
 			if (_imageObjects.Count >= 100) {
 				_imageObjects.Clear();
+				GC.Collect();
 				//_imageObjects.Add(new ImageModel { PageNumber = _loaded, Source = _images[_loaded-3] });
 				//await Task.Delay(100);
 				//_imageObjects.Add(new ImageModel { PageNumber = _loaded, Source = _images[_loaded-2] });

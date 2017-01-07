@@ -31,9 +31,9 @@
 			        Grid.RowSpan="2">
 				<materialDesign:PackIcon Kind="Refresh" Width="35" Height="35" />
 			</Button>
-			<Label Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center"
+			<Label Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center"
 			       Content="{Binding Value, ElementName=Slider}" Margin="5,0" />
-			<Slider Grid.Column="3" x:Name="Slider" Minimum="150" Maximum="850" VerticalAlignment="Center" Margin="5,0,10,0"
+			<Slider Grid.Row="0" Grid.Column="3" x:Name="Slider" Minimum="150" Maximum="850" VerticalAlignment="Center" Margin="5,0,10,0"
 			        Value="170" SmallChange="1"
 			        IsSnapToTickEnabled="True" />
 			<ComboBox Grid.Row="0" Grid.Column="1" Width="70" ItemsSource="{Binding SortItems}"
