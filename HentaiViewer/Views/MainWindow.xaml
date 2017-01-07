@@ -18,8 +18,29 @@
 			<ColumnDefinition Width="Auto" MinWidth="100" />
 			<ColumnDefinition />
 		</Grid.ColumnDefinitions>
-		<ListBox ItemsSource="{Binding Sites}" HorizontalContentAlignment="Stretch" SelectedIndex="{Binding SelectedSite}"
-		         Background="#FF191919" />
+		<ListBox  HorizontalContentAlignment="Stretch" SelectedIndex="{Binding SelectedSite}"
+		         Background="#FF191919">
+			<ListBoxItem>Home</ListBoxItem>
+			<Separator/>
+			<ListBoxItem>
+				<StackPanel Orientation="Horizontal">
+					<Image Source="/Assets/faviconExHentai.ico" Margin="5,0" Height="16" VerticalAlignment="Center"/>
+					<TextBlock>ExHentai</TextBlock>
+				</StackPanel>
+			</ListBoxItem>
+			<ListBoxItem>
+				<StackPanel Orientation="Horizontal">
+					<Image Source="/Assets/faviconnHentai.ico" Margin="5,0" Height="16" VerticalAlignment="Center"/>
+					<TextBlock>nHentai</TextBlock>
+				</StackPanel>
+			</ListBoxItem>
+			<ListBoxItem>
+				<TextBlock Margin="26,0,0,0">Cafe</TextBlock>
+			</ListBoxItem>
+			<Separator/>
+			<ListBoxItem>Favorites</ListBoxItem>
+			<ListBoxItem>Saved Galleries</ListBoxItem>
+		</ListBox>
 		<materialDesign:Transitioner Grid.Column="1" SelectedIndex="{Binding SelectedSite}">
 			<views:SettingsView />
 			<Separator /> <!--workaround-->

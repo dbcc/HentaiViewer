@@ -19,11 +19,11 @@ namespace HentaiViewer.Views {
 			//loop timer
 			_loopTimer = new Timer {
 				Interval = 10,
-				Enabled = false
+				Enabled = false,
+				AutoReset = true
 			};
 			// interval in milliseconds
 			_loopTimer.Elapsed += LoopTimerEvent;
-			_loopTimer.AutoReset = true;
 		}
 
 		private async void LoopTimerEvent(object source, ElapsedEventArgs e) {
@@ -34,6 +34,9 @@ namespace HentaiViewer.Views {
 				//todo load images
 				if (!(scviewer.VerticalOffset + scviewer.ViewportHeight >= scviewer.ExtentHeight - 100)) return;
 				var data = (HentaiViewerWindowViewModel) DataContext;
+				if (data.ImageObjects.Count >=100) {
+					scviewer.ScrollToTop();
+				}
 				await data.LoadMoreImages();
 			}));
 		}

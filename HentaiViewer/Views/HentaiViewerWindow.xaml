@@ -23,8 +23,10 @@
 		<controls:WindowCommands>
 			<Label HorizontalAlignment="Left" Content="Viewer - Pages" />
 			<TextBlock>
-				<Run Text="{Binding ImageObjects.Count, Mode=OneWay}" /><Run Text=" " /><Run Text=" / " /><Run Text=" " />
+				<Run Text="{Binding _loaded, Mode=OneWay}" /><Run Text=" " /><Run Text=" / " /><Run Text=" " />
 				<Run Text="{Binding Pages}" />
+				<Run Text=" D:" />
+				<Run Text="{Binding ImageObjects.Count, Mode=OneWay}" />
 			</TextBlock>
 			<Button Command="{Binding SaveImagesCommand}">Save</Button>
 			<ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" IsIndeterminate="True"

@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -9,6 +12,7 @@ using System.Windows.Media.Imaging;
 using HentaiViewer.Common;
 using HentaiViewer.Models;
 using HentaiViewer.Sites;
+using HentaiViewer.Views;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using PropertyChanged;
@@ -27,7 +31,7 @@ namespace HentaiViewer.ViewModels {
 
 		private bool _isClosing;
 
-		private int _loaded;
+		public int _loaded { get; set; }
 
 		public HentaiViewerWindowViewModel(HentaiModel hentai) {
 			Instance = this;
@@ -96,30 +100,38 @@ namespace HentaiViewer.ViewModels {
 
 			if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
 			SaveProgress = Visibility.Visible;
-			for (var i = 0; i < _imageObjects.Count; i++) {
+			for (var i = 0; i < _images.Count; i++) {
 				if (_isClosing) break;
-				var img = (ImageModel) ImageObjects[i];
-				if (img.Source is string) {
-					var client = new RestClient {BaseUrl = new Uri((string) img.Source)};
+				var img = _images[i];
+				if (img is string) {
+					var client = new RestClient {BaseUrl = new Uri((string) img)};
 					var imgBytes = await client.ExecuteGetTaskAsync(new RestRequest());
-					img.Source = ExHentai.BytesToBitmapImage(imgBytes.RawBytes);
+					img = ExHentai.BytesToBitmapImage(imgBytes.RawBytes);
 				}
 				var encoder = new PngBitmapEncoder();
-				encoder.Frames.Add(BitmapFrame.Create((BitmapSource) img.Source));
+				encoder.Frames.Add(BitmapFrame.Create((BitmapSource) img));
 				using (var stream = new FileStream($"{Path.Combine(folder, $"{i}.png")}", FileMode.Create)) {
 					encoder.Save(stream);
 				}
 			}
-			var output = JsonConvert.SerializeObject(new InfoModel(_hentai, _imageObjects.Count), Formatting.Indented,
+			var output = JsonConvert.SerializeObject(new InfoModel(_hentai, _images.Count), Formatting.Indented,
 				new StringEnumConverter {CamelCaseText = true});
 
 			File.WriteAllText(Path.Combine(folder, "INFO.json"), output);
 			SaveProgress = Visibility.Collapsed;
 		}
-
 		public async Task LoadMoreImages() {
 			if (_adding || _images == null) return;
 			_adding = true;
+			if (_imageObjects.Count >= 100) {
+				_imageObjects.Clear();
+				//_imageObjects.Add(new ImageModel { PageNumber = _loaded, Source = _images[_loaded-3] });
+				//await Task.Delay(100);
+				//_imageObjects.Add(new ImageModel { PageNumber = _loaded, Source = _images[_loaded-2] });
+				//await Task.Delay(100);
+				_imageObjects.Add(new ImageModel { PageNumber = _loaded-1, Source = _images[_loaded-1] });
+				await Task.Delay(100);
+			}
 			for (var i = 0; i < _images.Count; i++) {
 				if (_loaded == _images.Count || i == 9) break;
 				_imageObjects.Add(new ImageModel {PageNumber = _loaded, Source = _images[_loaded]});
@@ -128,5 +140,61 @@ namespace HentaiViewer.ViewModels {
 			}
 			_adding = false;
 		}
+
+		//public async Task ImageLoader(bool reverse = false, HentaiViewerWindow win=null) {
+		//	if (_adding || _images == null) return;
+		//	_adding = true;
+		//	if (!reverse) {
+		//		if (_imageObjects.Count >= 9) {
+		//			_imageObjects.Clear();
+		//			//_imageObjects.Add(new ImageModel { PageNumber = _loaded, Source = _images[_loaded - 3] });
+		//			//await Task.Delay(100);
+		//			//_imageObjects.Add(new ImageModel { PageNumber = _loaded, Source = _images[_loaded - 2] });
+		//			//await Task.Delay(100);
+		//			_imageObjects.Add(new ImageModel { PageNumber = _loaded-1, Source = _images[_loaded - 1] });
+		//			await Task.Delay(100);
+		//		}
+		//		for (var i = 0; i < _images.Count; i++) {
+		//			if (_loaded == _images.Count || i == 9 || currentImages.Contains(_loaded)) break;
+		//			_imageObjects.Add(new ImageModel { PageNumber = _loaded, Source = _images[_loaded] });
+		//			currentImages[i] = _loaded;
+		//			_loaded++;
+		//			await Task.Delay(100);
+		//		}
+		//	}
+		//	else {
+		//		var endpoint = _loaded - 9;
+		//		var i = _loaded - 18;
+		//		if (_imageObjects.Count >= 9) {
+		//			_imageObjects.Clear();
+		//			//_imageObjects.Add(new ImageModel { PageNumber = _loaded, Source = _images[_loaded - 3] });
+		//			//await Task.Delay(100);
+		//			//_imageObjects.Add(new ImageModel { PageNumber = _loaded, Source = _images[_loaded - 2] });
+		//			//await Task.Delay(100);
+		//			_imageObjects.Insert(0, new ImageModel { PageNumber = endpoint+1, Source = _images[endpoint+1] });
+		//			await Task.Delay(100);
+		//		}
+		//		for (var startpoint = endpoint; startpoint > i; startpoint--) {
+		//			if (startpoint == -1|| endpoint<=0) break;
+		//			_imageObjects.Insert(0,new ImageModel { PageNumber = startpoint, Source = _images[startpoint] });
+		//			//_imageObjects.RemoveAt(_imageObjects.Count-1);
+		//			//currentImages[i] = ll;
+		//			await Task.Delay(50);
+		//		}
+		//		if (endpoint>=9) {
+		//			_loaded = endpoint;
+		//		}
+		//		//if (_imageObjects.Count >9 || _loaded >9) {
+
+		//		//	for (var j = _imageObjects.Count; j > 9; j--) {
+		//		//		if (_imageObjects.Count <=9) {
+		//		//			break;
+		//		//		}
+		//		//		_imageObjects.RemoveAt(j-1);
+		//		//	}
+		//		//}
+		//	}
+		//	_adding = false;
+		//}
 	}
 }
