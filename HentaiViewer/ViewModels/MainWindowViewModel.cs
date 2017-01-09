@@ -1,7 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Input;
 using HentaiViewer.Models;
+using HentaiViewer.Views;
+using MaterialDesignThemes.Wpf;
 using PropertyChanged;
 
 namespace HentaiViewer.ViewModels {
@@ -16,6 +20,7 @@ namespace HentaiViewer.ViewModels {
 			//ExHentai.GetLatest("k");
 			ExHentaiItems = new ReadOnlyObservableCollection<HentaiModel>(_exHentai);
 			//SelectedSite = 0;
+			OpenLinkCommand = new ActionCommand(openDialog);
 		}
 
 		public ReadOnlyObservableCollection<HentaiModel> ExHentaiItems { get; }
@@ -35,18 +40,11 @@ namespace HentaiViewer.ViewModels {
 
 		public int SelectedSite { get; set; }
 
-		//private void LoadContent(int siteindex) {
-		//		switch (siteindex) {
-		//			case 0:
-		//				ExHentaiViewModel.Instance.RefreshExHentaiCommand.Execute(null);
-		//				break;
-		//			case 1:
-		//				nHentaiViewModel.Instance.RefreshnHentaiCommand.Execute(null);
-		//				break;
-		//			case 2:
-		//				HentaiCafeViewModel.Instance.RefreshCafeCommand.Execute(null);
-		//				break;
-		//		}
-		//}
+		public ICommand OpenLinkCommand { get; }
+
+		private async void openDialog() {
+			var dia = new GalleryLinkDialog();
+			await DialogHost.Show(dia);
+		}
 	}
 }

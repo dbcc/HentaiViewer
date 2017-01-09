@@ -251,6 +251,13 @@
 					<RowDefinition />
 					<RowDefinition />
 				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+				<Label Grid.Row="1" VerticalAlignment="Center">Search</Label>
+				<TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="5,0"
+				         Text="{Binding Setting.Cafe.SearchQuery, Mode=TwoWay}" />
 			</Grid>
 		</Expander>
 		<Button Grid.Row="3" Background="Transparent" Command="{Binding SaveCommand}">Save</Button>

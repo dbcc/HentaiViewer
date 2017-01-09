@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace HentaiViewer.Common {
-	public class SettingsController {
+	public static class SettingsController {
 		private static readonly string ConfigFile = Path.Combine(Directory.GetCurrentDirectory(), "Settings.json");
 		public static SettingsModel Settings { get; set; }
 
@@ -22,9 +22,9 @@ namespace HentaiViewer.Common {
 			}
 			else {
 				Settings = new SettingsModel {
-					Cafe = new HentaiCafe(),
+					Cafe = new HentaiCafeOption(),
 					ExHentai = new ExhentaiOption(),
-					nHentai = new nHentaiOptions()
+					nHentai = new nHentaiOption()
 				};
 			}
 			Save();

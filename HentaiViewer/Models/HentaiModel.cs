@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Windows;
 using System.Windows.Input;
 using HentaiViewer.Common;
 using HentaiViewer.ViewModels;
@@ -77,7 +78,7 @@ namespace HentaiViewer.Models {
 
 		private void View() {
 			//if (Site == "exhentai") return;
-			var viewWindow = new HentaiViewerWindow {DataContext = new HentaiViewerWindowViewModel(this)};
+			var viewWindow = new HentaiViewerWindow {DataContext = new HentaiViewerWindowViewModel(this), WindowStartupLocation = WindowStartupLocation.CenterScreen};
 			viewWindow.Show();
 			Mark(false);
 		}

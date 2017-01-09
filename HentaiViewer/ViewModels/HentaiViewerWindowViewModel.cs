@@ -32,10 +32,12 @@ namespace HentaiViewer.ViewModels {
 		private bool _isClosing;
 
 		public int _loaded { get; set; }
+		private bool _saveEnabled { get; set; }
 
-		public HentaiViewerWindowViewModel(HentaiModel hentai) {
+		public HentaiViewerWindowViewModel(HentaiModel hentai, bool SaveEnabled = true) {
 			Instance = this;
 			_hentai = hentai;
+			_saveEnabled = SaveEnabled;
 			ImageObjects = new ReadOnlyObservableCollection<object>(_imageObjects);
 			GetImagesCommand = new ActionCommand(async () => {
 				FetchButtonVisibility = Visibility.Collapsed;
@@ -43,9 +45,9 @@ namespace HentaiViewer.ViewModels {
 				var links = await SelectSite(hentai);
 				_images = links;
 				PregressBarVisibility = Visibility.Collapsed;
-				for (var i = 0; i < links.Count; i++) {
-					if (_isClosing || i == 9) break;
-					_imageObjects.Add(new ImageModel {PageNumber = i, Source = links[i]});
+				foreach (var link in links) {
+					if (_isClosing || _imageObjects.Count == 9) break;
+					_imageObjects.Add(new ImageModel { PageNumber = links.IndexOf(link), Source = link });
 					await Task.Delay(200);
 					_loaded++;
 				}
@@ -96,6 +98,9 @@ namespace HentaiViewer.ViewModels {
 		}
 
 		private async void SaveImages() {
+			if (_hentai.Title=="lul") {
+				return;
+			}
 			var folder = Path.Combine(Directory.GetCurrentDirectory(), "Saves", _hentai.Site, MD5Converter.MD5Hash(_hentai.Title));
 
 			if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
@@ -121,7 +126,7 @@ namespace HentaiViewer.ViewModels {
 			SaveProgress = Visibility.Collapsed;
 		}
 		public async Task LoadMoreImages() {
-			if (_adding || _images == null) return;
+			if (_adding || _images == null || _images.Count <=9) return;
 			_adding = true;
 			if (_imageObjects.Count >= 100) {
 				_imageObjects.Clear();

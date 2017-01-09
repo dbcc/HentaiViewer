@@ -59,6 +59,11 @@ namespace HentaiViewer.Sites {
 			var url = hentai.Link;
 			var document = await ParseHtmlString(await GetHtmlString(url));
 			var pages = int.Parse(Regex.Match(document.DocumentElement.OuterHtml, "<div>([0-9]+) pages</div>").Groups[1].Value);
+			if (hentai.Title == "lul") {
+				var firstOrDefault = document.All.FirstOrDefault(h => h.LocalName == "h1");
+				if (firstOrDefault != null)
+					hentai.Title = firstOrDefault.TextContent;
+			}
 			if (Directory.Exists(hentai.SavePath)) {
 				//var files = Directory.GetFiles(hentai.SavePath, "*.png");
 				var files =

@@ -26,6 +26,12 @@ namespace HentaiViewer.ViewModels {
 				if (nHentaiLoadedPage == 1) return;
 				await LoadnHentaiPage(-1);
 			});
+			HomeCommand= new ActionCommand(async () => {
+				if (nHentaiPageLoading) { return; }
+				nHentaiLoadedPage = 1;
+				NextnHentaiPage = 2;
+				await LoadnHentaiPage(0);
+			});
 		}
 
 		public int nHentaiLoadedPage { get; set; } = 1;
@@ -41,7 +47,10 @@ namespace HentaiViewer.ViewModels {
 
 		public int SelectedSort { get; set; } = 0;
 
+		public ICommand HomeCommand { get; }
 
+
+		private bool StopAction = false;
 		private async Task LoadnHentaiPage(int value, bool delete = true) {
 			if (nHentaiPageLoading) return;
 			nHentaiPageLoading = true;
@@ -58,7 +67,7 @@ namespace HentaiViewer.ViewModels {
 			foreach (var hentaiModel in i) {
 				if (FavoritesController.FavoriteMd5s.Contains(hentaiModel.Md5)) hentaiModel.Favorite = true;
 				_nHentai.Add(hentaiModel);
-				await Task.Delay(100);
+				await Task.Delay(10);
 			}
 			nHentaiPageLoading = false;
 		}

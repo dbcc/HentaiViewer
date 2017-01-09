@@ -65,7 +65,12 @@ namespace HentaiViewer.Sites {
 			var entryPage = await parser.ParseAsync(await GetHtmlString(url));
 			var entryLink =
 				entryPage.All.Where(l => l.LocalName == "a" && l.ClassList.Contains("x-btn-large")).ToList()[0].GetAttribute("href");
-
+			if (hentai.Title == "lul") {
+				var firstOrDefault = entryPage.All.FirstOrDefault(h => h.LocalName == "h3");
+				if (firstOrDefault != null) {
+					hentai.Title = firstOrDefault.TextContent;
+				}
+			}
 			if (!entryLink.EndsWith("page/1"))
 				entryLink = entryLink + "page/1";
 			var html = await GetHtmlString(entryLink);

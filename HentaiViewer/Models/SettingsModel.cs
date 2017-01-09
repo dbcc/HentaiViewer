@@ -3,14 +3,16 @@
 namespace HentaiViewer.Models {
 	public class SettingsModel {
 		public ExhentaiOption ExHentai { get; set; }
-		public nHentaiOptions nHentai { get; set; }
-		public HentaiCafe Cafe { get; set; }
+		public nHentaiOption nHentai { get; set; }
+		public HentaiCafeOption Cafe { get; set; }
 	}
 
-	public class HentaiCafe {
+	public class HentaiCafeOption {
+		[DefaultValue("")]
+		public string SearchQuery { get; set; }
 	}
 
-	public class nHentaiOptions {
+	public class nHentaiOption {
 		[DefaultValue("")]
 		public string SearchQuery { get; set; }
 	}

@@ -69,6 +69,7 @@ namespace HentaiViewer.Sites {
 		}
 
 		public static BitmapImage BytesToBitmapImage(byte[] bytes) {
+			if (bytes==null) {return null;}
 			using (var mem = new MemoryStream(bytes, 0, bytes.Length)) {
 				mem.Position = 0;
 				var image = new BitmapImage();
@@ -119,6 +120,9 @@ namespace HentaiViewer.Sites {
 				CookieContainer = GetCookies()
 			};
 			var document = await ParseHtmlString(await GetHtmlString(client));
+			if (hentai.Title == "lul") {
+				hentai.Title = document.Title.Replace(" - ExHentai.org", string.Empty);
+			}
 			var urlsplit = url.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
 			var galleryid = urlsplit[urlsplit.Length - 2];
 			var ptag = document.All.Where(p => p.LocalName == "p" && p.ClassList.Contains("gpc"));
