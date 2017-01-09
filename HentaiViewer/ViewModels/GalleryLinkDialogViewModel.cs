@@ -33,9 +33,11 @@ namespace HentaiViewer.ViewModels {
 			}else if (Link.ToLower().Contains("hentai.cafe")) {
 				hm.Site = "Hentai.cafe";
 			}
+			else {
+				return;
+			}
 			var viewWindow = new HentaiViewerWindow { DataContext = new HentaiViewerWindowViewModel(hm), WindowStartupLocation = WindowStartupLocation.CenterScreen };
 			viewWindow.Show();
-		
 		}
 	}
 }

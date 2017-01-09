@@ -20,7 +20,7 @@ namespace HentaiViewer.ViewModels {
 			//ExHentai.GetLatest("k");
 			ExHentaiItems = new ReadOnlyObservableCollection<HentaiModel>(_exHentai);
 			//SelectedSite = 0;
-			OpenLinkCommand = new ActionCommand(openDialog);
+			OpenLinkCommand = new ActionCommand(OpenDialog);
 		}
 
 		public ReadOnlyObservableCollection<HentaiModel> ExHentaiItems { get; }
@@ -41,10 +41,15 @@ namespace HentaiViewer.ViewModels {
 		public int SelectedSite { get; set; }
 
 		public ICommand OpenLinkCommand { get; }
-
-		private async void openDialog() {
+		private bool _dialogIsOpen = false;
+		private async void OpenDialog() {
+			if (_dialogIsOpen) {
+				return;
+			}
+			_dialogIsOpen = true;
 			var dia = new GalleryLinkDialog();
 			await DialogHost.Show(dia);
+			_dialogIsOpen = false;
 		}
 	}
 }
