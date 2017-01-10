@@ -1,4 +1,4 @@
-﻿<controls:MetroWindow x:Class="HentaiViewer.Views.MainWindow"
+﻿<controls:MetroWindow
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,14 +6,18 @@
                       xmlns:local="clr-namespace:HentaiViewer"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                      xmlns:viewModel="clr-namespace:HentaiViewer.ViewModels"
+                      xmlns:views="clr-namespace:HentaiViewer.Views"
+                      xmlns:Converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf" x:Class="HentaiViewer.Views.MainWindow"
                       mc:Ignorable="d"
                       Title="Hentai Viewer" Height="600" Width="1000" MinWidth="600" MinHeight="200" BorderThickness="1"
                       GlowBrush="Black" NonActiveGlowBrush="Black" NonActiveBorderBrush="Black" BorderBrush="Black"
                       NonActiveWindowTitleBrush="{DynamicResource WindowTitleColorBrush}"
-                      xmlns:viewModel="clr-namespace:HentaiViewer.ViewModels"
-                      xmlns:views="clr-namespace:HentaiViewer.Views"
                       d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=False}" 
 					  WindowStartupLocation="CenterScreen">
+	<controls:MetroWindow.Resources>
+		<Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+	</controls:MetroWindow.Resources>
 	<controls:MetroWindow.RightWindowCommands>
 		<controls:WindowCommands>
 			<Button ToolTip="Open from link" Command="{Binding OpenLinkCommand}">
@@ -21,6 +25,12 @@
 			</Button>
 		</controls:WindowCommands>
 	</controls:MetroWindow.RightWindowCommands>
+	<controls:MetroWindow.LeftWindowCommands>
+		<controls:WindowCommands>
+			<Button Content="New Update Available!" Command="{Binding UpdateCommand}" 
+					Visibility="{Binding IsUpdateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+		</controls:WindowCommands>
+	</controls:MetroWindow.LeftWindowCommands>
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto" MinWidth="100" />
@@ -28,26 +38,26 @@
 		</Grid.ColumnDefinitions>
 		<ListBox  HorizontalContentAlignment="Stretch" SelectedIndex="{Binding SelectedSite}"
 		         Background="#FF191919">
-			<ListBoxItem>Home</ListBoxItem>
+			<ListBoxItem Content="Home"/>
 			<Separator/>
 			<ListBoxItem>
 				<StackPanel Orientation="Horizontal">
 					<Image Source="/Assets/faviconExHentai.ico" Margin="5,0" Height="16" VerticalAlignment="Center"/>
-					<TextBlock>ExHentai</TextBlock>
+					<TextBlock><Run Text="ExHentai"/></TextBlock>
 				</StackPanel>
 			</ListBoxItem>
 			<ListBoxItem>
 				<StackPanel Orientation="Horizontal">
 					<Image Source="/Assets/faviconnHentai.ico" Margin="5,0" Height="16" VerticalAlignment="Center"/>
-					<TextBlock>nHentai</TextBlock>
+					<TextBlock><Run Text="nHentai"/></TextBlock>
 				</StackPanel>
 			</ListBoxItem>
 			<ListBoxItem>
-				<TextBlock Margin="26,0,0,0">Cafe</TextBlock>
+				<TextBlock Margin="26,0,0,0"><Run Text="Cafe"/></TextBlock>
 			</ListBoxItem>
 			<Separator/>
-			<ListBoxItem>Favorites</ListBoxItem>
-			<ListBoxItem>Saved Galleries</ListBoxItem>
+			<ListBoxItem Content="Favorites"/>
+			<ListBoxItem Content="Saved Galleries"/>
 		</ListBox>
 		<materialDesign:DialogHost Grid.Column="1" >
 			<materialDesign:Transitioner SelectedIndex="{Binding SelectedSite}">

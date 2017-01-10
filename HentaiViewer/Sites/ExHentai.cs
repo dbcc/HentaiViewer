@@ -110,6 +110,7 @@ namespace HentaiViewer.Sites {
 		}
 
 		public static async Task<Tuple<List<object>, int>> CollectImagesTaskAsync(HentaiModel hentai) {
+			
 			var url = hentai.Link;
 			var client = new RestClient {
 				UserAgent =
@@ -119,6 +120,9 @@ namespace HentaiViewer.Sites {
 				BaseUrl = new Uri(url),
 				CookieContainer = GetCookies()
 			};
+			if (hentai.Link.Contains("g.e-hentai.org")) {
+				client.CookieContainer.Add(new Cookie("nw", "1", "/", "g.e-hentai.org"));
+			}
 			var document = await ParseHtmlString(await GetHtmlString(client));
 			if (hentai.Title == "lul") {
 				hentai.Title = document.Title.Replace(" - ExHentai.org", string.Empty);
@@ -161,9 +165,13 @@ namespace HentaiViewer.Sites {
 				var atags =
 					html.All.Where(
 						t => t.LocalName == "img" && t.HasAttribute("id") && t.Id.Contains("img"));
+				if (atags.Count(c=>c.HasAttribute("id")) == 0) {
+					atags = html.All.Where(
+						t => t.LocalName == "img" && t.HasAttribute("src") && t.GetAttribute("src").Contains("keystamp"));
+				}
+			
 				images.AddRange(atags.Select(element => element.GetAttribute("src")));
 			}
-
 			return new Tuple<List<object>, int>(images, pages);
 		}
 	}

@@ -26,7 +26,7 @@ namespace HentaiViewer.ViewModels {
 				Link = Link,
 				Title = "lul"
 			};
-			if (Link.ToLower().Contains("exhentai")) {
+			if (Link.ToLower().Contains("hentai.org")) {
 				hm.Site = "ExHentai.org";
 			}else if (Link.ToLower().Contains("nhentai")) {
 				hm.Site = "nHentai.net";

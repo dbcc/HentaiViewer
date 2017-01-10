@@ -99,6 +99,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Common\FavoritesController.cs" />
+    <Compile Include="Common\GithubController.cs" />
     <Compile Include="Common\HistoryController.cs" />
     <Compile Include="Common\MD5Converter.cs" />
     <Compile Include="Common\SettingsController.cs" />
