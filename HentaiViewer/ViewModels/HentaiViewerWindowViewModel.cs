@@ -23,7 +23,7 @@ namespace HentaiViewer.ViewModels {
 	[ImplementPropertyChanged]
 	public class HentaiViewerWindowViewModel : IDisposable {
 		public static HentaiViewerWindowViewModel Instance;
-		private readonly HentaiModel _hentai;
+		public HentaiModel _hentai { get; set; }
 		private readonly ObservableCollection<object> _imageObjects = new ObservableCollection<object>();
 		private bool _adding;
 

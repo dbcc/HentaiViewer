@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using HentaiViewer.Common;
@@ -53,15 +54,33 @@ namespace HentaiViewer.ViewModels {
 			Process.Start(GithubController.GithubUrl);
 		}
 
-		private bool _dialogIsOpen = false;
-		private async void OpenDialog() {
-			if (_dialogIsOpen) {
+		//private bool _dialogIsOpen = false;
+		private void OpenDialog() {
+			//if (_dialogIsOpen) {
+			//	return;
+			//}
+			//_dialogIsOpen = true;
+			//var dia = new GalleryLinkDialog();
+			//await DialogHost.Show(dia);
+			//_dialogIsOpen = false;
+
+			if (!Clipboard.ContainsText() && !Clipboard.GetText().StartsWith("http")) { return; }
+			var link = Clipboard.GetText();
+			var hm = new HentaiModel {
+				Link = Clipboard.GetText(),
+				Title = "lul"
+			};
+			if (link.ToLower().Contains("hentai.org/g/")) {
+				hm.Site = "ExHentai.org";
+			} else if (link.ToLower().Contains("nhentai.net/g/")) {
+				hm.Site = "nHentai.net";
+			} else if (link.ToLower().Contains("hentai.cafe")) {
+				hm.Site = "Hentai.cafe";
+			} else {
 				return;
 			}
-			_dialogIsOpen = true;
-			var dia = new GalleryLinkDialog();
-			await DialogHost.Show(dia);
-			_dialogIsOpen = false;
+			var viewWindow = new HentaiViewerWindow { DataContext = new HentaiViewerWindowViewModel(hm), WindowStartupLocation = WindowStartupLocation.CenterScreen };
+			viewWindow.Show();
 		}
 	}
 }
