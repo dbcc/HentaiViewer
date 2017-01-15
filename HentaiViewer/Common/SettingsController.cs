@@ -19,12 +19,22 @@ namespace HentaiViewer.Common {
 				jsonSettings.ObjectCreationHandling = ObjectCreationHandling.Replace;
 				//jsonSettings.DefaultValueHandling = DefaultValueHandling.Populate;
 				Settings = JsonConvert.DeserializeObject<SettingsModel>(input, jsonSettings);
+				if (Settings.ExHentai == null) {
+					Settings.ExHentai = new ExhentaiOption();
+				}if (Settings.nHentai == null) {
+					Settings.nHentai = new nHentaiOption();
+				}if (Settings.Cafe == null) {
+					Settings.Cafe = new HentaiCafeOption();
+				}if (Settings.Pururin == null) {
+					Settings.Pururin = new PururinOption();
+				}
 			}
 			else {
 				Settings = new SettingsModel {
 					Cafe = new HentaiCafeOption(),
 					ExHentai = new ExhentaiOption(),
-					nHentai = new nHentaiOption()
+					nHentai = new nHentaiOption(),
+					Pururin = new PururinOption()
 				};
 			}
 			Save();

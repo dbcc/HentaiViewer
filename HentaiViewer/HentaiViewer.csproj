@@ -117,6 +117,7 @@
     <Compile Include="Sites\HentaiCafe.cs" />
     <Compile Include="Sites\ExHentai.cs" />
     <Compile Include="Sites\nHentai.cs" />
+    <Compile Include="Sites\Pururin.cs" />
     <Compile Include="ViewModels\ActionCommand.cs" />
     <Compile Include="ViewModels\ExHentaiViewModel.cs" />
     <Compile Include="ViewModels\FavoritesViewModel.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="ViewModels\HentaiCafeViewModel.cs" />
     <Compile Include="ViewModels\HentaiViewerWindowViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\PururinViewModel.cs" />
     <Compile Include="ViewModels\nHentaiViewModel.cs" />
     <Compile Include="ViewModels\SavedGalleriesViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
@@ -141,6 +143,9 @@
     </Compile>
     <Compile Include="Views\nHentaiView.xaml.cs">
       <DependentUpon>nHentaiView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PururinView.xaml.cs">
+      <DependentUpon>PururinView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SavedGalleriesView.xaml.cs">
       <DependentUpon>SavedGalleriesView.xaml</DependentUpon>
@@ -195,6 +200,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\PururinView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SavedGalleriesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -245,6 +254,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\faviconnHentai.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\faviconPururin.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.1.29.4\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.1.29.4\build\dotnet\Fody.targets')" />

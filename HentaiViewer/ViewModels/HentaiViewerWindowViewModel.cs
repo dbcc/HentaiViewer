@@ -93,6 +93,10 @@ namespace HentaiViewer.ViewModels {
 					tpl = await ExHentai.CollectImagesTaskAsync(hentai);
 					Pages = $"{tpl.Item1.Count} : {tpl.Item2}";
 					return tpl.Item1;
+				case "Pururin.us":
+					tpl = await Pururin.CollectImagesTaskAsync(hentai);
+					Pages = $"{tpl.Item1.Count} : {tpl.Item2}";
+					return tpl.Item1;
 			}
 			return null;
 		}

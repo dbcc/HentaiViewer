@@ -1,0 +1,101 @@
+﻿<UserControl x:Class="HentaiViewer.Views.PururinView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HentaiViewer.Views"
+             xmlns:viewModel="clr-namespace:HentaiViewer.ViewModels"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:models="clr-namespace:HentaiViewer.Models"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+			 d:DataContext="{d:DesignInstance {x:Type viewModel:PururinViewModel}, IsDesignTimeCreatable=False}">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+
+		<materialDesign:ColorZone Background="#FF191919" materialDesign:ShadowAssist.ShadowDepth="Depth2">
+			<Grid Margin="3">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<Grid Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition />
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition />
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="Auto"/>
+					</Grid.ColumnDefinitions>
+					<ComboBox Grid.Row="0" Grid.Column="0" Width="70" ItemsSource="{Binding SortItems}"
+						  Text="{Binding SelectedFilter}" IsReadOnly="True"
+						  VerticalAlignment="Center" Margin="10,0" />
+					<Button Grid.Column="1" Background="Transparent" Width="32" Padding="2" Margin="5,0" Command="{Binding LoadPrevPururinCommand}">
+						<materialDesign:PackIcon Kind="ArrowLeft" />
+					</Button>
+					<TextBlock Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0">
+								<Run Text="P: " ToolTip="Page:"/>
+								<Run Text="{Binding PururinLoadedPage}" />
+					</TextBlock>
+					<Button Grid.Column="3" Background="Transparent" Width="32" Padding="2" Margin="5,0"
+									Command="{Binding LoadMorePururinCommand}">
+						<materialDesign:PackIcon Kind="ArrowRight" />
+					</Button>
+					<Button Grid.Row="0" Grid.Column="4" Background="Transparent" HorizontalAlignment="Center" Padding="2" Margin="5,0" Width="32"
+									Command="{Binding RefreshPururinCommand}">
+						<materialDesign:PackIcon Kind="Refresh" />
+					</Button>
+					<Button Grid.Row="0" Grid.Column="5" Background="Transparent" Width="32" HorizontalAlignment="Center" Padding="1" Margin="5,0"
+								Command="{Binding HomeCommand}">
+						<materialDesign:PackIcon Kind="Home"></materialDesign:PackIcon>
+					</Button>
+				</Grid>
+				<Label Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
+							   Content="{Binding Value, ElementName=Slider}" Margin="5,0" />
+				<Slider Grid.Row="0" Grid.Column="2" x:Name="Slider" Minimum="150" Maximum="850" VerticalAlignment="Center" Margin="5,0,10,0"
+								Value="170" SmallChange="1"
+								IsSnapToTickEnabled="True" />
+			</Grid>
+
+		</materialDesign:ColorZone>
+
+
+		<ScrollViewer x:Name="ScrollViewer" Grid.Row="1" VerticalScrollBarVisibility="Auto">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<ItemsControl Grid.Row="0" ItemsSource="{Binding PururinItems}">
+					<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<WrapPanel />
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<models:HentaiCard Width="{Binding Value, ElementName=Slider}" />
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+				<Button Grid.Row="1" Background="Transparent" Margin="10,5" Command="{Binding LoadMorePururinCommand}">
+					<TextBlock>
+							<Run Text="Load Page " />
+							<Run Text="{Binding NextPururinPage}" />
+					</TextBlock>
+				</Button>
+			</Grid>
+		</ScrollViewer>
+	</Grid>
+</UserControl>

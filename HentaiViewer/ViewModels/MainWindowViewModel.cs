@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using HentaiViewer.Common;
 using HentaiViewer.Models;
+using HentaiViewer.Sites;
 using HentaiViewer.Views;
 using MaterialDesignThemes.Wpf;
 using PropertyChanged;
@@ -21,6 +22,7 @@ namespace HentaiViewer.ViewModels {
 			OpenLinkCommand = new ActionCommand(OpenDialog);
 			UpdateCommand = new ActionCommand(OpenUpdateLink);
 			CheckUpdate();
+			Pururin.GetLatest("http://pururin.us/browse/search/1/1.html");
 		}
 
 		public IEnumerable<object> Sites
@@ -76,6 +78,8 @@ namespace HentaiViewer.ViewModels {
 				hm.Site = "nHentai.net";
 			} else if (link.ToLower().Contains("hentai.cafe")) {
 				hm.Site = "Hentai.cafe";
+			} else if (link.ToLower().Contains("pururin.us/gallery/")) {
+				hm.Site = "Pururin.us";
 			} else {
 				return;
 			}
