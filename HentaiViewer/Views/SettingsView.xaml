@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="HentaiViewer.Views.SettingsView"
+﻿<UserControl
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:HentaiViewer.Views"
              xmlns:viewModel="clr-namespace:HentaiViewer.ViewModels"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls" x:Class="HentaiViewer.Views.SettingsView"
              mc:Ignorable="d"
              d:DesignHeight="900" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance {x:Type viewModel:SettingsViewModel}, IsDesignTimeCreatable=False}">
@@ -15,8 +16,9 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<Expander Grid.Row="0" Margin="5" Header="ExHentai.org Settings" IsExpanded="True">
+		<Expander Grid.Row="0" Margin="5" Header="ExHentai.org Settings" >
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="40" />
@@ -33,28 +35,27 @@
 					<ColumnDefinition Width="0.4*" />
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
-				<Label VerticalAlignment="Center" FontWeight="Bold" FontSize="14">Cookies</Label>
+				<Label VerticalAlignment="Center" FontWeight="Bold" FontSize="14" Content="Cookies"/>
 				<Separator Grid.Row="0" Grid.ColumnSpan="3" Grid.Column="0" VerticalAlignment="Bottom" Margin="5,0" />
 
-				<Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center">ipb__member__id</Label>
+				<Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Content="ipb__member__id"/>
 				<TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="5,0"
 				         Text="{Binding Setting.ExHentai.IpbMemberId, Mode=TwoWay}" />
 
-				<Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center">ipb__pass__hash</Label>
+				<Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Content="ipb__pass__hash"/>
 				<TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="5,0"
 				         Text="{Binding Setting.ExHentai.IpbPassHash, Mode=TwoWay}" />
 
-				<Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center">Igneous</Label>
+				<Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Content="Igneous"/>
 				<TextBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="5,0"
 				         Text="{Binding Setting.ExHentai.Igneous, Mode=TwoWay}" />
 
-				<Label Grid.Row="4" VerticalAlignment="Center" FontWeight="Bold" FontSize="14">Other</Label>
+				<Label Grid.Row="4" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" Content="Other"/>
 				<Separator Grid.Row="4" Grid.ColumnSpan="3" Grid.Column="0" VerticalAlignment="Bottom" Margin="5,0" />
 
-				<Label Grid.Row="5" VerticalAlignment="Center">Search</Label>
+				<Label Grid.Row="5" VerticalAlignment="Center" Content="Search"/>
 				<TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="5,0"
-				         Text="{Binding Setting.ExHentai.SearchQuery, 
-					Mode=TwoWay}" />
+				         Text="{Binding Setting.ExHentai.SearchQuery, Mode=TwoWay}" />
 
 				<Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3">
 					<Grid.RowDefinitions>
@@ -69,12 +70,10 @@
 							<materialDesign:Chip.Icon>
 								<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
 								              IsChecked="{Binding Setting.ExHentai.Doujinshi}">
-									<ToggleButton.Content>
-										<materialDesign:PackIcon Kind="Close" />
-									</ToggleButton.Content>
 									<materialDesign:ToggleButtonAssist.OnContent>
 										<materialDesign:PackIcon Kind="Check" />
 									</materialDesign:ToggleButtonAssist.OnContent>
+									<materialDesign:PackIcon Kind="Close" />
 								</ToggleButton>
 							</materialDesign:Chip.Icon>
 						</materialDesign:Chip>
@@ -85,12 +84,10 @@
 							<materialDesign:Chip.Icon>
 								<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
 								              IsChecked="{Binding Setting.ExHentai.Manga}">
-									<ToggleButton.Content>
-										<materialDesign:PackIcon Kind="Close" />
-									</ToggleButton.Content>
 									<materialDesign:ToggleButtonAssist.OnContent>
 										<materialDesign:PackIcon Kind="Check" />
 									</materialDesign:ToggleButtonAssist.OnContent>
+									<materialDesign:PackIcon Kind="Close" />
 								</ToggleButton>
 							</materialDesign:Chip.Icon>
 						</materialDesign:Chip>
@@ -101,12 +98,10 @@
 							<materialDesign:Chip.Icon>
 								<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
 								              IsChecked="{Binding Setting.ExHentai.ArtistCg}">
-									<ToggleButton.Content>
-										<materialDesign:PackIcon Kind="Close" />
-									</ToggleButton.Content>
 									<materialDesign:ToggleButtonAssist.OnContent>
 										<materialDesign:PackIcon Kind="Check" />
 									</materialDesign:ToggleButtonAssist.OnContent>
+									<materialDesign:PackIcon Kind="Close" />
 								</ToggleButton>
 							</materialDesign:Chip.Icon>
 						</materialDesign:Chip>
@@ -117,12 +112,10 @@
 							<materialDesign:Chip.Icon>
 								<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
 								              IsChecked="{Binding Setting.ExHentai.GameCg}">
-									<ToggleButton.Content>
-										<materialDesign:PackIcon Kind="Close" />
-									</ToggleButton.Content>
 									<materialDesign:ToggleButtonAssist.OnContent>
 										<materialDesign:PackIcon Kind="Check" />
 									</materialDesign:ToggleButtonAssist.OnContent>
+									<materialDesign:PackIcon Kind="Close" />
 								</ToggleButton>
 							</materialDesign:Chip.Icon>
 						</materialDesign:Chip>
@@ -133,12 +126,10 @@
 							<materialDesign:Chip.Icon>
 								<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
 								              IsChecked="{Binding Setting.ExHentai.Western}">
-									<ToggleButton.Content>
-										<materialDesign:PackIcon Kind="Close" />
-									</ToggleButton.Content>
 									<materialDesign:ToggleButtonAssist.OnContent>
 										<materialDesign:PackIcon Kind="Check" />
 									</materialDesign:ToggleButtonAssist.OnContent>
+									<materialDesign:PackIcon Kind="Close" />
 								</ToggleButton>
 							</materialDesign:Chip.Icon>
 						</materialDesign:Chip>
@@ -151,12 +142,10 @@
 							<materialDesign:Chip.Icon>
 								<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
 								              IsChecked="{Binding Setting.ExHentai.NonH}">
-									<ToggleButton.Content>
-										<materialDesign:PackIcon Kind="Close" />
-									</ToggleButton.Content>
 									<materialDesign:ToggleButtonAssist.OnContent>
 										<materialDesign:PackIcon Kind="Check" />
 									</materialDesign:ToggleButtonAssist.OnContent>
+									<materialDesign:PackIcon Kind="Close" />
 								</ToggleButton>
 							</materialDesign:Chip.Icon>
 						</materialDesign:Chip>
@@ -167,12 +156,10 @@
 							<materialDesign:Chip.Icon>
 								<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
 								              IsChecked="{Binding Setting.ExHentai.ImageSet}">
-									<ToggleButton.Content>
-										<materialDesign:PackIcon Kind="Close" />
-									</ToggleButton.Content>
 									<materialDesign:ToggleButtonAssist.OnContent>
 										<materialDesign:PackIcon Kind="Check" />
 									</materialDesign:ToggleButtonAssist.OnContent>
+									<materialDesign:PackIcon Kind="Close" />
 								</ToggleButton>
 							</materialDesign:Chip.Icon>
 						</materialDesign:Chip>
@@ -183,12 +170,10 @@
 							<materialDesign:Chip.Icon>
 								<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
 								              IsChecked="{Binding Setting.ExHentai.Cosplay}">
-									<ToggleButton.Content>
-										<materialDesign:PackIcon Kind="Close" />
-									</ToggleButton.Content>
 									<materialDesign:ToggleButtonAssist.OnContent>
 										<materialDesign:PackIcon Kind="Check" />
 									</materialDesign:ToggleButtonAssist.OnContent>
+									<materialDesign:PackIcon Kind="Close" />
 								</ToggleButton>
 							</materialDesign:Chip.Icon>
 						</materialDesign:Chip>
@@ -199,12 +184,10 @@
 							<materialDesign:Chip.Icon>
 								<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
 								              IsChecked="{Binding Setting.ExHentai.AsianPorn}">
-									<ToggleButton.Content>
-										<materialDesign:PackIcon Kind="Close" />
-									</ToggleButton.Content>
 									<materialDesign:ToggleButtonAssist.OnContent>
 										<materialDesign:PackIcon Kind="Check" />
 									</materialDesign:ToggleButtonAssist.OnContent>
+									<materialDesign:PackIcon Kind="Close" />
 								</ToggleButton>
 							</materialDesign:Chip.Icon>
 						</materialDesign:Chip>
@@ -215,12 +198,10 @@
 							<materialDesign:Chip.Icon>
 								<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
 								              IsChecked="{Binding Setting.ExHentai.Misc}">
-									<ToggleButton.Content>
-										<materialDesign:PackIcon Kind="Close" />
-									</ToggleButton.Content>
 									<materialDesign:ToggleButtonAssist.OnContent>
 										<materialDesign:PackIcon Kind="Check" />
 									</materialDesign:ToggleButtonAssist.OnContent>
+									<materialDesign:PackIcon Kind="Close" />
 								</ToggleButton>
 							</materialDesign:Chip.Icon>
 						</materialDesign:Chip>
@@ -229,7 +210,7 @@
 
 			</Grid>
 		</Expander>
-		<Expander Grid.Row="1" Margin="5,0" Header="nHentai.net Settings" IsExpanded="True">
+		<Expander Grid.Row="1" Margin="5,0" Header="nHentai.net Settings" >
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="5" />
@@ -240,41 +221,43 @@
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
-				<Label Grid.Row="1" VerticalAlignment="Center">Search</Label>
+				<Label Grid.Row="1" VerticalAlignment="Center" Content="Search"/>
 				<TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="5,0"
 				         Text="{Binding Setting.nHentai.SearchQuery, Mode=TwoWay}" />
 			</Grid>
 		</Expander>
-		<Expander Grid.Row="2" Margin="5" Header="Hentai.cafe Settings" IsExpanded="True">
+		<Expander Grid.Row="2" Margin="5" Header="Hentai.cafe Settings" >
 			<Grid>
 				<Grid.RowDefinitions>
-					<RowDefinition />
-					<RowDefinition />
+					<RowDefinition Height="5" />
+					<RowDefinition Height="35" />
+					<RowDefinition Height="5" />
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
-				<Label Grid.Row="1" VerticalAlignment="Center">Search</Label>
+				<Label Grid.Row="1" VerticalAlignment="Center" Content="Search"/>
 				<TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="5,0"
 				         Text="{Binding Setting.Cafe.SearchQuery, Mode=TwoWay}" />
 			</Grid>
 		</Expander>
-		<Expander Grid.Row="2" Margin="5" Header="Pururin.us Settings" IsExpanded="True">
+		<Expander Grid.Row="3" Margin="5,0,5,5" Header="Pururin.us Settings" >
 			<Grid>
 				<Grid.RowDefinitions>
-					<RowDefinition />
-					<RowDefinition />
+					<RowDefinition Height="5" />
+					<RowDefinition Height="35" />
+					<RowDefinition Height="5" />
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
-				<Label Grid.Row="1" VerticalAlignment="Center">Search</Label>
+				<Label Grid.Row="1" VerticalAlignment="Center" Content="Search"/>
 				<TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="5,0"
 				         Text="{Binding Setting.Pururin.SearchQuery, Mode=TwoWay}" />
 			</Grid>
 		</Expander>
-		<Button Grid.Row="3" Background="Transparent" Command="{Binding SaveCommand}">Save</Button>
+		<Button Grid.Row="4" Background="Transparent" Command="{Binding SaveCommand}" Content="Save"/>
 	</Grid>
 </UserControl>
