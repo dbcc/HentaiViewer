@@ -14,7 +14,7 @@ using RestSharp;
 
 namespace HentaiViewer.Sites {
 	public class ExHentai {
-		public static async Task<List<HentaiModel>> GetLatest(string url) {
+		public static async Task<List<HentaiModel>> GetLatestAsync(string url) {
 			var client = new RestClient {
 				UserAgent =
 					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.70 Safari/537.36",
@@ -24,15 +24,15 @@ namespace HentaiViewer.Sites {
 				CookieContainer = GetCookies()
 			};
 
-			var response = await GetHtmlString(client);
-			var document = await ParseHtmlString(response);
+			var response = await GetHtmlStringAsync(client);
+			var document = await ParseHtmlStringAsync(response);
 
 			var hents = new List<HentaiModel>();
 
 			var classes = document.All.Where(c => c.LocalName == "div" && c.ClassList.Contains("id3"));
 			//var a = classes.Where(x => x.OuterHtml == "img");
 			foreach (var element in classes) {
-				var atag = await ParseHtmlString(element.InnerHtml);
+				var atag = await ParseHtmlStringAsync(element.InnerHtml);
 
 				client.BaseUrl = new Uri(atag.Images[0].Source);
 				var imgfromb = client.DownloadData(new RestRequest());
@@ -52,7 +52,7 @@ namespace HentaiViewer.Sites {
 			return hents;
 		}
 
-		private static async Task<IHtmlDocument> ParseHtmlString(string html) {
+		private static async Task<IHtmlDocument> ParseHtmlStringAsync(string html) {
 			//We require a custom configuration
 			//var config = Configuration.Default.WithJavaScript();
 			//Let's create a new parser using this configuration
@@ -61,7 +61,7 @@ namespace HentaiViewer.Sites {
 			return await parser.ParseAsync(html);
 		}
 
-		private static async Task<string> GetHtmlString(RestClient client) {
+		private static async Task<string> GetHtmlStringAsync(RestClient client) {
 			var request = new RestRequest();
 			var response = await client.ExecuteGetTaskAsync(request);
 			await Task.Delay(100);
@@ -123,7 +123,7 @@ namespace HentaiViewer.Sites {
 			if (hentai.Link.Contains("g.e-hentai.org")) {
 				client.CookieContainer.Add(new Cookie("nw", "1", "/", "g.e-hentai.org"));
 			}
-			var document = await ParseHtmlString(await GetHtmlString(client));
+			var document = await ParseHtmlStringAsync(await GetHtmlStringAsync(client));
 			if (hentai.Title == "lul") {
 				hentai.Title = document.Title.Replace(" - ExHentai.org", string.Empty);
 			}
@@ -141,8 +141,7 @@ namespace HentaiViewer.Sites {
 			}
 			var imgpagestd =
 				document.All.Where(t => t.LocalName == "a" && t.HasAttribute("href") && t.GetAttribute("href").Contains("?p="));
-			var impagelink = new List<string>();
-			impagelink.Add(url);
+			var impagelink = new List<string> {url};
 			foreach (var element in imgpagestd) {
 				var link = element.GetAttribute("href");
 				if (!impagelink.Contains(link)) impagelink.Add(link);
@@ -151,7 +150,7 @@ namespace HentaiViewer.Sites {
 			var imgagelinkpages = new List<string>();
 			foreach (var imgpage in impagelink) {
 				client.BaseUrl = new Uri(imgpage);
-				var html = await ParseHtmlString(await GetHtmlString(client));
+				var html = await ParseHtmlStringAsync(await GetHtmlStringAsync(client));
 				var atags =
 					html.All.Where(
 						t => t.LocalName == "a" && t.HasAttribute("href") && t.GetAttribute("href").Contains($"{galleryid}-"));
@@ -161,7 +160,7 @@ namespace HentaiViewer.Sites {
 			var images = new List<object>();
 			foreach (var imgagelinkpage in imgagelinkpages) {
 				client.BaseUrl = new Uri(imgagelinkpage);
-				var html = await ParseHtmlString(await GetHtmlString(client));
+				var html = await ParseHtmlStringAsync(await GetHtmlStringAsync(client));
 				var atags =
 					html.All.Where(
 						t => t.LocalName == "img" && t.HasAttribute("id") && t.Id.Contains("img"));

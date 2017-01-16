@@ -14,14 +14,14 @@ using RestSharp;
 
 namespace HentaiViewer.Sites {
 	public static class Pururin {
-		public static async Task<List<HentaiModel>> GetLatest(string url) {
-			var document = await ParseHtmlString(await GetHtmlString(url));
+		public static async Task<List<HentaiModel>> GetLatestAsync(string url) {
+			var document = await ParseHtmlStringAsync(await GetHtmlStringAsync(url));
 			var hents = new List<HentaiModel>();
 			var classes = document.All.Where(c => c.LocalName == "li" && c.ClassList.Contains("gallery-block"));
 			//var a = classes.Where(x => x.OuterHtml == "img");
 			var basepath = "http://pururin.us";
 			foreach (var element in classes) {
-				var img = await ParseHtmlString(element.InnerHtml);
+				var img = await ParseHtmlStringAsync(element.InnerHtml);
 				var title = img.All.First(t => t.LocalName == "h2").TextContent;
 				hents.Add(new HentaiModel {
 					Title = title,
@@ -34,7 +34,7 @@ namespace HentaiViewer.Sites {
 			}
 			return hents;
 		}
-		private static async Task<IHtmlDocument> ParseHtmlString(string html) {
+		private static async Task<IHtmlDocument> ParseHtmlStringAsync(string html) {
 			//We require a custom configuration
 			var config = Configuration.Default.WithJavaScript();
 			//Let's create a new parser using this configuration
@@ -43,7 +43,7 @@ namespace HentaiViewer.Sites {
 			return await parser.ParseAsync(html);
 		}
 
-		private static async Task<string> GetHtmlString(string url) {
+		private static async Task<string> GetHtmlStringAsync(string url) {
 			var client = new RestClient {
 				UserAgent =
 					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.70 Safari/537.36",
@@ -61,7 +61,7 @@ namespace HentaiViewer.Sites {
 			//http://pururin.us/gallery/32056/rem-ram-revolution
 			//http://pururin.us/assets/image/data/32056/1.jpg
 			var _galleryId = hentai.Link.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries)[3];
-			var document = await ParseHtmlString(await GetHtmlString(hentai.Link));
+			var document = await ParseHtmlStringAsync(await GetHtmlStringAsync(hentai.Link));
 			var pages = int.Parse(Regex.Match(document.DocumentElement.OuterHtml, "<li>([0-9]+) Pages</li>").Groups[1].Value);
 			if (hentai.Title == "lul") {
 				var firstOrDefault = document.All.FirstOrDefault(h => h.LocalName == "h1" && h.ClassList.Contains("otitle"));

@@ -42,7 +42,7 @@ namespace HentaiViewer.ViewModels {
 			GetImagesCommand = new ActionCommand(async () => {
 				FetchButtonVisibility = Visibility.Collapsed;
 				PregressBarVisibility = Visibility.Visible;
-				var links = await SelectSite(hentai);
+				var links = await SelectSiteAsync(hentai);
 				_images = links;
 				PregressBarVisibility = Visibility.Collapsed;
 				foreach (var link in links) {
@@ -53,7 +53,7 @@ namespace HentaiViewer.ViewModels {
 				}
 			});
 			SaveImagesCommand = new ActionCommand(() => {
-				if (SaveProgress == Visibility.Collapsed) SaveImages();
+				if (SaveProgress == Visibility.Collapsed) SaveImagesAsync();
 			});
 		}
 
@@ -78,7 +78,7 @@ namespace HentaiViewer.ViewModels {
 			GC.Collect();
 		}
 
-		private async Task<List<object>> SelectSite(HentaiModel hentai) {
+		private async Task<List<object>> SelectSiteAsync(HentaiModel hentai) {
 			Tuple<List<object>, int> tpl;
 			switch (hentai.Site) {
 				case "Hentai.cafe":
@@ -101,7 +101,7 @@ namespace HentaiViewer.ViewModels {
 			return null;
 		}
 
-		private async void SaveImages() {
+		private async void SaveImagesAsync() {
 			if (_hentai.Title=="lul") {
 				return;
 			}
@@ -129,7 +129,7 @@ namespace HentaiViewer.ViewModels {
 			File.WriteAllText(Path.Combine(folder, "INFO.json"), output);
 			SaveProgress = Visibility.Collapsed;
 		}
-		public async Task LoadMoreImages() {
+		public async Task LoadMoreImagesAsync() {
 			if (_adding || _images == null || _images.Count <=9) return;
 			_adding = true;
 			if (_imageObjects.Count >= 100) {

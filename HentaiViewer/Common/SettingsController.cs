@@ -13,11 +13,7 @@ namespace HentaiViewer.Common {
 			if (File.Exists(ConfigFile)) {
 				var input = File.ReadAllText(ConfigFile);
 
-				var jsonSettings = new JsonSerializerSettings();
-				//jsonSettings.Converters.Add(new StringEnumConverter {CamelCaseText = true});
-				//jsonSettings.NullValueHandling = NullValueHandling;
-				jsonSettings.ObjectCreationHandling = ObjectCreationHandling.Replace;
-				//jsonSettings.DefaultValueHandling = DefaultValueHandling.Populate;
+				var jsonSettings = new JsonSerializerSettings {ObjectCreationHandling = ObjectCreationHandling.Replace};
 				Settings = JsonConvert.DeserializeObject<SettingsModel>(input, jsonSettings);
 				if (Settings.ExHentai == null) {
 					Settings.ExHentai = new ExhentaiOption();

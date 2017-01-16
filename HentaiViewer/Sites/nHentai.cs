@@ -14,13 +14,13 @@ using RestSharp;
 
 namespace HentaiViewer.Sites {
 	public class nHentai {
-		public static async Task<List<HentaiModel>> GetLatest(string url) {
-			var document = await ParseHtmlString(await GetHtmlString(url));
+		public static async Task<List<HentaiModel>> GetLatestAsync(string url) {
+			var document = await ParseHtmlStringAsync(await GetHtmlStringAsync(url));
 			var hents = new List<HentaiModel>();
 			var classes = document.All.Where(c => c.LocalName == "a" && c.ClassList.Contains("cover"));
 			//var a = classes.Where(x => x.OuterHtml == "img");
 			foreach (var element in classes) {
-				var img = await ParseHtmlString(element.InnerHtml);
+				var img = await ParseHtmlStringAsync(element.InnerHtml);
 				hents.Add(new HentaiModel {
 					Title = img.All[0].TextContent,
 					Link = $"https://nhentai.net{element.GetAttribute("href").Replace("about:", string.Empty)}",
@@ -33,14 +33,14 @@ namespace HentaiViewer.Sites {
 			return hents;
 		}
 
-		private static async Task<IHtmlDocument> ParseHtmlString(string html) {
+		private static async Task<IHtmlDocument> ParseHtmlStringAsync(string html) {
 			//Let's create a new parser using this configuration
 			var parser = new HtmlParser(new Configuration().WithJavaScript());
 			//Just get the DOM representation
 			return await parser.ParseAsync(html);
 		}
 
-		private static async Task<string> GetHtmlString(string url) {
+		private static async Task<string> GetHtmlStringAsync(string url) {
 			var client = new RestClient {
 				UserAgent =
 					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.70 Safari/537.36",
@@ -57,7 +57,7 @@ namespace HentaiViewer.Sites {
 
 		public static async Task<Tuple<List<object>, int>> CollectImagesTaskAsync(HentaiModel hentai) {
 			var url = hentai.Link;
-			var document = await ParseHtmlString(await GetHtmlString(url));
+			var document = await ParseHtmlStringAsync(await GetHtmlStringAsync(url));
 			var pages = int.Parse(Regex.Match(document.DocumentElement.OuterHtml, "<div>([0-9]+) pages</div>").Groups[1].Value);
 			if (hentai.Title == "lul") {
 				var firstOrDefault = document.All.FirstOrDefault(h => h.LocalName == "h1");

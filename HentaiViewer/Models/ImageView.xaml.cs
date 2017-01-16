@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace HentaiViewer.Models {
 	/// <summary>
@@ -11,7 +13,13 @@ namespace HentaiViewer.Models {
 		}
 
 		private void Image_OnImageFailed(object sender, ExceptionRoutedEventArgs e) {
-			//Image.Source = new BitmapImage(new Uri("/Resources/hmmm.jpg", UriKind.Relative));
+			try {
+				var img = (Image) sender;
+				img.Source = new BitmapImage(new Uri("/Resources/hmmm.jpg", UriKind.Relative));
+			}
+			catch  {
+				//ignore
+			}
 		}
 	}
 }

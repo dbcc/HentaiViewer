@@ -21,16 +21,16 @@ namespace HentaiViewer.ViewModels {
 
 			//RefreshnHentaiAsync();
 			RefreshnHentaiCommand = new ActionCommand(RefreshnHentaiAsync);
-			LoadMorenHentaiCommand = new ActionCommand(async () => { await LoadnHentaiPage(1); });
+			LoadMorenHentaiCommand = new ActionCommand(async () => { await LoadnHentaiPageAsync(1); });
 			LoadPrevnHentaiCommand = new ActionCommand(async () => {
 				if (nHentaiLoadedPage == 1) return;
-				await LoadnHentaiPage(-1);
+				await LoadnHentaiPageAsync(-1);
 			});
 			HomeCommand= new ActionCommand(async () => {
 				if (nHentaiPageLoading) { return; }
 				nHentaiLoadedPage = 1;
 				NextnHentaiPage = 2;
-				await LoadnHentaiPage(0);
+				await LoadnHentaiPageAsync(0);
 			});
 		}
 
@@ -50,8 +50,7 @@ namespace HentaiViewer.ViewModels {
 		public ICommand HomeCommand { get; }
 
 
-		private bool StopAction = false;
-		private async Task LoadnHentaiPage(int value, bool delete = true) {
+		private async Task LoadnHentaiPageAsync(int value, bool delete = true) {
 			if (nHentaiPageLoading) return;
 			nHentaiPageLoading = true;
 			NextnHentaiPage = NextnHentaiPage + value;
@@ -60,9 +59,9 @@ namespace HentaiViewer.ViewModels {
 			nHentaiView.Instance.ScrollViewer.ScrollToTop();
 			var searchquery = SettingsController.Settings.nHentai.SearchQuery;
 			List<HentaiModel> i;
-			if (string.IsNullOrEmpty(searchquery)) i = await nHentai.GetLatest($"https://nhentai.net/?page={nHentaiLoadedPage}");
+			if (string.IsNullOrEmpty(searchquery)) i = await nHentai.GetLatestAsync($"https://nhentai.net/?page={nHentaiLoadedPage}");
 			else
-				i = await nHentai.GetLatest(
+				i = await nHentai.GetLatestAsync(
 					$"https://nhentai.net/search/?q={searchquery.Replace(" ", "+")}&sort={SortItems[SelectedSort].ToLower()}&page={nHentaiLoadedPage}");
 			foreach (var hentaiModel in i) {
 				if (FavoritesController.FavoriteMd5s.Contains(hentaiModel.Md5)) hentaiModel.Favorite = true;
@@ -73,7 +72,7 @@ namespace HentaiViewer.ViewModels {
 		}
 
 		private async void RefreshnHentaiAsync() {
-			await LoadnHentaiPage(0);
+			await LoadnHentaiPageAsync(0);
 		}
 	}
 }

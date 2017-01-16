@@ -22,16 +22,16 @@ namespace HentaiViewer.ViewModels {
 
 			//RefreshPururinAsync();
 			RefreshPururinCommand = new ActionCommand(RefreshPururinAsync);
-			LoadMorePururinCommand = new ActionCommand(async () => { await LoadPururinPage(1); });
+			LoadMorePururinCommand = new ActionCommand(async () => { await LoadPururinPageAsync(1); });
 			LoadPrevPururinCommand = new ActionCommand(async () => {
 				if (PururinLoadedPage == 1) return;
-				await LoadPururinPage(-1);
+				await LoadPururinPageAsync(-1);
 			});
 			HomeCommand= new ActionCommand(async () => {
 				if (PururinPageLoading) { return; }
 				PururinLoadedPage = 1;
 				NextPururinPage = 2;
-				await LoadPururinPage(0);
+				await LoadPururinPageAsync(0);
 			});
 		}
 
@@ -51,8 +51,7 @@ namespace HentaiViewer.ViewModels {
 		public ICommand HomeCommand { get; }
 
 
-		private bool StopAction = false;
-		private async Task LoadPururinPage(int value, bool delete = true) {
+		private async Task LoadPururinPageAsync(int value, bool delete = true) {
 			if (PururinPageLoading) return;
 			PururinPageLoading = true;
 			NextPururinPage = NextPururinPage + value;
@@ -61,9 +60,9 @@ namespace HentaiViewer.ViewModels {
 			PururinView.Instance.ScrollViewer.ScrollToTop();
 			var searchquery = SettingsController.Settings.Pururin.SearchQuery;
 			List<HentaiModel> i;
-			if (string.IsNullOrEmpty(searchquery)) i = await Pururin.GetLatest($"http://pururin.us/browse/search/{_filters[SelectedFilter]}/{PururinLoadedPage}.html");
+			if (string.IsNullOrEmpty(searchquery)) i = await Pururin.GetLatestAsync($"http://pururin.us/browse/search/{_filters[SelectedFilter]}/{PururinLoadedPage}.html");
 			else
-				i = await Pururin.GetLatest(
+				i = await Pururin.GetLatestAsync(
 					$"http://pururin.us/search/more?q={searchquery.Replace(" ", "+")}&p={PururinLoadedPage}");
 			foreach (var hentaiModel in i) {
 				if (FavoritesController.FavoriteMd5s.Contains(hentaiModel.Md5)) hentaiModel.Favorite = true;
@@ -74,7 +73,7 @@ namespace HentaiViewer.ViewModels {
 		}
 
 		private async void RefreshPururinAsync() {
-			await LoadPururinPage(0);
+			await LoadPururinPageAsync(0);
 		}
 	}
 }

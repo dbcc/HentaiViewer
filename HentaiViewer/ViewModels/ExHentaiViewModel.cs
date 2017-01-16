@@ -64,7 +64,7 @@ namespace HentaiViewer.ViewModels {
 			var searchQuery = string.Empty;
 			if (!string.IsNullOrEmpty(SettingsController.Settings.ExHentai.SearchQuery))
 				searchQuery = SettingsController.Settings.ExHentai.SearchQuery.Replace(" ", "" + "+");
-			var i = await ExHentai.GetLatest($"https://exhentai.org/?page={ExHentaiLoadedPage}" +
+			var i = await ExHentai.GetLatestAsync($"https://exhentai.org/?page={ExHentaiLoadedPage}" +
 			                                 $"&f_doujinshi={SettingsController.Settings.ExHentai.Doujinshi}" +
 			                                 $"&f_manga={SettingsController.Settings.ExHentai.Manga}" +
 			                                 $"&f_artistcg={SettingsController.Settings.ExHentai.ArtistCg}" +

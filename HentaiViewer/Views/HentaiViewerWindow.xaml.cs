@@ -37,7 +37,7 @@ namespace HentaiViewer.Views {
 				if (data.ImageObjects.Count >=100) {
 					scviewer.ScrollToTop();
 				}
-				await data.LoadMoreImages();
+				await data.LoadMoreImagesAsync();
 			}));
 		}
 
@@ -76,7 +76,7 @@ namespace HentaiViewer.Views {
 				|| Math.Abs(scviewer.VerticalOffset) <= 0 
 				|| CanvasMouseover.Visibility == Visibility) return;
 			var data = (HentaiViewerWindowViewModel)DataContext;
-			await data.LoadMoreImages();
+			await data.LoadMoreImagesAsync();
 		}
 	}
 }

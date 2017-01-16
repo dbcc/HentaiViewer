@@ -21,8 +21,7 @@ namespace HentaiViewer.ViewModels {
 		public MainWindowViewModel() {
 			OpenLinkCommand = new ActionCommand(OpenDialog);
 			UpdateCommand = new ActionCommand(OpenUpdateLink);
-			CheckUpdate();
-			Pururin.GetLatest("http://pururin.us/browse/search/1/1.html");
+			CheckUpdateAsync();
 		}
 
 		public IEnumerable<object> Sites
@@ -45,8 +44,8 @@ namespace HentaiViewer.ViewModels {
 
 		public ICommand UpdateCommand { get; }
 
-		private async void CheckUpdate() {
-			IsUpdateAvailable = await GithubController.CheckForUpdate();
+		private async void CheckUpdateAsync() {
+			IsUpdateAvailable = await GithubController.CheckForUpdateAsync();
 		}
 
 		private void OpenUpdateLink() {

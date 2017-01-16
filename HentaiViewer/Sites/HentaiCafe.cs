@@ -14,13 +14,13 @@ using RestSharp;
 
 namespace HentaiViewer.Sites {
 	public class HentaiCafe {
-		public static async Task<List<HentaiModel>> GetLatest(string url) {
-			var document = await ParseHtmlString(await GetHtmlString(url));
+		public static async Task<List<HentaiModel>> GetLatestAsync(string url) {
+			var document = await ParseHtmlStringAsync(await GetHtmlStringAsync(url));
 			var hents = new List<HentaiModel>();
 			var classes = document.All.Where(c => c.LocalName == "a" && c.ClassList.Contains("entry-thumb"));
 			//var a = classes.Where(x => x.OuterHtml == "img");
 			foreach (var element in classes) {
-				var img = await ParseHtmlString(element.InnerHtml);
+				var img = await ParseHtmlStringAsync(element.InnerHtml);
 				var title = element.GetAttribute("title").Split(new[] {'"'}, StringSplitOptions.RemoveEmptyEntries)[1];
 				hents.Add(new HentaiModel {
 					Title = title,
@@ -34,7 +34,7 @@ namespace HentaiViewer.Sites {
 			return hents;
 		}
 
-		private static async Task<IHtmlDocument> ParseHtmlString(string html) {
+		private static async Task<IHtmlDocument> ParseHtmlStringAsync(string html) {
 			//We require a custom configuration
 			var config = Configuration.Default.WithJavaScript();
 			//Let's create a new parser using this configuration
@@ -43,7 +43,7 @@ namespace HentaiViewer.Sites {
 			return await parser.ParseAsync(html);
 		}
 
-		private static async Task<string> GetHtmlString(string url) {
+		private static async Task<string> GetHtmlStringAsync(string url) {
 			var client = new RestClient {
 				UserAgent =
 					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.70 Safari/537.36",
@@ -62,7 +62,7 @@ namespace HentaiViewer.Sites {
 			//Let's create a new parser using this configuration
 			var parser = new HtmlParser();
 			//Just get the DOM representation
-			var entryPage = await parser.ParseAsync(await GetHtmlString(url));
+			var entryPage = await parser.ParseAsync(await GetHtmlStringAsync(url));
 			var entryLink =
 				entryPage.All.Where(l => l.LocalName == "a" && l.ClassList.Contains("x-btn-large")).ToList()[0].GetAttribute("href");
 			if (hentai.Title == "lul") {
@@ -73,7 +73,7 @@ namespace HentaiViewer.Sites {
 			}
 			if (!entryLink.EndsWith("page/1"))
 				entryLink = entryLink + "page/1";
-			var html = await GetHtmlString(entryLink);
+			var html = await GetHtmlStringAsync(entryLink);
 			var match = Regex.Match(html,
 				"<div class=\"text\">([0-9]+) ⤵</div>",
 				RegexOptions.IgnoreCase);
@@ -92,7 +92,7 @@ namespace HentaiViewer.Sites {
 			var newlink = string.Join("/", slitlink);
 			newlink = newlink.Replace(":/", "://");
 
-			var htmlimg = await GetHtmlString(newlink);
+			var htmlimg = await GetHtmlStringAsync(newlink);
 
 			var imgLink = Regex.Match(htmlimg,
 				@"(https://cdn.hentai.cafe/manga/content/comics/.+/([0-9]+)[\.jpg|\.png]+)");
