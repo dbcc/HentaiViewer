@@ -17,10 +17,8 @@ namespace HentaiViewer.Common {
 			if (File.Exists(ConfigFile)) {
 				var input = File.ReadAllText(ConfigFile);
 
-				var jsonSettings = new JsonSerializerSettings {ObjectCreationHandling = ObjectCreationHandling.Replace};
-				//jsonSettings.Converters.Add(new StringEnumConverter {CamelCaseText = true});
-				//jsonSettings.NullValueHandling = NullValueHandling;
-				//jsonSettings.DefaultValueHandling = DefaultValueHandling.Populate;
+				var jsonSettings = new JsonSerializerSettings {ObjectCreationHandling = ObjectCreationHandling.Replace,
+					ContractResolver = new EncryptedStringPropertyResolver("big-secret-memes")};
 				Favorites = JsonConvert.DeserializeObject<List<HentaiModel>>(input, jsonSettings);
 			}
 			else {
@@ -31,8 +29,11 @@ namespace HentaiViewer.Common {
 		}
 
 		public static void Save() {
-			var output = JsonConvert.SerializeObject(Favorites, Formatting.Indented,
-				new StringEnumConverter {CamelCaseText = true});
+			var jsonSettings = new JsonSerializerSettings {
+				ObjectCreationHandling = ObjectCreationHandling.Replace,
+				ContractResolver = new EncryptedStringPropertyResolver("big-secret-memes")
+			};
+			var output = JsonConvert.SerializeObject(Favorites, Formatting.Indented, jsonSettings);
 
 			var folder = Path.GetDirectoryName(ConfigFile);
 			if (folder != null && !Directory.Exists(folder)) Directory.CreateDirectory(folder);

@@ -6,8 +6,8 @@ using HentaiViewer.Common;
 using HentaiViewer.Models;
 using HentaiViewer.Sites;
 using HentaiViewer.Views;
-using MaterialDesignThemes.Wpf;
 using PropertyChanged;
+
 //using HentaiCafe = HentaiViewer.Sites.HentaiCafe;
 
 namespace HentaiViewer.ViewModels {
@@ -60,10 +60,10 @@ namespace HentaiViewer.ViewModels {
 			CafeView.Instance.ScrollViewer.ScrollToTop();
 			var searchquery = SettingsController.Settings.Cafe.SearchQuery;
 			List<HentaiModel> i;
-			if (string.IsNullOrEmpty(searchquery)) i = await HentaiCafe.GetLatestAsync($"https://hentai.cafe/page/{CafeLoadedPage}");
-			else {
-				 i = await HentaiCafe.GetLatestAsync($"https://hentai.cafe/page/{CafeLoadedPage}/?s={searchquery.Replace(" ", "+")}");
-			}
+			if (string.IsNullOrEmpty(searchquery))
+				i = await HentaiCafe.GetLatestAsync($"https://hentai.cafe/page/{CafeLoadedPage}");
+			else
+				i = await HentaiCafe.GetLatestAsync($"https://hentai.cafe/page/{CafeLoadedPage}/?s={searchquery.Replace(" ", "+")}");
 			foreach (var hentaiModel in i) {
 				if (FavoritesController.FavoriteMd5s.Contains(hentaiModel.Md5)) hentaiModel.Favorite = true;
 				_cafe.Add(hentaiModel);

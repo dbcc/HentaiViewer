@@ -4,14 +4,14 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HentaiViewer.Models;
 using Newtonsoft.Json;
 using RestSharp;
 
 namespace HentaiViewer.Common {
-	static class GithubController {
-		private static float _tag = 0.5f;
+	internal static class GithubController {
+		private static readonly float _tag = 0.6f;
 		public static string GithubUrl { get; private set; }
+
 		public static async Task<bool> CheckForUpdateAsync() {
 			try {
 				var client = new RestClient {
@@ -23,11 +23,11 @@ namespace HentaiViewer.Common {
 				};
 				var request = new RestRequest();
 				var response = await client.ExecuteGetTaskAsync(request);
-				var jsonSettings = new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace };
+				var jsonSettings = new JsonSerializerSettings {ObjectCreationHandling = ObjectCreationHandling.Replace};
 				var api = JsonConvert.DeserializeObject<List<GithubApi>>(response.Content, jsonSettings);
 				var tag = float.Parse(api.First().tag_name, CultureInfo.InvariantCulture);
 				GithubUrl = api.First().html_url;
-				return _tag<tag;
+				return _tag < tag;
 			}
 			catch {
 				return false;
@@ -97,8 +97,8 @@ namespace HentaiViewer.Common {
 		public string html_url { get; set; }
 		//public int id { get; set; }
 		public string tag_name { get; set; }
-		//public string target_commitish { get; set; }
 		//public string name { get; set; }
+		//public string target_commitish { get; set; }
 		//public bool draft { get; set; }
 		//public Author author { get; set; }
 		//public bool prerelease { get; set; }
@@ -109,5 +109,4 @@ namespace HentaiViewer.Common {
 		//public string zipball_url { get; set; }
 		//public string body { get; set; }
 	}
-
 }

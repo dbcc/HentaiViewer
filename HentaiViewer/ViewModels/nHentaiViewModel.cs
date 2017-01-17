@@ -26,8 +26,8 @@ namespace HentaiViewer.ViewModels {
 				if (nHentaiLoadedPage == 1) return;
 				await LoadnHentaiPageAsync(-1);
 			});
-			HomeCommand= new ActionCommand(async () => {
-				if (nHentaiPageLoading) { return; }
+			HomeCommand = new ActionCommand(async () => {
+				if (nHentaiPageLoading) return;
 				nHentaiLoadedPage = 1;
 				NextnHentaiPage = 2;
 				await LoadnHentaiPageAsync(0);
@@ -59,7 +59,8 @@ namespace HentaiViewer.ViewModels {
 			nHentaiView.Instance.ScrollViewer.ScrollToTop();
 			var searchquery = SettingsController.Settings.nHentai.SearchQuery;
 			List<HentaiModel> i;
-			if (string.IsNullOrEmpty(searchquery)) i = await nHentai.GetLatestAsync($"https://nhentai.net/?page={nHentaiLoadedPage}");
+			if (string.IsNullOrEmpty(searchquery))
+				i = await nHentai.GetLatestAsync($"https://nhentai.net/?page={nHentaiLoadedPage}");
 			else
 				i = await nHentai.GetLatestAsync(
 					$"https://nhentai.net/search/?q={searchquery.Replace(" ", "+")}&sort={SortItems[SelectedSort].ToLower()}&page={nHentaiLoadedPage}");

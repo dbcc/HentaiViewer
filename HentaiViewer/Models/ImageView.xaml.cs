@@ -13,13 +13,13 @@ namespace HentaiViewer.Models {
 		}
 
 		private void Image_OnImageFailed(object sender, ExceptionRoutedEventArgs e) {
-			try {
-				var img = (Image) sender;
-				img.Source = new BitmapImage(new Uri("/Resources/hmmm.jpg", UriKind.Relative));
-			}
-			catch  {
-				//ignore
-			}
+			//try {
+			//	var img = (Image) sender;
+			//	img.Source = new BitmapImage(new Uri("/Resources/hmmm.jpg", UriKind.Relative));
+			//}
+			//catch {
+			//	//ignore
+			//}
 		}
 	}
 }

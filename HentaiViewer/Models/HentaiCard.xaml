@@ -36,11 +36,11 @@
 				<StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
 					<Button Command="{Binding ViewCommand}">View</Button>
 					<Button Margin="5" Command="{Binding MarkasReadCommand}"
-					        Visibility="{Binding isSavedGallery, Converter={StaticResource BooleanToVisibilityConverter}}">
+					        Visibility="{Binding IsSavedGallery, Converter={StaticResource BooleanToVisibilityConverter}}">
 						Mark as read
 					</Button>
 					<Button Command="{Binding FavoriteCommand}"
-					        Visibility="{Binding isSavedGallery, Converter={StaticResource BooleanToVisibilityConverter}}">
+					        Visibility="{Binding IsSavedGallery, Converter={StaticResource BooleanToVisibilityConverter}}">
 						Favorite
 					</Button>
 				</StackPanel>

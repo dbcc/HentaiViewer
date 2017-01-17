@@ -36,7 +36,7 @@ namespace HentaiViewer.ViewModels {
 				else {
 					hentaiModel.Img = hentaiModel.ThumbnailLink;
 				}
-				hentaiModel.Seen = HistoryController.History.Items.Contains(hentaiModel.Md5);
+				hentaiModel.Seen = HistoryController.CheckHistory(hentaiModel.Title, hentaiModel.Link);
 				_favorites.Add(hentaiModel);
 			}
 		}

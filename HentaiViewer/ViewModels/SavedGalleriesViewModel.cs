@@ -35,7 +35,7 @@ namespace HentaiViewer.ViewModels {
 						ThumbnailLink = Path.Combine(Directory.GetCurrentDirectory(), files.First(i => i.EndsWith(".png"))),
 						Site = hen.Site,
 						Title = hen.Title,
-						isSavedGallery = false
+						IsSavedGallery = false
 					});
 				}
 			}

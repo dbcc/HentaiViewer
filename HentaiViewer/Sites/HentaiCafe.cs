@@ -28,7 +28,7 @@ namespace HentaiViewer.Sites {
 					Img = new Uri(img.Images[0].Source),
 					ThumbnailLink = img.Images[0].Source,
 					Site = "Hentai.cafe",
-					Seen = HistoryController.CheckHistory(MD5Converter.MD5Hash(title))
+					Seen = HistoryController.CheckHistory(title, element.GetAttribute("href"))
 				});
 			}
 			return hents;
@@ -67,9 +67,7 @@ namespace HentaiViewer.Sites {
 				entryPage.All.Where(l => l.LocalName == "a" && l.ClassList.Contains("x-btn-large")).ToList()[0].GetAttribute("href");
 			if (hentai.Title == "lul") {
 				var firstOrDefault = entryPage.All.FirstOrDefault(h => h.LocalName == "h3");
-				if (firstOrDefault != null) {
-					hentai.Title = firstOrDefault.TextContent;
-				}
+				if (firstOrDefault != null) hentai.Title = firstOrDefault.TextContent;
 			}
 			if (!entryLink.EndsWith("page/1"))
 				entryLink = entryLink + "page/1";

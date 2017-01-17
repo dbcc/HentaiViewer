@@ -70,7 +70,8 @@
 		             Visibility="{Binding PregressBarVisibility}" IsIndeterminate="True" />
 		<!--<Button HorizontalAlignment="Center" VerticalAlignment="Center"
 				Visibility="{Binding ErrorVisibility}" Content="Error! click to close" />-->
-		<Canvas x:Name="CanvasMouseover" Grid.Row="1" Height="Auto" Background="Transparent" MouseDown="Canvas_MouseDown" MouseUp="Canvas_MouseUp"
+		<Canvas x:Name="CanvasMouseover" Grid.Row="1" Height="Auto" Background="Transparent" MouseDown="Canvas_MouseDown"
+		        MouseUp="Canvas_MouseUp"
 		        MouseLeave="Canvas_MouseLeave"
 		        Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=toggleButton}"
 		        Margin="0,0,20,0" />

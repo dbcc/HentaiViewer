@@ -45,7 +45,7 @@ namespace HentaiViewer.Sites {
 					Img = image,
 					ThumbnailLink = atag.Images[0].Source,
 					Site = "ExHentai.org",
-					Seen = HistoryController.CheckHistory(MD5Converter.MD5Hash(atag.Images[0].Title))
+					Seen = HistoryController.CheckHistory(atag.Images[0].Title, atag.Links[0].GetAttribute("href"))
 				});
 				await Task.Delay(50);
 			}
@@ -69,7 +69,7 @@ namespace HentaiViewer.Sites {
 		}
 
 		public static BitmapImage BytesToBitmapImage(byte[] bytes) {
-			if (bytes==null) {return null;}
+			if (bytes == null) return null;
 			using (var mem = new MemoryStream(bytes, 0, bytes.Length)) {
 				mem.Position = 0;
 				var image = new BitmapImage();
@@ -110,7 +110,6 @@ namespace HentaiViewer.Sites {
 		}
 
 		public static async Task<Tuple<List<object>, int>> CollectImagesTaskAsync(HentaiModel hentai) {
-			
 			var url = hentai.Link;
 			var client = new RestClient {
 				UserAgent =
@@ -120,13 +119,9 @@ namespace HentaiViewer.Sites {
 				BaseUrl = new Uri(url),
 				CookieContainer = GetCookies()
 			};
-			if (hentai.Link.Contains("g.e-hentai.org")) {
-				client.CookieContainer.Add(new Cookie("nw", "1", "/", "g.e-hentai.org"));
-			}
+			if (hentai.Link.Contains("g.e-hentai.org")) client.CookieContainer.Add(new Cookie("nw", "1", "/", "g.e-hentai.org"));
 			var document = await ParseHtmlStringAsync(await GetHtmlStringAsync(client));
-			if (hentai.Title == "lul") {
-				hentai.Title = document.Title.Replace(" - ExHentai.org", string.Empty);
-			}
+			if (hentai.Title == "lul") hentai.Title = document.Title.Replace(" - ExHentai.org", string.Empty);
 			var urlsplit = url.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
 			var galleryid = urlsplit[urlsplit.Length - 2];
 			var ptag = document.All.Where(p => p.LocalName == "p" && p.ClassList.Contains("gpc"));
@@ -164,11 +159,10 @@ namespace HentaiViewer.Sites {
 				var atags =
 					html.All.Where(
 						t => t.LocalName == "img" && t.HasAttribute("id") && t.Id.Contains("img"));
-				if (atags.Count(c=>c.HasAttribute("id")) == 0) {
+				if (atags.Count(c => c.HasAttribute("id")) == 0)
 					atags = html.All.Where(
 						t => t.LocalName == "img" && t.HasAttribute("src") && t.GetAttribute("src").Contains("keystamp"));
-				}
-			
+
 				images.AddRange(atags.Select(element => element.GetAttribute("src")));
 			}
 			return new Tuple<List<object>, int>(images, pages);

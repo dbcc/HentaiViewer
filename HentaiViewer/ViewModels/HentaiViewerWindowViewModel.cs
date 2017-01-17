@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -12,27 +9,21 @@ using System.Windows.Media.Imaging;
 using HentaiViewer.Common;
 using HentaiViewer.Models;
 using HentaiViewer.Sites;
-using HentaiViewer.Views;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using PropertyChanged;
 using RestSharp;
-using HentaiCafe = HentaiViewer.Sites.HentaiCafe;
 
 namespace HentaiViewer.ViewModels {
 	[ImplementPropertyChanged]
 	public class HentaiViewerWindowViewModel : IDisposable {
 		public static HentaiViewerWindowViewModel Instance;
-		public HentaiModel _hentai { get; set; }
 		private readonly ObservableCollection<object> _imageObjects = new ObservableCollection<object>();
 		private bool _adding;
 
 		private List<object> _images;
 
 		private bool _isClosing;
-
-		public int _loaded { get; set; }
-		private bool _saveEnabled { get; set; }
 
 		public HentaiViewerWindowViewModel(HentaiModel hentai, bool SaveEnabled = true) {
 			Instance = this;
@@ -47,7 +38,7 @@ namespace HentaiViewer.ViewModels {
 				PregressBarVisibility = Visibility.Collapsed;
 				foreach (var link in links) {
 					if (_isClosing || _imageObjects.Count == 9) break;
-					_imageObjects.Add(new ImageModel { PageNumber = links.IndexOf(link), Source = link });
+					_imageObjects.Add(new ImageModel {PageNumber = links.IndexOf(link), Source = link});
 					await Task.Delay(200);
 					_loaded++;
 				}
@@ -56,6 +47,11 @@ namespace HentaiViewer.ViewModels {
 				if (SaveProgress == Visibility.Collapsed) SaveImagesAsync();
 			});
 		}
+
+		public HentaiModel _hentai { get; set; }
+
+		public int _loaded { get; set; }
+		private bool _saveEnabled { get; set; }
 
 		public ReadOnlyObservableCollection<object> ImageObjects { get; }
 
@@ -97,14 +93,16 @@ namespace HentaiViewer.ViewModels {
 					tpl = await Pururin.CollectImagesTaskAsync(hentai);
 					Pages = $"{tpl.Item1.Count} : {tpl.Item2}";
 					return tpl.Item1;
+				case "Imgur.com":
+					tpl = await Sites.Imgur.CollectImagesTaskAsync(hentai);
+					Pages = $"{tpl.Item1.Count} : {tpl.Item2}";
+					return tpl.Item1;
 			}
 			return null;
 		}
 
 		private async void SaveImagesAsync() {
-			if (_hentai.Title=="lul") {
-				return;
-			}
+			if (_hentai.Title == "lul") return;
 			var folder = Path.Combine(Directory.GetCurrentDirectory(), "Saves", _hentai.Site, MD5Converter.MD5Hash(_hentai.Title));
 
 			if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
@@ -129,17 +127,18 @@ namespace HentaiViewer.ViewModels {
 			File.WriteAllText(Path.Combine(folder, "INFO.json"), output);
 			SaveProgress = Visibility.Collapsed;
 		}
+
 		public async Task LoadMoreImagesAsync() {
-			if (_adding || _images == null || _images.Count <=9) return;
+			if (_adding || _images == null || _images.Count <= 9) return;
 			_adding = true;
-			if (_imageObjects.Count >= 100) {
+			if (_imageObjects.Count >= 50) {
 				_imageObjects.Clear();
 				GC.Collect();
 				//_imageObjects.Add(new ImageModel { PageNumber = _loaded, Source = _images[_loaded-3] });
 				//await Task.Delay(100);
 				//_imageObjects.Add(new ImageModel { PageNumber = _loaded, Source = _images[_loaded-2] });
 				//await Task.Delay(100);
-				_imageObjects.Add(new ImageModel { PageNumber = _loaded-1, Source = _images[_loaded-1] });
+				_imageObjects.Add(new ImageModel {PageNumber = _loaded - 1, Source = _images[_loaded - 1]});
 				await Task.Delay(100);
 			}
 			for (var i = 0; i < _images.Count; i++) {
@@ -151,26 +150,27 @@ namespace HentaiViewer.ViewModels {
 			_adding = false;
 		}
 
-		//public async Task ImageLoader(bool reverse = false, HentaiViewerWindow win=null) {
-		//	if (_adding || _images == null) return;
-		//	_adding = true;
-		//	if (!reverse) {
-		//		if (_imageObjects.Count >= 9) {
-		//			_imageObjects.Clear();
-		//			//_imageObjects.Add(new ImageModel { PageNumber = _loaded, Source = _images[_loaded - 3] });
+		//		}
+		//			await Task.Delay(100);
+		//			_loaded++;
+		//			currentImages[i] = _loaded;
+		//			_imageObjects.Add(new ImageModel { PageNumber = _loaded, Source = _images[_loaded] });
+		//			if (_loaded == _images.Count || i == 9 || currentImages.Contains(_loaded)) break;
+		//		for (var i = 0; i < _images.Count; i++) {
+		//		}
+		//			await Task.Delay(100);
+		//			_imageObjects.Add(new ImageModel { PageNumber = _loaded-1, Source = _images[_loaded - 1] });
 		//			//await Task.Delay(100);
 		//			//_imageObjects.Add(new ImageModel { PageNumber = _loaded, Source = _images[_loaded - 2] });
 		//			//await Task.Delay(100);
-		//			_imageObjects.Add(new ImageModel { PageNumber = _loaded-1, Source = _images[_loaded - 1] });
-		//			await Task.Delay(100);
-		//		}
-		//		for (var i = 0; i < _images.Count; i++) {
-		//			if (_loaded == _images.Count || i == 9 || currentImages.Contains(_loaded)) break;
-		//			_imageObjects.Add(new ImageModel { PageNumber = _loaded, Source = _images[_loaded] });
-		//			currentImages[i] = _loaded;
-		//			_loaded++;
-		//			await Task.Delay(100);
-		//		}
+		//			//_imageObjects.Add(new ImageModel { PageNumber = _loaded, Source = _images[_loaded - 3] });
+		//			_imageObjects.Clear();
+		//		if (_imageObjects.Count >= 9) {
+		//	if (!reverse) {
+		//	_adding = true;
+		//	if (_adding || _images == null) return;
+
+		//public async Task ImageLoader(bool reverse = false, HentaiViewerWindow win=null) {
 		//	}
 		//	else {
 		//		var endpoint = _loaded - 9;

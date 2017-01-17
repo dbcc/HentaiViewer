@@ -25,15 +25,16 @@ namespace HentaiViewer.Sites {
 				var title = img.All.First(t => t.LocalName == "h2").TextContent;
 				hents.Add(new HentaiModel {
 					Title = title,
-					Link = basepath+ img.Links[0].GetAttribute("href"),
+					Link = basepath + img.Links[0].GetAttribute("href"),
 					Img = new Uri(img.Images[0].Source.Replace("about://", basepath)),
 					ThumbnailLink = img.Images[0].Source.Replace("about://", basepath),
 					Site = "Pururin.us",
-					Seen = HistoryController.CheckHistory(MD5Converter.MD5Hash(title))
+					Seen = HistoryController.CheckHistory(title, basepath + img.Links[0].GetAttribute("href"))
 				});
 			}
 			return hents;
 		}
+
 		private static async Task<IHtmlDocument> ParseHtmlStringAsync(string html) {
 			//We require a custom configuration
 			var config = Configuration.Default.WithJavaScript();
@@ -77,9 +78,7 @@ namespace HentaiViewer.Sites {
 				if (files.ToList().Count == pages) return new Tuple<List<object>, int>(new List<object>(paths), pages);
 			}
 			var images = new List<object>();
-			for (var i = 1; i <= pages; i++) {
-				images.Add($"http://pururin.us/assets/image/data/{_galleryId}/{i}.jpg");
-			}
+			for (var i = 1; i <= pages; i++) images.Add($"http://pururin.us/assets/image/data/{_galleryId}/{i}.jpg");
 
 			return new Tuple<List<object>, int>(images, pages);
 		}

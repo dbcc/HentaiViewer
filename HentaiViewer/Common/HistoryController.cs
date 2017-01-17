@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using HentaiViewer.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -8,9 +10,9 @@ using Newtonsoft.Json.Converters;
 namespace HentaiViewer.Common {
 	internal class HistoryController {
 		private static readonly string ConfigFile = Path.Combine(Directory.GetCurrentDirectory(), "History.json");
-		public static HistoryModel History { get; set; }
+		public static ObservableCollection<HistoryModel> History { get; set; }
 
-		public static HistoryModel Load() {
+		public static ObservableCollection<HistoryModel> Load() {
 			if (File.Exists(ConfigFile)) {
 				var input = File.ReadAllText(ConfigFile);
 
@@ -18,18 +20,25 @@ namespace HentaiViewer.Common {
 				jsonSettings.Converters.Add(new StringEnumConverter {CamelCaseText = true});
 				jsonSettings.ObjectCreationHandling = ObjectCreationHandling.Replace;
 				jsonSettings.DefaultValueHandling = DefaultValueHandling.Populate;
-				History = JsonConvert.DeserializeObject<HistoryModel>(input, jsonSettings);
+				jsonSettings.ContractResolver = new EncryptedStringPropertyResolver("big-secret-memes");
+				History = JsonConvert.DeserializeObject<ObservableCollection<HistoryModel>>(input, jsonSettings);
 			}
 			else {
-				History = new HistoryModel {Items = new List<string>()};
+				History = new ObservableCollection<HistoryModel>();
 			}
 			Save();
 			return History;
 		}
 
 		public static void Save() {
-			var output = JsonConvert.SerializeObject(History, Formatting.Indented,
-				new StringEnumConverter {CamelCaseText = true});
+			var jsonSettings = new JsonSerializerSettings {
+				ObjectCreationHandling = ObjectCreationHandling.Replace,
+				ContractResolver = new EncryptedStringPropertyResolver("big-secret-memes"),
+				Formatting = Formatting.Indented,
+			};
+
+			jsonSettings.Converters.Add(new StringEnumConverter { CamelCaseText = true });
+			var output = JsonConvert.SerializeObject(History, jsonSettings);
 
 			var folder = Path.GetDirectoryName(ConfigFile);
 			if (folder != null && !Directory.Exists(folder)) Directory.CreateDirectory(folder);
@@ -41,8 +50,8 @@ namespace HentaiViewer.Common {
 			}
 		}
 
-		public static bool CheckHistory(string title) {
-			return History.Items.Contains(title);
+		public static bool CheckHistory(string title, string link) {
+			return History.Any(h=>h.Title==title) || History.Any(h=>h.Link == link);
 		}
 	}
 }

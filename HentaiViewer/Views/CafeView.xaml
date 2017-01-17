@@ -34,38 +34,40 @@
 						<ColumnDefinition />
 						<ColumnDefinition Width="Auto" />
 						<ColumnDefinition />
-						<ColumnDefinition Width="Auto"/>
-						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
 					<Button Background="Transparent" Width="32" Padding="2" Margin="5,0" Command="{Binding LoadPrevCafeCommand}">
 						<materialDesign:PackIcon Kind="ArrowLeft" />
 					</Button>
 					<TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0">
-								<Run Text="P: " ToolTip="Page:"/>
-								<Run Text="{Binding CafeLoadedPage}" />
+						<Run Text="P: " ToolTip="Page:" />
+						<Run Text="{Binding CafeLoadedPage}" />
 					</TextBlock>
 					<Button Grid.Column="2" Background="Transparent" Width="32" Padding="2" Margin="5,0"
-									Command="{Binding LoadMoreCafeCommand}">
+					        Command="{Binding LoadMoreCafeCommand}">
 						<materialDesign:PackIcon Kind="ArrowRight" />
 					</Button>
-					<Button Grid.Row="0" Grid.Column="3" Background="Transparent" HorizontalAlignment="Center" Padding="2" Margin="5,0" Width="32"
-									Command="{Binding RefreshCafeCommand}">
+					<Button Grid.Row="0" Grid.Column="3" Background="Transparent" HorizontalAlignment="Center" Padding="2"
+					        Margin="5,0" Width="32"
+					        Command="{Binding RefreshCafeCommand}">
 						<materialDesign:PackIcon Kind="Refresh" />
 					</Button>
-					<Button Grid.Row="0" Grid.Column="4" Background="Transparent" Width="32" HorizontalAlignment="Center" Padding="1" Margin="5,0"
-								Command="{Binding HomeCommand}">
-						<materialDesign:PackIcon Kind="Home"></materialDesign:PackIcon>
+					<Button Grid.Row="0" Grid.Column="4" Background="Transparent" Width="32" HorizontalAlignment="Center" Padding="1"
+					        Margin="5,0"
+					        Command="{Binding HomeCommand}">
+						<materialDesign:PackIcon Kind="Home" />
 					</Button>
 				</Grid>
 				<Label Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
-							   Content="{Binding Value, ElementName=Slider}" Margin="5,0" />
-				<Slider Grid.Row="0" Grid.Column="2" x:Name="Slider" Minimum="150" Maximum="850" VerticalAlignment="Center" Margin="5,0,10,0"
-								Value="170" SmallChange="1"
-								IsSnapToTickEnabled="True" />
+				       Content="{Binding Value, ElementName=Slider}" Margin="5,0" />
+				<Slider Grid.Row="0" Grid.Column="2" x:Name="Slider" Minimum="150" Maximum="850" VerticalAlignment="Center"
+				        Margin="5,0,10,0"
+				        Value="170" SmallChange="1"
+				        IsSnapToTickEnabled="True" />
 			</Grid>
 
 		</materialDesign:ColorZone>
-
 
 
 		<ScrollViewer x:Name="ScrollViewer" Grid.Row="1" VerticalScrollBarVisibility="Auto">
@@ -88,8 +90,8 @@
 				</ItemsControl>
 				<Button Grid.Row="1" Background="Transparent" Margin="10,5" Command="{Binding LoadMoreCafeCommand}">
 					<TextBlock>
-							<Run Text="Load Page " />
-							<Run Text="{Binding NextCafePage}" />
+						<Run Text="Load Page " />
+						<Run Text="{Binding NextCafePage}" />
 					</TextBlock>
 				</Button>
 			</Grid>

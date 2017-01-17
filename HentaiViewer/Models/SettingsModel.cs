@@ -6,7 +6,6 @@ namespace HentaiViewer.Models {
 		public nHentaiOption nHentai { get; set; }
 		public HentaiCafeOption Cafe { get; set; }
 		public PururinOption Pururin { get; set; }
-
 	}
 
 	public class HentaiCafeOption {
@@ -18,6 +17,7 @@ namespace HentaiViewer.Models {
 		[DefaultValue("")]
 		public string SearchQuery { get; set; }
 	}
+
 	public class PururinOption {
 		[DefaultValue("")]
 		public string SearchQuery { get; set; }

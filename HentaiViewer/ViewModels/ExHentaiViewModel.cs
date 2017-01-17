@@ -26,12 +26,12 @@ namespace HentaiViewer.ViewModels {
 				if (ExHentaiLoadedPage == 0) return;
 				await LoadExHentaiPage(-1);
 			});
-			HomeCommand = new ActionCommand((async () => {
+			HomeCommand = new ActionCommand(async () => {
 				if (ExHentaiPageLoading) return;
 				ExHentaiLoadedPage = 0;
 				NextExHentaiPage = 1;
 				await LoadExHentaiPage(0);
-			}));
+			});
 		}
 
 		public int ExHentaiLoadedPage { get; set; }
@@ -65,17 +65,17 @@ namespace HentaiViewer.ViewModels {
 			if (!string.IsNullOrEmpty(SettingsController.Settings.ExHentai.SearchQuery))
 				searchQuery = SettingsController.Settings.ExHentai.SearchQuery.Replace(" ", "" + "+");
 			var i = await ExHentai.GetLatestAsync($"https://exhentai.org/?page={ExHentaiLoadedPage}" +
-			                                 $"&f_doujinshi={SettingsController.Settings.ExHentai.Doujinshi}" +
-			                                 $"&f_manga={SettingsController.Settings.ExHentai.Manga}" +
-			                                 $"&f_artistcg={SettingsController.Settings.ExHentai.ArtistCg}" +
-			                                 $"&f_gamecg={SettingsController.Settings.ExHentai.GameCg}" +
-			                                 $"&f_western={SettingsController.Settings.ExHentai.Western}" +
-			                                 $"&f_non-h={SettingsController.Settings.ExHentai.NonH}" +
-			                                 $"&f_imageset={SettingsController.Settings.ExHentai.ImageSet}" +
-			                                 $"&f_cosplay={SettingsController.Settings.ExHentai.Cosplay}" +
-			                                 $"&f_asianporn={SettingsController.Settings.ExHentai.AsianPorn}" +
-			                                 $"&f_misc={SettingsController.Settings.ExHentai.Misc}" +
-			                                 $"&f_search={searchQuery}&f_apply=Apply+Filter");
+			                                      $"&f_doujinshi={SettingsController.Settings.ExHentai.Doujinshi}" +
+			                                      $"&f_manga={SettingsController.Settings.ExHentai.Manga}" +
+			                                      $"&f_artistcg={SettingsController.Settings.ExHentai.ArtistCg}" +
+			                                      $"&f_gamecg={SettingsController.Settings.ExHentai.GameCg}" +
+			                                      $"&f_western={SettingsController.Settings.ExHentai.Western}" +
+			                                      $"&f_non-h={SettingsController.Settings.ExHentai.NonH}" +
+			                                      $"&f_imageset={SettingsController.Settings.ExHentai.ImageSet}" +
+			                                      $"&f_cosplay={SettingsController.Settings.ExHentai.Cosplay}" +
+			                                      $"&f_asianporn={SettingsController.Settings.ExHentai.AsianPorn}" +
+			                                      $"&f_misc={SettingsController.Settings.ExHentai.Misc}" +
+			                                      $"&f_search={searchQuery}&f_apply=Apply+Filter");
 			foreach (var hentaiModel in i) {
 				if (FavoritesController.FavoriteMd5s.Contains(hentaiModel.Md5)) hentaiModel.Favorite = true;
 				_exHentai.Add(hentaiModel);
