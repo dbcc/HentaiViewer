@@ -10,7 +10,20 @@
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance {x:Type viewModel:HistoryViewModel}, IsDesignTimeCreatable=False}">
     <Grid>
-        <ListBox HorizontalContentAlignment="Stretch" ItemsSource="{Binding HistoryItems}">
+		<ListBox HorizontalContentAlignment="Stretch" ItemsSource="{Binding HistoryItems}">
+			<ListBox.Template>
+				<ControlTemplate>
+					<ScrollViewer VirtualizingStackPanel.IsVirtualizing="True" CanContentScroll="True"
+									  VirtualizingStackPanel.VirtualizationMode="Recycling">
+						<ItemsPresenter />
+					</ScrollViewer>
+				</ControlTemplate>
+			</ListBox.Template>
+			<ListBox.ItemsPanel>
+				<ItemsPanelTemplate>
+					<VirtualizingStackPanel />
+				</ItemsPanelTemplate>
+			</ListBox.ItemsPanel>
 			<ListBox.ItemTemplate>
 				<DataTemplate>
 					<Grid ToolTip="{Binding Link}">
@@ -21,19 +34,19 @@
 							<ColumnDefinition Width="*"/>
 						</Grid.ColumnDefinitions>
 						<Button Grid.Column="0" Margin="5,-5,5,-5" Padding="5,1" Height="25" Width="35" Background="Transparent" BorderThickness="0"
-									Command="{Binding DeleteCommand}">
+										Command="{Binding DeleteCommand}">
 							<materialDesign:PackIcon Kind="Close" Height="16"/>
 						</Button>
 						<Button Grid.Column="1" Margin="10,-5,15,-5" Padding="5,1" Height="25" Width="35" Background="Transparent" BorderThickness="0"
-								Command="{Binding ViewCommand}">
+									Command="{Binding ViewCommand}">
 							<materialDesign:PackIcon Kind="Eye" Height="16"/>
 						</Button>
 						<TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Date}"/>
 						<TextBlock Grid.Column="3" Margin="15,0" VerticalAlignment="Center" Text="{Binding Title}"/>
 
-				</Grid>
+					</Grid>
 				</DataTemplate>
 			</ListBox.ItemTemplate>
 		</ListBox>
-    </Grid>
+	</Grid>
 </UserControl>

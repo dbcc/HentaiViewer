@@ -32,7 +32,10 @@ namespace HentaiViewer.ViewModels {
 				NextExHentaiPage = 1;
 				await LoadExHentaiPage(0);
 			});
+			Setting = SettingsController.Settings;
 		}
+
+		public SettingsModel Setting { get; set; }
 
 		public int ExHentaiLoadedPage { get; set; }
 		public int NextExHentaiPage { get; set; } = 1;
@@ -50,6 +53,7 @@ namespace HentaiViewer.ViewModels {
 		}
 
 		private async Task LoadExHentaiPage(int value) {
+			SettingsController.Save();
 			var pass = SettingsController.Settings.ExHentai.IpbPassHash;
 			var memid = SettingsController.Settings.ExHentai.IpbMemberId;
 			var igneous = SettingsController.Settings.ExHentai.Igneous;

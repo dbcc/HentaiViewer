@@ -42,7 +42,10 @@ namespace HentaiViewer.ViewModels {
 				NextPururinPage = 2;
 				await LoadPururinPageAsync(0);
 			});
+			Setting = SettingsController.Settings;
 		}
+
+		public SettingsModel Setting { get; set; }
 
 		public int PururinLoadedPage { get; set; } = 1;
 		public int NextPururinPage { get; set; } = 2;
@@ -60,6 +63,7 @@ namespace HentaiViewer.ViewModels {
 
 
 		private async Task LoadPururinPageAsync(int value, bool delete = true) {
+			SettingsController.Save();
 			if (PururinPageLoading) return;
 			PururinPageLoading = true;
 			NextPururinPage = NextPururinPage + value;

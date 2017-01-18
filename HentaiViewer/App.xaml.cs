@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 using HentaiViewer.Common;
 using HentaiViewer.ViewModels;
@@ -10,6 +11,9 @@ namespace HentaiViewer {
 	/// </summary>
 	public partial class App : Application {
 		private async void AppStartup(object sender, StartupEventArgs args) {
+			if (!Debugger.IsAttached)
+				ExceptionHandler.AddGlobalHandlers();
+
 			HistoryController.Load();
 			SettingsController.Load();
 			FavoritesController.Load();

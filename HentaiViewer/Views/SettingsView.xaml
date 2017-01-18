@@ -54,9 +54,9 @@
 					<Label Grid.Row="4" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" Content="Other" />
 					<Separator Grid.Row="4" Grid.ColumnSpan="3" Grid.Column="0" VerticalAlignment="Bottom" Margin="5,0" />
 
-					<Label Grid.Row="5" VerticalAlignment="Center" Content="Search" />
+					<!--<Label Grid.Row="5" VerticalAlignment="Center" Content="Search" />
 					<TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="5,0"
-							 Text="{Binding Setting.ExHentai.SearchQuery, Mode=TwoWay}" />
+							 Text="{Binding Setting.ExHentai.SearchQuery, Mode=TwoWay}" />-->
 
 					<Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3">
 						<Grid.RowDefinitions>
@@ -211,7 +211,7 @@
 
 				</Grid>
 			</Expander>
-			<Expander Grid.Row="1" Margin="5,0" Header="nHentai.net Settings">
+			<!--<Expander Grid.Row="1" Margin="5,0" Header="nHentai.net Settings">
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition Height="5" />
@@ -258,7 +258,7 @@
 					<TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="5,0"
 							 Text="{Binding Setting.Pururin.SearchQuery, Mode=TwoWay}" />
 				</Grid>
-			</Expander>
+			</Expander>-->
 			<Button Grid.Row="4" Background="Transparent" Command="{Binding SaveCommand}" Content="Save" Margin="5,0" />
 		</Grid>
 	</ScrollViewer>

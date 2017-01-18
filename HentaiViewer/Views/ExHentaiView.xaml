@@ -28,7 +28,9 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<Grid Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">
+				<TextBox VerticalAlignment="Center" Width="200" Margin="5,0" materialDesign:HintAssist.Hint="Search..."
+						 Text="{Binding Setting.ExHentai.SearchQuery, Mode=TwoWay}" PreviewKeyDown="UIElement_OnPreviewKeyDown"/>
+				<Grid Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition />
 						<ColumnDefinition Width="Auto" />
@@ -58,9 +60,9 @@
 						<materialDesign:PackIcon Kind="Home" />
 					</Button>
 				</Grid>
-				<Label Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
+				<Label Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center"
 				       Content="{Binding Value, ElementName=Slider}" Margin="5,0" />
-				<Slider Grid.Row="0" Grid.Column="2" x:Name="Slider" Minimum="150" Maximum="850" VerticalAlignment="Center"
+				<Slider Grid.Row="0" Grid.Column="3" x:Name="Slider" Minimum="150" Maximum="850" VerticalAlignment="Center"
 				        Margin="5,0,10,0"
 				        Value="170" SmallChange="1"
 				        IsSnapToTickEnabled="True" />

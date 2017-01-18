@@ -34,7 +34,7 @@ namespace HentaiViewer.Views {
 				//todo load images
 				if (!(scviewer.VerticalOffset + scviewer.ViewportHeight >= scviewer.ExtentHeight - 50)) return;
 				var data = (HentaiViewerWindowViewModel) DataContext;
-				if (data.ImageObjects.Count >= 100) scviewer.ScrollToTop();
+				if (data.ImageObjects.Count > 50) scviewer.ScrollToTop();
 				await data.LoadMoreImagesAsync();
 			}));
 		}

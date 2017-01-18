@@ -32,7 +32,10 @@ namespace HentaiViewer.ViewModels {
 				NextnHentaiPage = 2;
 				await LoadnHentaiPageAsync(0);
 			});
+			Setting = SettingsController.Settings;
 		}
+
+		public SettingsModel Setting { get; set; }
 
 		public int nHentaiLoadedPage { get; set; } = 1;
 		public int NextnHentaiPage { get; set; } = 2;
@@ -51,6 +54,7 @@ namespace HentaiViewer.ViewModels {
 
 
 		private async Task LoadnHentaiPageAsync(int value, bool delete = true) {
+			SettingsController.Save();
 			if (nHentaiPageLoading) return;
 			nHentaiPageLoading = true;
 			NextnHentaiPage = NextnHentaiPage + value;

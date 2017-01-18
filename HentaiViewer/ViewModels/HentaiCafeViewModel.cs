@@ -34,7 +34,10 @@ namespace HentaiViewer.ViewModels {
 				NextCafePage = 2;
 				await LoadCafePage(0);
 			});
+			Setting = SettingsController.Settings;
 		}
+
+		public SettingsModel Setting { get; set; }
 
 		public int CafeLoadedPage { get; set; } = 1;
 		public int NextCafePage { get; set; } = 2;
@@ -52,6 +55,7 @@ namespace HentaiViewer.ViewModels {
 		}
 
 		private async Task LoadCafePage(int value) {
+			SettingsController.Save();
 			if (CafePageLoading) return;
 			CafePageLoading = true;
 			NextCafePage = NextCafePage + value;
