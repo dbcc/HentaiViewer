@@ -30,7 +30,7 @@
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="Auto"/>
 							<ColumnDefinition Width="Auto"/>
-							<ColumnDefinition Width="Auto"/>
+							<ColumnDefinition Width="80"/>
 							<ColumnDefinition Width="*"/>
 						</Grid.ColumnDefinitions>
 						<Button Grid.Column="0" Margin="5,-5,5,-5" Padding="5,1" Height="25" Width="35" Background="Transparent" BorderThickness="0"
@@ -41,9 +41,8 @@
 									Command="{Binding ViewCommand}">
 							<materialDesign:PackIcon Kind="Eye" Height="16"/>
 						</Button>
-						<TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Date}"/>
+						<TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding DaysOld}"/>
 						<TextBlock Grid.Column="3" Margin="15,0" VerticalAlignment="Center" Text="{Binding Title}"/>
-
 					</Grid>
 				</DataTemplate>
 			</ListBox.ItemTemplate>

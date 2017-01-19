@@ -3,6 +3,7 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using HentaiViewer.Common;
 using HentaiViewer.ViewModels;
 
 namespace HentaiViewer.Views {
@@ -67,6 +68,7 @@ namespace HentaiViewer.Views {
 			data.Dispose();
 			GC.Collect();
 			DataContext = null;
+			SettingsController.Save();
 		}
 
 		private async void Scviewer_OnScrollChanged(object sender, ScrollChangedEventArgs e) {

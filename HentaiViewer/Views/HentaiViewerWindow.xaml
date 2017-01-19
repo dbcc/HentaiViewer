@@ -13,7 +13,7 @@
 	mc:Ignorable="d"
 	Title="{Binding _hentai.Title}"
 	TitleCharacterCasing="Normal"
-	Height="800" Width="900" MinWidth="400" BorderThickness="1"
+	Height="{Binding Setting.Other.ViewerSize.Height, Mode=TwoWay}" Width="{Binding Setting.Other.ViewerSize.Width, Mode=TwoWay}" MinWidth="400" BorderThickness="1"
 	GlowBrush="Black" NonActiveGlowBrush="Black" NonActiveBorderBrush="Black" BorderBrush="Black"
 	NonActiveWindowTitleBrush="{DynamicResource WindowTitleColorBrush}"
 	d:DataContext="{d:DesignInstance {x:Type viewModel:HentaiViewerWindowViewModel}, IsDesignTimeCreatable=False}"
@@ -43,7 +43,7 @@
 		<StackPanel x:Name="stackPanel1" Grid.Row="0" Orientation="Horizontal" Margin="5,0" HorizontalAlignment="Left"
 		            VerticalAlignment="Center">
 			<Label Margin="5,0" VerticalAlignment="Center">Click to Scroll</Label>
-			<ToggleButton x:Name="toggleButton" IsChecked="True" />
+			<ToggleButton x:Name="toggleButton" IsChecked="{Binding Setting.Other.ClickScroll, Mode=TwoWay}" />
 			<Separator VerticalAlignment="Stretch" Height="30" />
 		</StackPanel>
 		<StackPanel Grid.Row="0" x:Name="stackPanel"

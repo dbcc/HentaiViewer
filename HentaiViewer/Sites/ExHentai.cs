@@ -110,6 +110,13 @@ namespace HentaiViewer.Sites {
 		}
 
 		public static async Task<Tuple<List<object>, int>> CollectImagesTaskAsync(HentaiModel hentai) {
+			if (Directory.Exists(hentai.SavePath) && hentai.IsSavedGallery) {
+				var files =
+					new DirectoryInfo(hentai.SavePath).GetFileSystemInfos("*.png").OrderBy(fs => int.Parse(fs.Name.Split('.')[0]));
+				var paths = new List<object>();
+				files.ToList().ForEach(p => paths.Add(p.FullName));
+				return new Tuple<List<object>, int>(new List<object>(paths), files.Count());
+			}
 			var url = hentai.Link;
 			var client = new RestClient {
 				UserAgent =
@@ -127,13 +134,6 @@ namespace HentaiViewer.Sites {
 			var ptag = document.All.Where(p => p.LocalName == "p" && p.ClassList.Contains("gpc"));
 			var Showingimages = ptag.First().TextContent.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
 			var pages = int.Parse(Showingimages[Showingimages.Length - 2].Trim());
-			if (Directory.Exists(hentai.SavePath)) {
-				var files =
-					new DirectoryInfo(hentai.SavePath).GetFileSystemInfos("*.png").OrderBy(fs => int.Parse(fs.Name.Split('.')[0]));
-				var paths = new List<object>();
-				files.ToList().ForEach(p => paths.Add(p.FullName));
-				if (files.ToList().Count == pages) return new Tuple<List<object>, int>(new List<object>(paths), pages);
-			}
 			var imgpagestd =
 				document.All.Where(t => t.LocalName == "a" && t.HasAttribute("href") && t.GetAttribute("href").Contains("?p="));
 			var impagelink = new List<string> {url};

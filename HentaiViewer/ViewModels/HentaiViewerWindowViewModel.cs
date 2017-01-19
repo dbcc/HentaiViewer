@@ -46,7 +46,13 @@ namespace HentaiViewer.ViewModels {
 			SaveImagesCommand = new ActionCommand(() => {
 				if (SaveProgress == Visibility.Collapsed) SaveImagesAsync();
 			});
+			Setting = SettingsController.Settings;
+			if (Setting.Other.InstantFetch) {
+				GetImagesCommand.Execute(null);
+			}
 		}
+
+		public SettingsModel Setting { get; set; }
 
 		public HentaiModel _hentai { get; set; }
 

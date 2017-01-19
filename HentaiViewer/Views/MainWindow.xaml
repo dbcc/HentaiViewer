@@ -41,7 +41,7 @@
 		<ListBox HorizontalContentAlignment="Stretch" SelectedIndex="{Binding SelectedSite}"
 		         Background="#FF191919">
 			<ListBoxItem Content="Home" />
-			<Separator />
+			<Separator Style="{StaticResource MaterialDesignLightSeparator}"/>
 			<ListBoxItem>
 				<StackPanel Orientation="Horizontal">
 					<Image Source="/Assets/faviconExHentai.ico" Margin="5,0" Height="16" VerticalAlignment="Center" />
@@ -71,7 +71,7 @@
 					<Run Text="Cafe" />
 				</TextBlock>
 			</ListBoxItem>
-			<Separator />
+			<Separator Style="{StaticResource MaterialDesignLightSeparator}"/>
 			<ListBoxItem Content="Favorites" />
 			<ListBoxItem Content="Saved Galleries" />
 			<ListBoxItem Content="History" />

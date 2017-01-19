@@ -211,6 +211,26 @@
 
 				</Grid>
 			</Expander>
+			<Expander Grid.Row="1" Margin="5,0,5,5" Header="Application Settings">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="5" />
+						<RowDefinition Height="35" />
+						<RowDefinition Height="35" />
+						<RowDefinition Height="5" />
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
+					<Label Grid.Row="1" VerticalAlignment="Center" Content="Instant image load" />
+					<ToggleButton Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="5,0" HorizontalAlignment="Left"
+							 IsChecked="{Binding Setting.Other.InstantFetch, Mode=TwoWay}" />
+					<Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Content="Click to Scroll" />
+					<ToggleButton Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="5,0" HorizontalAlignment="Left"
+							 IsChecked="{Binding Setting.Other.ClickScroll, Mode=TwoWay}" />
+				</Grid>
+			</Expander>
 			<!--<Expander Grid.Row="1" Margin="5,0" Header="nHentai.net Settings">
 				<Grid>
 					<Grid.RowDefinitions>

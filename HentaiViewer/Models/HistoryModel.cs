@@ -16,6 +16,8 @@ namespace HentaiViewer.Models {
 		[JsonEncrypt]
 		public string Site { get; set; }
 		public DateTime Date { get; set; }
+		[JsonIgnore]
+		public string DaysOld => DaysSinceUpdate();
 
 		[JsonIgnore]
 		public ICommand ViewCommand { get; }
@@ -42,6 +44,13 @@ namespace HentaiViewer.Models {
 				WindowStartupLocation = WindowStartupLocation.CenterScreen
 			};
 			viewWindow.Show();
+		}
+
+		private string DaysSinceUpdate() {
+			var dateNow = DateTime.Now;
+			var diff = dateNow - Date;
+			if (diff.Days < 0) return "Unknown";
+			return diff.Days == 0 ? "Today" : $"{diff.Days} day(s) ago";
 		}
 	}
 }

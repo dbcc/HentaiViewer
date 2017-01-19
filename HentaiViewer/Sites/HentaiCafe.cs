@@ -58,6 +58,13 @@ namespace HentaiViewer.Sites {
 		}
 
 		public static async Task<Tuple<List<object>, int>> CollectImagesTaskAsync(HentaiModel hentai) {
+			if (Directory.Exists(hentai.SavePath) && hentai.IsSavedGallery) {
+				var files =
+					new DirectoryInfo(hentai.SavePath).GetFileSystemInfos("*.png").OrderBy(fs => int.Parse(fs.Name.Split('.')[0]));
+				var paths = new List<object>();
+				files.ToList().ForEach(p => paths.Add(p.FullName));
+				return new Tuple<List<object>, int>(new List<object>(paths), files.Count());
+			}
 			var url = hentai.Link;
 			//Let's create a new parser using this configuration
 			var parser = new HtmlParser();
@@ -77,14 +84,6 @@ namespace HentaiViewer.Sites {
 				RegexOptions.IgnoreCase);
 			var retlist = new List<object>();
 			var lastChapterNumber = int.Parse(match.Groups[1].Value);
-			if (Directory.Exists(hentai.SavePath)) {
-				var files =
-					new DirectoryInfo(hentai.SavePath).GetFileSystemInfos("*.png").OrderBy(fs => int.Parse(fs.Name.Split('.')[0]));
-				var paths = new List<object>();
-				files.ToList().ForEach(p => paths.Add(p.FullName));
-				if (files.ToList().Count == lastChapterNumber)
-					return new Tuple<List<object>, int>(new List<object>(paths), lastChapterNumber);
-			}
 			var slitlink = entryLink.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
 			slitlink[slitlink.Length - 1] = "1";
 			var newlink = string.Join("/", slitlink);

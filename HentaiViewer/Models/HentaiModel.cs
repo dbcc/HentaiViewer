@@ -1,14 +1,17 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 using HentaiViewer.Common;
 using HentaiViewer.ViewModels;
 using HentaiViewer.Views;
 using Newtonsoft.Json;
 using PropertyChanged;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace HentaiViewer.Models {
 	[ImplementPropertyChanged]
@@ -17,6 +20,14 @@ namespace HentaiViewer.Models {
 			MarkasReadCommand = new ActionCommand(() => Mark());
 			ViewCommand = new ActionCommand(View);
 			FavoriteCommand = new ActionCommand(ToggleFavorite);
+			OpenLinkCommand = new ActionCommand(() => {
+				try {
+					Process.Start(Link);
+				}
+				catch{
+					//ignore
+				}
+			});
 		}
 
 		public string Link { get; set; }
@@ -43,6 +54,9 @@ namespace HentaiViewer.Models {
 
 		[JsonIgnore]
 		public ICommand FavoriteCommand { get; }
+
+		[JsonIgnore]
+		public ICommand OpenLinkCommand { get; }
 
 		public bool Favorite { get; set; }
 
@@ -85,6 +99,15 @@ namespace HentaiViewer.Models {
 		}
 
 		private void View() {
+			if (Site == "ExHentai.org" && !IsSavedGallery) {
+				var pass = SettingsController.Settings.ExHentai.IpbPassHash;
+				var memid = SettingsController.Settings.ExHentai.IpbMemberId;
+				var igneous = SettingsController.Settings.ExHentai.Igneous;
+				if (string.IsNullOrEmpty(memid) || string.IsNullOrEmpty(igneous) || string.IsNullOrEmpty(pass)) {
+					MessageBox.Show("Need Cookies for Exhentai", "Cookies missing", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return;
+				}
+			}
 			var viewWindow = new HentaiViewerWindow {
 				DataContext = new HentaiViewerWindowViewModel(this),
 				WindowStartupLocation = WindowStartupLocation.CenterScreen

@@ -59,6 +59,13 @@ namespace HentaiViewer.Sites {
 		}
 
 		public static async Task<Tuple<List<object>, int>> CollectImagesTaskAsync(HentaiModel hentai) {
+			if (Directory.Exists(hentai.SavePath) && hentai.IsSavedGallery) {
+				var files =
+					new DirectoryInfo(hentai.SavePath).GetFileSystemInfos("*.png").OrderBy(fs => int.Parse(fs.Name.Split('.')[0]));
+				var paths = new List<object>();
+				files.ToList().ForEach(p => paths.Add(p.FullName));
+				return new Tuple<List<object>, int>(new List<object>(paths), files.Count());
+			}
 			//http://pururin.us/gallery/32056/rem-ram-revolution
 			//http://pururin.us/assets/image/data/32056/1.jpg
 			var _galleryId = hentai.Link.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries)[3];
@@ -68,14 +75,6 @@ namespace HentaiViewer.Sites {
 				var firstOrDefault = document.All.FirstOrDefault(h => h.LocalName == "h1" && h.ClassList.Contains("otitle"));
 				if (firstOrDefault != null)
 					hentai.Title = firstOrDefault.TextContent;
-			}
-			if (Directory.Exists(hentai.SavePath)) {
-				//var files = Directory.GetFiles(hentai.SavePath, "*.png");
-				var files =
-					new DirectoryInfo(hentai.SavePath).GetFileSystemInfos("*.png").OrderBy(fs => int.Parse(fs.Name.Split('.')[0]));
-				var paths = new List<object>();
-				files.ToList().ForEach(p => paths.Add(p.FullName));
-				if (files.ToList().Count == pages) return new Tuple<List<object>, int>(new List<object>(paths), pages);
 			}
 			var images = new List<object>();
 			for (var i = 1; i <= pages; i++) images.Add($"http://pururin.us/assets/image/data/{_galleryId}/{i}.jpg");

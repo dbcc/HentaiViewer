@@ -9,32 +9,39 @@ namespace HentaiViewer.Common {
 		private static readonly string ConfigFile = Path.Combine(Directory.GetCurrentDirectory(), "Settings.json");
 		public static SettingsModel Settings { get; set; }
 
-		public static SettingsModel Load() {
+		public static void Load() {
 			if (File.Exists(ConfigFile)) {
 				var input = File.ReadAllText(ConfigFile);
 
-				var jsonSettings = new JsonSerializerSettings {ObjectCreationHandling = ObjectCreationHandling.Replace};
+				var jsonSettings = new JsonSerializerSettings {ObjectCreationHandling = ObjectCreationHandling.Auto,
+					DefaultValueHandling = DefaultValueHandling.Populate, NullValueHandling = NullValueHandling.Ignore};
 				Settings = JsonConvert.DeserializeObject<SettingsModel>(input, jsonSettings);
 				if (Settings.ExHentai == null) Settings.ExHentai = new ExhentaiOption();
 				if (Settings.nHentai == null) Settings.nHentai = new nHentaiOption();
 				if (Settings.Cafe == null) Settings.Cafe = new HentaiCafeOption();
 				if (Settings.Pururin == null) Settings.Pururin = new PururinOption();
-			}
-			else {
+				if (Settings.Other == null) Settings.Other = new ApplicationOption { ViewerSize = new ViewerSize() };
+				if (Settings.Other.ViewerSize == null) Settings.Other.ViewerSize = new ViewerSize();
+			} else {
 				Settings = new SettingsModel {
 					Cafe = new HentaiCafeOption(),
 					ExHentai = new ExhentaiOption(),
 					nHentai = new nHentaiOption(),
-					Pururin = new PururinOption()
+					Pururin = new PururinOption(),
+					Other = new ApplicationOption { ViewerSize = new ViewerSize() }
 				};
 			}
 			Save();
-			return Settings;
 		}
 
 		public static void Save() {
-			var output = JsonConvert.SerializeObject(Settings, Formatting.Indented,
-				new StringEnumConverter {CamelCaseText = true});
+			var jsonSettings = new JsonSerializerSettings {
+				ObjectCreationHandling = ObjectCreationHandling.Auto,
+				DefaultValueHandling = DefaultValueHandling.Populate,
+				Formatting = Formatting.Indented
+			};
+			jsonSettings.Converters.Add(new StringEnumConverter {CamelCaseText = true});
+			var output = JsonConvert.SerializeObject(Settings, jsonSettings);
 
 			var folder = Path.GetDirectoryName(ConfigFile);
 			if (folder != null && !Directory.Exists(folder)) Directory.CreateDirectory(folder);

@@ -9,7 +9,7 @@ using RestSharp;
 
 namespace HentaiViewer.Common {
 	internal static class GithubController {
-		private static readonly float _tag = 0.6f;
+		private static readonly float _tag = 0.7f;
 		public static string GithubUrl { get; private set; }
 
 		public static async Task<bool> CheckForUpdateAsync() {
