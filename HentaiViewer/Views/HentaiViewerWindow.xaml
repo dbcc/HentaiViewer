@@ -13,7 +13,8 @@
 	mc:Ignorable="d"
 	Title="{Binding _hentai.Title}"
 	TitleCharacterCasing="Normal"
-	Height="{Binding Setting.Other.ViewerSize.Height, Mode=TwoWay}" Width="{Binding Setting.Other.ViewerSize.Width, Mode=TwoWay}" MinWidth="400" BorderThickness="1"
+	Height="{Binding Setting.Other.ViewerSize.Height, Mode=TwoWay}"
+	Width="{Binding Setting.Other.ViewerSize.Width, Mode=TwoWay}" MinWidth="400" BorderThickness="1"
 	GlowBrush="Black" NonActiveGlowBrush="Black" NonActiveBorderBrush="Black" BorderBrush="Black"
 	NonActiveWindowTitleBrush="{DynamicResource WindowTitleColorBrush}"
 	d:DataContext="{d:DesignInstance {x:Type viewModel:HentaiViewerWindowViewModel}, IsDesignTimeCreatable=False}"
@@ -30,9 +31,12 @@
 				<Run Text=" D:" />
 				<Run Text="{Binding ImageObjects.Count, Mode=OneWay}" />
 			</TextBlock>
-			<Button Command="{Binding SaveImagesCommand}" Visibility="{Binding SaveEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" >Save</Button>
+			<Button Command="{Binding SaveImagesCommand}"
+			        Visibility="{Binding SaveEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+				Save
+			</Button>
 			<ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" ToolTip="{Binding ProgressValue}"
-			             Visibility="{Binding SaveProgress}" Maximum="{Binding Pages}" Value="{Binding ProgressValue}"/>
+			             Visibility="{Binding SaveProgress}" Maximum="{Binding Pages}" Value="{Binding ProgressValue}" />
 		</controls:WindowCommands>
 	</controls:MetroWindow.LeftWindowCommands>
 	<Grid Margin="0" MouseDown="Grid_MouseDown">

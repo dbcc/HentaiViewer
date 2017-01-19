@@ -1,20 +1,20 @@
 ﻿<UserControl x:Class="HentaiViewer.Views.HistoryView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HentaiViewer.Views"
-			 xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:viewModel="clr-namespace:HentaiViewer.ViewModels"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance {x:Type viewModel:HistoryViewModel}, IsDesignTimeCreatable=False}">
-    <Grid>
+	<Grid>
 		<ListBox HorizontalContentAlignment="Stretch" ItemsSource="{Binding HistoryItems}">
 			<ListBox.Template>
 				<ControlTemplate>
 					<ScrollViewer VirtualizingStackPanel.IsVirtualizing="True" CanContentScroll="True"
-									  VirtualizingStackPanel.VirtualizationMode="Recycling">
+					              VirtualizingStackPanel.VirtualizationMode="Recycling">
 						<ItemsPresenter />
 					</ScrollViewer>
 				</ControlTemplate>
@@ -28,21 +28,23 @@
 				<DataTemplate>
 					<Grid ToolTip="{Binding Link}">
 						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="Auto"/>
-							<ColumnDefinition Width="Auto"/>
-							<ColumnDefinition Width="80"/>
-							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="80" />
+							<ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>
-						<Button Grid.Column="0" Margin="5,-5,5,-5" Padding="5,1" Height="25" Width="35" Background="Transparent" BorderThickness="0"
-										Command="{Binding DeleteCommand}">
-							<materialDesign:PackIcon Kind="Close" Height="16"/>
+						<Button Grid.Column="0" Margin="5,-5,5,-5" Padding="5,1" Height="25" Width="35" Background="Transparent"
+						        BorderThickness="0"
+						        Command="{Binding DeleteCommand}">
+							<materialDesign:PackIcon Kind="Close" Height="16" />
 						</Button>
-						<Button Grid.Column="1" Margin="10,-5,15,-5" Padding="5,1" Height="25" Width="35" Background="Transparent" BorderThickness="0"
-									Command="{Binding ViewCommand}">
-							<materialDesign:PackIcon Kind="Eye" Height="16"/>
+						<Button Grid.Column="1" Margin="10,-5,15,-5" Padding="5,1" Height="25" Width="35" Background="Transparent"
+						        BorderThickness="0"
+						        Command="{Binding ViewCommand}">
+							<materialDesign:PackIcon Kind="Eye" Height="16" />
 						</Button>
-						<TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding DaysOld}"/>
-						<TextBlock Grid.Column="3" Margin="15,0" VerticalAlignment="Center" Text="{Binding Title}"/>
+						<TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding DaysOld}" />
+						<TextBlock Grid.Column="3" Margin="15,0" VerticalAlignment="Center" Text="{Binding Title}" />
 					</Grid>
 				</DataTemplate>
 			</ListBox.ItemTemplate>

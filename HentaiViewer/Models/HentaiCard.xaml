@@ -45,8 +45,8 @@
 					</Button>
 				</StackPanel>
 				<Button Background="Transparent" BorderThickness="0" Grid.Row="0" HorizontalAlignment="Left" Padding="3"
-						Command="{Binding OpenLinkCommand}" ToolTip="Open Site" Margin="5,0">
-					<materialDesign:PackIcon Kind="link" Width="25" Height="25"/>
+				        Command="{Binding OpenLinkCommand}" ToolTip="Open Site" Margin="5,0">
+					<materialDesign:PackIcon Kind="link" Width="25" Height="25" />
 				</Button>
 			</Grid>
 			<materialDesign:PackIcon Grid.Row="0" Kind="Heart" HorizontalAlignment="Right" Foreground="Red" Margin="5"

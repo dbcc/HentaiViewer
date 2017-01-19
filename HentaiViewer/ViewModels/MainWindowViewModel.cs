@@ -9,77 +9,77 @@ using HentaiViewer.Views;
 using PropertyChanged;
 
 namespace HentaiViewer.ViewModels {
-	[ImplementPropertyChanged]
-	public class MainWindowViewModel {
-		/// <summary>
-		///     Initializes a new instance of the MainViewModel class.
-		/// </summary>
-		public MainWindowViewModel() {
-			OpenLinkCommand = new ActionCommand(OpenDialog);
-			UpdateCommand = new ActionCommand(OpenUpdateLink);
-			CloseCommand = new ActionCommand(Application.Current.Shutdown);
-			CheckUpdateAsync();
-		}
+    [ImplementPropertyChanged]
+    public class MainWindowViewModel {
+        /// <summary>
+        ///     Initializes a new instance of the MainViewModel class.
+        /// </summary>
+        public MainWindowViewModel() {
+            OpenLinkCommand = new ActionCommand(OpenDialog);
+            UpdateCommand = new ActionCommand(OpenUpdateLink);
+            CloseCommand = new ActionCommand(Application.Current.Shutdown);
+            CheckUpdateAsync();
+        }
 
-		public IEnumerable<object> Sites
-			=>
-				new List<object> {
-					"Home",
-					new Separator(),
-					"ExHentai",
-					"nHentai",
-					"Cafe",
-					new Separator(),
-					"Favorites",
-					"Saved Galleries"
-				};
+        public IEnumerable<object> Sites
+            =>
+                new List<object> {
+                    "Home",
+                    new Separator(),
+                    "ExHentai",
+                    "nHentai",
+                    "Cafe",
+                    new Separator(),
+                    "Favorites",
+                    "Saved Galleries"
+                };
 
-		public int SelectedSite { get; set; }
-		public bool IsUpdateAvailable { get; set; }
+        public int SelectedSite { get; set; }
+        public bool IsUpdateAvailable { get; set; }
 
-		public ICommand OpenLinkCommand { get; }
+        public ICommand OpenLinkCommand { get; }
 
-		public ICommand UpdateCommand { get; }
+        public ICommand UpdateCommand { get; }
 
-		public ICommand CloseCommand { get; }
+        public ICommand CloseCommand { get; }
 
-		private async void CheckUpdateAsync() {
-			IsUpdateAvailable = await GithubController.CheckForUpdateAsync();
-		}
+        private async void CheckUpdateAsync() {
+            IsUpdateAvailable = await GithubController.CheckForUpdateAsync();
+        }
 
-		private void OpenUpdateLink() {
-			if (string.IsNullOrEmpty(GithubController.GithubUrl)) return;
-			Process.Start(GithubController.GithubUrl);
-		}
+        private void OpenUpdateLink() {
+            if (string.IsNullOrEmpty(GithubController.GithubUrl)) return;
+            Process.Start(GithubController.GithubUrl);
+        }
 
-		//private bool _dialogIsOpen = false;
-		private void OpenDialog() {
-			//if (_dialogIsOpen) {
-			//	return;
-			//}
-			//_dialogIsOpen = true;
-			//var dia = new GalleryLinkDialog();
-			//await DialogHost.Show(dia);
-			//_dialogIsOpen = false;
+        //private bool _dialogIsOpen = false;
+        private void OpenDialog() {
+            //if (_dialogIsOpen) {
+            //	return;
+            //}
+            //_dialogIsOpen = true;
+            //var dia = new GalleryLinkDialog();
+            //await DialogHost.Show(dia);
+            //_dialogIsOpen = false;
 
-			if (!Clipboard.ContainsText() && !Clipboard.GetText().StartsWith("http")) return;
-			var link = Clipboard.GetText();
-			var hm = new HentaiModel {
-				Link = link,
-				Title = "lul"
-			};
-			if (link.ToLower().Contains("hentai.org/g/")) hm.Site = "ExHentai.org";
-			else if (link.ToLower().Contains("nhentai.net/g/")) hm.Site = "nHentai.net";
-			else if (link.ToLower().Contains("hentai.cafe")) hm.Site = "Hentai.cafe";
-			else if (link.ToLower().Contains("pururin.us/gallery/")) hm.Site = "Pururin.us";
-			else if (link.ToLower().Contains("imgur.com/a/")) hm.Site = "Imgur.com";
-			else return;
-			var viewWindow = new HentaiViewerWindow {
-				DataContext = new HentaiViewerWindowViewModel(hm),
-				WindowStartupLocation = WindowStartupLocation.CenterScreen
-			};
-			viewWindow.Show();
-			viewWindow.Focus();
-		}
-	}
+            if (!Clipboard.ContainsText() && !Clipboard.GetText().StartsWith("http")) return;
+            var link = Clipboard.GetText();
+            var hm = new HentaiModel {
+                Link = link,
+                Title = "lul"
+            };
+            if (link.ToLower().Contains("hentai.org/g/")) hm.Site = "ExHentai.org";
+            else if (link.ToLower().Contains("nhentai.net/g/")) hm.Site = "nHentai.net";
+            else if (link.ToLower().Contains("hentai.cafe")) hm.Site = "Hentai.cafe";
+            else if (link.ToLower().Contains("pururin.us/gallery/")) hm.Site = "Pururin.us";
+            else if (link.ToLower().Contains("imgur.com/a/")) hm.Site = "Imgur.com";
+            else return;
+            var viewWindow = new HentaiViewerWindow {
+                DataContext = new HentaiViewerWindowViewModel(hm),
+                WindowStartupLocation = WindowStartupLocation.CenterScreen
+            };
+            viewWindow.Show();
+            viewWindow.Focus();
+        }
+    }
 }

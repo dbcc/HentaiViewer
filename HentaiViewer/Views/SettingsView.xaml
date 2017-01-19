@@ -41,15 +41,15 @@
 
 					<Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Content="ipb__member__id" />
 					<TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="5,0"
-							 Text="{Binding Setting.ExHentai.IpbMemberId, Mode=TwoWay}" />
+					         Text="{Binding Setting.ExHentai.IpbMemberId, Mode=TwoWay}" />
 
 					<Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Content="ipb__pass__hash" />
 					<TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="5,0"
-							 Text="{Binding Setting.ExHentai.IpbPassHash, Mode=TwoWay}" />
+					         Text="{Binding Setting.ExHentai.IpbPassHash, Mode=TwoWay}" />
 
 					<Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Content="Igneous" />
 					<TextBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="5,0"
-							 Text="{Binding Setting.ExHentai.Igneous, Mode=TwoWay}" />
+					         Text="{Binding Setting.ExHentai.Igneous, Mode=TwoWay}" />
 
 					<Label Grid.Row="4" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" Content="Other" />
 					<Separator Grid.Row="4" Grid.ColumnSpan="3" Grid.Column="0" VerticalAlignment="Bottom" Margin="5,0" />
@@ -65,12 +65,12 @@
 						</Grid.RowDefinitions>
 						<StackPanel Orientation="Horizontal">
 							<materialDesign:Chip Content="DOUJINSHI"
-												 IconBackground="{DynamicResource PrimaryHueDarkBrush}"
-												 IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
-												 Margin="0 0 4 4">
+							                     IconBackground="{DynamicResource PrimaryHueDarkBrush}"
+							                     IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+							                     Margin="0 0 4 4">
 								<materialDesign:Chip.Icon>
 									<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
-												  IsChecked="{Binding Setting.ExHentai.Doujinshi}">
+									              IsChecked="{Binding Setting.ExHentai.Doujinshi}">
 										<materialDesign:ToggleButtonAssist.OnContent>
 											<materialDesign:PackIcon Kind="Check" />
 										</materialDesign:ToggleButtonAssist.OnContent>
@@ -79,12 +79,12 @@
 								</materialDesign:Chip.Icon>
 							</materialDesign:Chip>
 							<materialDesign:Chip Content="MANGA"
-												 IconBackground="{DynamicResource PrimaryHueDarkBrush}"
-												 IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
-												 Margin="0 0 4 4">
+							                     IconBackground="{DynamicResource PrimaryHueDarkBrush}"
+							                     IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+							                     Margin="0 0 4 4">
 								<materialDesign:Chip.Icon>
 									<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
-												  IsChecked="{Binding Setting.ExHentai.Manga}">
+									              IsChecked="{Binding Setting.ExHentai.Manga}">
 										<materialDesign:ToggleButtonAssist.OnContent>
 											<materialDesign:PackIcon Kind="Check" />
 										</materialDesign:ToggleButtonAssist.OnContent>
@@ -93,12 +93,12 @@
 								</materialDesign:Chip.Icon>
 							</materialDesign:Chip>
 							<materialDesign:Chip Content="ARTIST CG"
-												 IconBackground="{DynamicResource PrimaryHueDarkBrush}"
-												 IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
-												 Margin="0 0 4 4">
+							                     IconBackground="{DynamicResource PrimaryHueDarkBrush}"
+							                     IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+							                     Margin="0 0 4 4">
 								<materialDesign:Chip.Icon>
 									<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
-												  IsChecked="{Binding Setting.ExHentai.ArtistCg}">
+									              IsChecked="{Binding Setting.ExHentai.ArtistCg}">
 										<materialDesign:ToggleButtonAssist.OnContent>
 											<materialDesign:PackIcon Kind="Check" />
 										</materialDesign:ToggleButtonAssist.OnContent>
@@ -107,12 +107,12 @@
 								</materialDesign:Chip.Icon>
 							</materialDesign:Chip>
 							<materialDesign:Chip Content="GAME CG"
-												 IconBackground="{DynamicResource PrimaryHueDarkBrush}"
-												 IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
-												 Margin="0 0 4 4">
+							                     IconBackground="{DynamicResource PrimaryHueDarkBrush}"
+							                     IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+							                     Margin="0 0 4 4">
 								<materialDesign:Chip.Icon>
 									<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
-												  IsChecked="{Binding Setting.ExHentai.GameCg}">
+									              IsChecked="{Binding Setting.ExHentai.GameCg}">
 										<materialDesign:ToggleButtonAssist.OnContent>
 											<materialDesign:PackIcon Kind="Check" />
 										</materialDesign:ToggleButtonAssist.OnContent>
@@ -121,12 +121,12 @@
 								</materialDesign:Chip.Icon>
 							</materialDesign:Chip>
 							<materialDesign:Chip Content="WESTERN"
-												 IconBackground="{DynamicResource PrimaryHueDarkBrush}"
-												 IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
-												 Margin="0 0 4 4">
+							                     IconBackground="{DynamicResource PrimaryHueDarkBrush}"
+							                     IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+							                     Margin="0 0 4 4">
 								<materialDesign:Chip.Icon>
 									<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
-												  IsChecked="{Binding Setting.ExHentai.Western}">
+									              IsChecked="{Binding Setting.ExHentai.Western}">
 										<materialDesign:ToggleButtonAssist.OnContent>
 											<materialDesign:PackIcon Kind="Check" />
 										</materialDesign:ToggleButtonAssist.OnContent>
@@ -137,12 +137,12 @@
 						</StackPanel>
 						<StackPanel Grid.Row="1" Orientation="Horizontal">
 							<materialDesign:Chip Content="NON-H"
-												 IconBackground="{DynamicResource PrimaryHueDarkBrush}"
-												 IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
-												 Margin="0 0 4 4">
+							                     IconBackground="{DynamicResource PrimaryHueDarkBrush}"
+							                     IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+							                     Margin="0 0 4 4">
 								<materialDesign:Chip.Icon>
 									<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
-												  IsChecked="{Binding Setting.ExHentai.NonH}">
+									              IsChecked="{Binding Setting.ExHentai.NonH}">
 										<materialDesign:ToggleButtonAssist.OnContent>
 											<materialDesign:PackIcon Kind="Check" />
 										</materialDesign:ToggleButtonAssist.OnContent>
@@ -151,12 +151,12 @@
 								</materialDesign:Chip.Icon>
 							</materialDesign:Chip>
 							<materialDesign:Chip Content="IMAGE SET"
-												 IconBackground="{DynamicResource PrimaryHueDarkBrush}"
-												 IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
-												 Margin="0 0 4 4">
+							                     IconBackground="{DynamicResource PrimaryHueDarkBrush}"
+							                     IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+							                     Margin="0 0 4 4">
 								<materialDesign:Chip.Icon>
 									<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
-												  IsChecked="{Binding Setting.ExHentai.ImageSet}">
+									              IsChecked="{Binding Setting.ExHentai.ImageSet}">
 										<materialDesign:ToggleButtonAssist.OnContent>
 											<materialDesign:PackIcon Kind="Check" />
 										</materialDesign:ToggleButtonAssist.OnContent>
@@ -165,12 +165,12 @@
 								</materialDesign:Chip.Icon>
 							</materialDesign:Chip>
 							<materialDesign:Chip Content="COSPLAY"
-												 IconBackground="{DynamicResource PrimaryHueDarkBrush}"
-												 IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
-												 Margin="0 0 4 4">
+							                     IconBackground="{DynamicResource PrimaryHueDarkBrush}"
+							                     IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+							                     Margin="0 0 4 4">
 								<materialDesign:Chip.Icon>
 									<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
-												  IsChecked="{Binding Setting.ExHentai.Cosplay}">
+									              IsChecked="{Binding Setting.ExHentai.Cosplay}">
 										<materialDesign:ToggleButtonAssist.OnContent>
 											<materialDesign:PackIcon Kind="Check" />
 										</materialDesign:ToggleButtonAssist.OnContent>
@@ -179,12 +179,12 @@
 								</materialDesign:Chip.Icon>
 							</materialDesign:Chip>
 							<materialDesign:Chip Content="ASIAN PORN"
-												 IconBackground="{DynamicResource PrimaryHueDarkBrush}"
-												 IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
-												 Margin="0 0 4 4">
+							                     IconBackground="{DynamicResource PrimaryHueDarkBrush}"
+							                     IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+							                     Margin="0 0 4 4">
 								<materialDesign:Chip.Icon>
 									<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
-												  IsChecked="{Binding Setting.ExHentai.AsianPorn}">
+									              IsChecked="{Binding Setting.ExHentai.AsianPorn}">
 										<materialDesign:ToggleButtonAssist.OnContent>
 											<materialDesign:PackIcon Kind="Check" />
 										</materialDesign:ToggleButtonAssist.OnContent>
@@ -193,12 +193,12 @@
 								</materialDesign:Chip.Icon>
 							</materialDesign:Chip>
 							<materialDesign:Chip Content="MISC"
-												 IconBackground="{DynamicResource PrimaryHueDarkBrush}"
-												 IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
-												 Margin="0 0 4 4">
+							                     IconBackground="{DynamicResource PrimaryHueDarkBrush}"
+							                     IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+							                     Margin="0 0 4 4">
 								<materialDesign:Chip.Icon>
 									<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
-												  IsChecked="{Binding Setting.ExHentai.Misc}">
+									              IsChecked="{Binding Setting.ExHentai.Misc}">
 										<materialDesign:ToggleButtonAssist.OnContent>
 											<materialDesign:PackIcon Kind="Check" />
 										</materialDesign:ToggleButtonAssist.OnContent>
@@ -225,10 +225,10 @@
 					</Grid.ColumnDefinitions>
 					<Label Grid.Row="1" VerticalAlignment="Center" Content="Instant image load" />
 					<ToggleButton Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="5,0" HorizontalAlignment="Left"
-							 IsChecked="{Binding Setting.Other.InstantFetch, Mode=TwoWay}" />
+					              IsChecked="{Binding Setting.Other.InstantFetch, Mode=TwoWay}" />
 					<Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Content="Click to Scroll" />
 					<ToggleButton Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="5,0" HorizontalAlignment="Left"
-							 IsChecked="{Binding Setting.Other.ClickScroll, Mode=TwoWay}" />
+					              IsChecked="{Binding Setting.Other.ClickScroll, Mode=TwoWay}" />
 				</Grid>
 			</Expander>
 			<!--<Expander Grid.Row="1" Margin="5,0" Header="nHentai.net Settings">

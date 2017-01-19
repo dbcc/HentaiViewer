@@ -1,79 +1,73 @@
-﻿using System;
-using System.ComponentModel;
-using HentaiViewer.Common;
-using Newtonsoft.Json;
+﻿namespace HentaiViewer.Models {
+    public class SettingsModel {
+        public ExhentaiOption ExHentai { get; set; } = new ExhentaiOption();
 
-namespace HentaiViewer.Models {
-	public class SettingsModel {
+        public nHentaiOption nHentai { get; set; } = new nHentaiOption();
 
-		public ExhentaiOption ExHentai { get; set; } = new ExhentaiOption();
+        public HentaiCafeOption Cafe { get; set; } = new HentaiCafeOption();
 
-		public nHentaiOption nHentai { get; set; } = new nHentaiOption();
+        public PururinOption Pururin { get; set; } = new PururinOption();
 
-		public HentaiCafeOption Cafe { get; set; } = new HentaiCafeOption();
-		
-		public PururinOption Pururin { get; set; } = new PururinOption();
-		
-		public ApplicationOption Other { get; set; } = new ApplicationOption();
-	}
+        public ApplicationOption Other { get; set; } = new ApplicationOption();
+    }
 
-	public class ApplicationOption {
-		public bool ClickScroll { get; set; }
+    public class ApplicationOption {
+        public bool ClickScroll { get; set; }
 
-		public bool InstantFetch { get; set; }
-		
-		public ViewerSize ViewerSize { get; set; } = new ViewerSize();
-	}
+        public bool InstantFetch { get; set; }
 
-	public class ViewerSize {
-		// Height="800" Width="900"
+        public ViewerSize ViewerSize { get; set; } = new ViewerSize();
+    }
 
-		public double Width { get; set; } = 800;
-		
-		public double Height { get; set; } = 800;
-	}
+    public class ViewerSize {
+        // Height="800" Width="900"
 
-	public class HentaiCafeOption {
-		public string SearchQuery { get; set; } = string.Empty;
-	}
+        public double Width { get; set; } = 800;
 
-	public class nHentaiOption {
-		public string SearchQuery { get; set; } = string.Empty;
-	}
+        public double Height { get; set; } = 800;
+    }
 
-	public class PururinOption {
-		public string SearchQuery { get; set; } = string.Empty;
-	}
+    public class HentaiCafeOption {
+        public string SearchQuery { get; set; } = string.Empty;
+    }
 
-	public class ExhentaiOption {
-		public string IpbMemberId { get; set; } = string.Empty;
-		
-		public string IpbPassHash { get; set; } = string.Empty;
-		
-		public string Igneous { get; set; } = string.Empty;
-		
-		public string SearchQuery { get; set; } = string.Empty;
+    public class nHentaiOption {
+        public string SearchQuery { get; set; } = string.Empty;
+    }
+
+    public class PururinOption {
+        public string SearchQuery { get; set; } = string.Empty;
+    }
+
+    public class ExhentaiOption {
+        public string IpbMemberId { get; set; } = string.Empty;
+
+        public string IpbPassHash { get; set; } = string.Empty;
+
+        public string Igneous { get; set; } = string.Empty;
+
+        public string SearchQuery { get; set; } = string.Empty;
 
 
-		public int Doujinshi { get; set; }
+        public int Doujinshi { get; set; }
 
 
-		public int Manga { get; set; }
-		
-		public int ArtistCg { get; set; }
-		
-		public int GameCg { get; set; }
-		
-		public int Western { get; set; }
-		
-		public int NonH { get; set; }
-		
-		public int ImageSet { get; set; }
-		
-		public int Cosplay { get; set; }
-		
-		public int AsianPorn { get; set; }
-		
-		public int Misc { get; set; }
-	}
+        public int Manga { get; set; }
+
+        public int ArtistCg { get; set; }
+
+        public int GameCg { get; set; }
+
+        public int Western { get; set; }
+
+        public int NonH { get; set; }
+
+        public int ImageSet { get; set; }
+
+        public int Cosplay { get; set; }
+
+        public int AsianPorn { get; set; }
+
+        public int Misc { get; set; }
+    }
 }
