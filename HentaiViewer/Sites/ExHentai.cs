@@ -110,7 +110,7 @@ namespace HentaiViewer.Sites {
         }
 
         public static async Task<Tuple<List<object>, int>> CollectImagesTaskAsync(HentaiModel hentai) {
-            if (Directory.Exists(hentai.SavePath) && hentai.IsSavedGallery) {
+            if (Directory.Exists(hentai.SavePath) && !hentai.IsSavedGallery) {
                 var files =
                     new DirectoryInfo(hentai.SavePath).GetFileSystemInfos("*.png")
                         .OrderBy(fs => int.Parse(fs.Name.Split('.')[0]));

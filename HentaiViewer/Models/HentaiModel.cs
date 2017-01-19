@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using HentaiViewer.Common;
+using HentaiViewer.Properties;
 using HentaiViewer.ViewModels;
 using HentaiViewer.Views;
 using Newtonsoft.Json;
@@ -99,7 +101,7 @@ namespace HentaiViewer.Models {
         }
 
         private void View() {
-            if (Site == "ExHentai.org" && !IsSavedGallery) {
+            if (Site == "ExHentai.org" && IsSavedGallery) {
                 var pass = SettingsController.Settings.ExHentai.IpbPassHash;
                 var memid = SettingsController.Settings.ExHentai.IpbMemberId;
                 var igneous = SettingsController.Settings.ExHentai.Igneous;

@@ -75,7 +75,9 @@ namespace HentaiViewer.Views {
             if (!(scviewer.VerticalOffset + scviewer.ViewportHeight >= scviewer.ExtentHeight - 100)
                 || Math.Abs(scviewer.VerticalOffset) <= 0
                 || CanvasMouseover.Visibility == Visibility) return;
+
             var data = (HentaiViewerWindowViewModel) DataContext;
+            if (data.ImageObjects.Count > 50) scviewer.ScrollToTop();
             await data.LoadMoreImagesAsync();
         }
     }

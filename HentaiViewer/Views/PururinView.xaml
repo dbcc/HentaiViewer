@@ -16,7 +16,7 @@
 			<RowDefinition />
 		</Grid.RowDefinitions>
 
-		<materialDesign:ColorZone Background="#FF191919" materialDesign:ShadowAssist.ShadowDepth="Depth2">
+		<materialDesign:ColorZone Background="#FF191919" materialDesign:ShadowAssist.ShadowDepth="Depth2" Padding="5">
 			<Grid Margin="3">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />

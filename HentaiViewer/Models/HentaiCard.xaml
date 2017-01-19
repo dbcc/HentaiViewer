@@ -17,13 +17,16 @@
 		<Grid x:Name="Grid">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
+				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="Auto" MinHeight="30" />
 			</Grid.RowDefinitions>
 			<Image Grid.Row="0" Source="{Binding Img}" Margin="5,0" />
-			<TextBlock Grid.Row="1" Text="{Binding Title}" TextWrapping="Wrap" FontSize="14" ToolTip="{Binding Title}"
-			           Margin="5"
+
+			<Separator Grid.Row="1" Style="{StaticResource MaterialDesignLightSeparator}"/>
+			<TextBlock Grid.Row="2" Text="{Binding Title}" TextWrapping="Wrap" FontSize="14" ToolTip="{Binding Title}"
+			           Margin="5,0,5,5"
 			           FontWeight="Medium" HorizontalAlignment="Left" />
-			<Canvas Grid.Row="0" Grid.RowSpan="2" Background="Black" Opacity="0.5"
+			<Canvas Grid.Row="0" Grid.RowSpan="3" Background="Black" Opacity="0.5"
 			        Visibility="{Binding Seen, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
 			<Grid Grid.Row="0"
 			      Visibility="{Binding IsMouseOver, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Grid, Mode=OneWay}">
