@@ -17,9 +17,6 @@
 	NonActiveWindowTitleBrush="{DynamicResource WindowTitleColorBrush}"
 	d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=False}"
 	WindowStartupLocation="CenterScreen">
-	<controls:MetroWindow.Resources>
-		<Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-	</controls:MetroWindow.Resources>
 	<controls:MetroWindow.RightWindowCommands>
 		<controls:WindowCommands>
 			<Button ToolTip="Open from link" Command="{Binding OpenLinkCommand}">
@@ -34,49 +31,45 @@
 		</controls:WindowCommands>
 	</controls:MetroWindow.LeftWindowCommands>
 	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto" MinWidth="100" />
+			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition />
 		</Grid.ColumnDefinitions>
-		<ListBox HorizontalContentAlignment="Stretch" SelectedIndex="{Binding SelectedSite}"
-		         Background="#FF191919">
-			<ListBoxItem Content="Home" />
-			<Separator Style="{StaticResource MaterialDesignLightSeparator}" />
-			<ListBoxItem>
-				<StackPanel Orientation="Horizontal">
-					<Image Source="/Assets/faviconExHentai.ico" Margin="5,0" Height="16" VerticalAlignment="Center" />
-					<TextBlock>
-						<Run Text="ExHentai" />
-					</TextBlock>
-				</StackPanel>
-			</ListBoxItem>
-			<ListBoxItem>
-				<StackPanel Orientation="Horizontal">
-					<Image Source="/Assets/faviconnHentai.ico" Margin="5,0" Height="16" VerticalAlignment="Center" />
-					<TextBlock>
-						<Run Text="nHentai" />
-					</TextBlock>
-				</StackPanel>
-			</ListBoxItem>
-			<ListBoxItem>
-				<StackPanel Orientation="Horizontal">
-					<Image Source="/Assets/faviconPururin.ico" Margin="5,0" Height="16" VerticalAlignment="Center" />
-					<TextBlock>
-						<Run Text="Pururin" />
-					</TextBlock>
-				</StackPanel>
-			</ListBoxItem>
-			<ListBoxItem>
-				<TextBlock Margin="26,0,0,0">
-					<Run Text="Cafe" />
-				</TextBlock>
-			</ListBoxItem>
-			<Separator Style="{StaticResource MaterialDesignLightSeparator}" />
-			<ListBoxItem Content="Favorites" />
-			<ListBoxItem Content="Saved Galleries" />
-			<ListBoxItem Content="History" />
+		<materialDesign:ColorZone Padding="4"
+		                          materialDesign:ShadowAssist.ShadowDepth="Depth2"
+		                          Grid.Row="1" Grid.ColumnSpan="2"
+		                          Mode="PrimaryMid">
+			<StackPanel HorizontalAlignment="Left"
+			            Orientation="Vertical">
+				<TextBlock Text="{Binding Version}" />
+			</StackPanel>
+		</materialDesign:ColorZone>
+		<ListBox Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Stretch"
+		         SelectedIndex="{Binding SelectedSite, FallbackValue=0}"
+		         ItemsSource="{Binding DrawerItems}" Background="#282828">
+			<ListBox.ItemContainerStyle>
+				<Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+					<Setter Property="IsEnabled" Value="{Binding IsEnabled}" />
+				</Style>
+			</ListBox.ItemContainerStyle>
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<Grid>
+						<StackPanel Orientation="Horizontal">
+							<Image Source="{Binding Icon}" Margin="5,0" Height="16" MinWidth="16" VerticalAlignment="Center" />
+							<TextBlock Text="{Binding Name}" />
+						</StackPanel>
+						<Separator Visibility="{Binding Separator, Converter={StaticResource BooleanToVisibilityConverter}}"
+						           Style="{StaticResource MaterialDesignLightSeparator}" />
+					</Grid>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
 		</ListBox>
-		<materialDesign:DialogHost Grid.Column="1">
+		<Grid Grid.Row="0" Grid.Column="1">
 			<materialDesign:Transitioner SelectedIndex="{Binding SelectedSite}">
 				<views:SettingsView />
 				<Separator />
@@ -91,14 +84,15 @@
 				<views:SavedGalleriesView />
 				<views:HistoryView />
 			</materialDesign:Transitioner>
-		</materialDesign:DialogHost>
-		<tb:TaskbarIcon Grid.Row="0" Grid.Column="0" DoubleClickCommand="{Binding OpenLinkCommand}"
-		                IconSource="/Assets/3.ico">
-			<tb:TaskbarIcon.ContextMenu>
-				<ContextMenu>
-					<MenuItem Header="Exit" Command="{Binding CloseCommand}" />
-				</ContextMenu>
-			</tb:TaskbarIcon.ContextMenu>
-		</tb:TaskbarIcon>
+			<tb:TaskbarIcon Grid.Row="0" DoubleClickCommand="{Binding OpenLinkCommand}"
+			                IconSource="/Assets/3.ico">
+				<tb:TaskbarIcon.ContextMenu>
+					<ContextMenu>
+						<MenuItem Header="Exit" Command="{Binding CloseCommand}" />
+					</ContextMenu>
+				</tb:TaskbarIcon.ContextMenu>
+			</tb:TaskbarIcon>
+		</Grid>
 	</Grid>
+
 </controls:MetroWindow>

@@ -17,12 +17,12 @@
 		<Grid x:Name="Grid">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
-				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" MinHeight="30" />
 			</Grid.RowDefinitions>
 			<Image Grid.Row="0" Source="{Binding Img}" Margin="5,0" />
 
-			<Separator Grid.Row="1" Style="{StaticResource MaterialDesignLightSeparator}"/>
+			<Separator Grid.Row="1" Style="{StaticResource MaterialDesignLightSeparator}" />
 			<TextBlock Grid.Row="2" Text="{Binding Title}" TextWrapping="Wrap" FontSize="14" ToolTip="{Binding Title}"
 			           Margin="5,0,5,5"
 			           FontWeight="Medium" HorizontalAlignment="Left" />
@@ -47,7 +47,7 @@
 						Favorite
 					</Button>
 				</StackPanel>
-				<Button Background="Transparent" BorderThickness="0" Grid.Row="0" HorizontalAlignment="Left" Padding="3"
+				<Button BorderThickness="0" Grid.Row="0" HorizontalAlignment="Left" Padding="3" Background="Transparent"
 				        Command="{Binding OpenLinkCommand}" ToolTip="Open Site" Margin="5,0">
 					<materialDesign:PackIcon Kind="link" Width="25" Height="25" />
 				</Button>

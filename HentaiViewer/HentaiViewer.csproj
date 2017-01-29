@@ -129,6 +129,7 @@
     <Compile Include="Common\HistoryController.cs" />
     <Compile Include="Common\MD5Converter.cs" />
     <Compile Include="Common\SettingsController.cs" />
+    <Compile Include="Models\DrawerListBoxItem.cs" />
     <Compile Include="Models\HentaiCard.xaml.cs">
       <DependentUpon>HentaiCard.xaml</DependentUpon>
     </Compile>

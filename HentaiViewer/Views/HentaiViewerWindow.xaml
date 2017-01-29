@@ -26,7 +26,7 @@
 		<controls:WindowCommands>
 			<Label HorizontalAlignment="Left" Content="Viewer - Pages" />
 			<TextBlock>
-				<Run Text="{Binding _loaded, Mode=OneWay}" /><Run Text=" " /><Run Text=" / " /><Run Text=" " />
+				<Run Text="{Binding Loaded, Mode=OneWay}" /><Run Text=" " /><Run Text=" / " /><Run Text=" " />
 				<Run Text="{Binding Pages}" />
 				<Run Text=" D:" />
 				<Run Text="{Binding ImageObjects.Count, Mode=OneWay}" />
@@ -74,8 +74,8 @@
 		             Visibility="{Binding PregressBarVisibility}" IsIndeterminate="True" />
 		<!--<Button HorizontalAlignment="Center" VerticalAlignment="Center"
 				Visibility="{Binding ErrorVisibility}" Content="Error! click to close" />-->
-		<Canvas x:Name="CanvasMouseover" Grid.Row="1" Height="Auto" Background="Transparent" MouseDown="Canvas_MouseDown"
-		        MouseUp="Canvas_MouseUp"
+		<Canvas x:Name="CanvasMouseover" Grid.Row="1" Height="Auto" MouseDown="Canvas_MouseDown"
+		        MouseUp="Canvas_MouseUp" Background="Transparent"
 		        MouseLeave="Canvas_MouseLeave"
 		        Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=toggleButton}"
 		        Margin="0,0,20,0" />

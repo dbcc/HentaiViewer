@@ -24,7 +24,7 @@ namespace HentaiViewer.ViewModels {
         private List<object> _images;
 
         private bool _isClosing;
-        private bool _saving;
+        //private bool _saving;
 
         public HentaiViewerWindowViewModel(HentaiModel hentai, bool SaveEnabled = true) {
             Instance = this;
@@ -40,7 +40,7 @@ namespace HentaiViewer.ViewModels {
                     if (_isClosing || _imageObjects.Count == 9) break;
                     _imageObjects.Add(new ImageModel {PageNumber = links.IndexOf(link) + 1, Source = link});
                     await Task.Delay(200);
-                    _loaded++;
+                    Loaded++;
                 }
                 this.SaveEnabled = SaveEnabled;
             });
@@ -55,7 +55,7 @@ namespace HentaiViewer.ViewModels {
 
         public HentaiModel _hentai { get; set; }
 
-        public int _loaded { get; set; }
+        public int Loaded { get; private set; }
         public bool SaveEnabled { get; set; }
 
         public ReadOnlyObservableCollection<object> ImageObjects { get; }
@@ -149,41 +149,42 @@ namespace HentaiViewer.ViewModels {
                 //await Task.Delay(100);
                 //_imageObjects.Add(new ImageModel { PageNumber = _loaded, Source = _images[_loaded-2] });
                 //await Task.Delay(100);
-                _imageObjects.Add(new ImageModel {PageNumber = _loaded - 1, Source = _images[_loaded - 1]});
+                _imageObjects.Add(new ImageModel {PageNumber = Loaded - 1, Source = _images[Loaded - 1]});
                 await Task.Delay(100);
             }
             for (var i = 0; i < _images.Count; i++) {
-                if (_loaded == _images.Count || i == 9) break;
-                _imageObjects.Add(new ImageModel {PageNumber = _loaded + 1, Source = _images[_loaded]});
-                _loaded++;
+                if (Loaded == _images.Count || i == 9) break;
+                _imageObjects.Add(new ImageModel {PageNumber = Loaded + 1, Source = _images[Loaded]});
+                Loaded++;
                 await Task.Delay(100);
             }
             _adding = false;
         }
 
-        //		var endpoint = _loaded - 9;
-        //	else {
-        //	}
-
-        //public async Task ImageLoader(bool reverse = false, HentaiViewerWindow win=null) {
-        //	if (_adding || _images == null) return;
-        //	_adding = true;
-        //	if (!reverse) {
-        //		if (_imageObjects.Count >= 9) {
-        //			_imageObjects.Clear();
-        //			//_imageObjects.Add(new ImageModel { PageNumber = _loaded, Source = _images[_loaded - 3] });
+        //			await Task.Delay(100);
+        //			_loaded++;
+        //			currentImages[i] = _loaded;
+        //			_imageObjects.Add(new ImageModel { PageNumber = _loaded, Source = _images[_loaded] });
+        //			if (_loaded == _images.Count || i == 9 || currentImages.Contains(_loaded)) break;
+        //		for (var i = 0; i < _images.Count; i++) {
+        //		}
+        //			await Task.Delay(100);
+        //			_imageObjects.Add(new ImageModel { PageNumber = _loaded-1, Source = _images[_loaded - 1] });
         //			//await Task.Delay(100);
         //			//_imageObjects.Add(new ImageModel { PageNumber = _loaded, Source = _images[_loaded - 2] });
         //			//await Task.Delay(100);
-        //			_imageObjects.Add(new ImageModel { PageNumber = _loaded-1, Source = _images[_loaded - 1] });
-        //			await Task.Delay(100);
-        //		}
-        //		for (var i = 0; i < _images.Count; i++) {
-        //			if (_loaded == _images.Count || i == 9 || currentImages.Contains(_loaded)) break;
-        //			_imageObjects.Add(new ImageModel { PageNumber = _loaded, Source = _images[_loaded] });
-        //			currentImages[i] = _loaded;
-        //			_loaded++;
-        //			await Task.Delay(100);
+        //			//_imageObjects.Add(new ImageModel { PageNumber = _loaded, Source = _images[_loaded - 3] });
+        //			_imageObjects.Clear();
+        //		if (_imageObjects.Count >= 9) {
+        //	if (!reverse) {
+        //	_adding = true;
+        //	if (_adding || _images == null) return;
+
+        //public async Task ImageLoader(bool reverse = false, HentaiViewerWindow win=null) {
+        //	}
+        //	else {
+
+        //		var endpoint = _loaded - 9;
 
         //		}
         //		var i = _loaded - 18;

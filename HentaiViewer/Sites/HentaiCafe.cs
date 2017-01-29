@@ -94,14 +94,15 @@ namespace HentaiViewer.Sites {
             var htmlimg = await GetHtmlStringAsync(newlink);
 
             var imgLink = Regex.Match(htmlimg,
-                @"(https://cdn.hentai.cafe/manga/content/comics/.+/([0-9]+)[\.jpg|\.png]+)");
+                @"(https://cdn.hentai.cafe/manga/content/comics/.+/(?<prenum>.+ )?(?<num>[0-9]+)[\.jpg|\.png]+)");
             retlist.Add(imgLink.Groups[1].Value);
-            var zeros = imgLink.Groups[2].Value;
+            var zeros = imgLink.Groups[3].Value;
 
             var img = imgLink.Groups[1].Value.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
             var suffixsplit = img.Last().Split(new[] {'.'}, StringSplitOptions.RemoveEmptyEntries);
             var extension = suffixsplit.Last();
             var list = new List<string>(img);
+            var lastseg = !string.IsNullOrEmpty(imgLink.Groups["prenum"].Value)  ? imgLink.Groups["prenum"].Value : string.Empty;
             list.RemoveAt(img.Length - 1);
             img = list.ToArray();
             var nlink = string.Join("/", img).Replace(":/", "://");
@@ -117,7 +118,7 @@ namespace HentaiViewer.Sites {
                 else {
                     newsuffix = i < 10 ? $"0{i}.{extension}" : $"{i}.{extension}";
                 }
-                retlist.Add($"{nlink}/{newsuffix}");
+                retlist.Add($"{nlink}/{lastseg}{newsuffix}");
             }
             return new Tuple<List<object>, int>(retlist, lastChapterNumber);
         }

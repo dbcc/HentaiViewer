@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using HentaiViewer.Common;
 using HentaiViewer.Models;
@@ -21,20 +21,25 @@ namespace HentaiViewer.ViewModels {
             CheckUpdateAsync();
         }
 
-        public IEnumerable<object> Sites
+        public IEnumerable<object> DrawerItems
             =>
                 new List<object> {
-                    "Home",
-                    new Separator(),
-                    "ExHentai",
-                    "nHentai",
-                    "Cafe",
-                    new Separator(),
-                    "Favorites",
-                    "Saved Galleries"
+                    new DrawerListBoxItem {Name = "Home"},
+                    new DrawerListBoxItem {Separator = true, IsEnabled = false},
+                    new DrawerListBoxItem {Name = "ExHentai", Icon = "/Assets/faviconExHentai.ico"},
+                    new DrawerListBoxItem {Name = "nHentai", Icon = "/Assets/faviconnHentai.ico"},
+                    new DrawerListBoxItem {Name = "Pururin", Icon = "/Assets/faviconPururin.ico"},
+                    new DrawerListBoxItem {Name = "Cafe"},
+                    new DrawerListBoxItem {Separator = true, IsEnabled = false},
+                    new DrawerListBoxItem {Name = "Favorites"},
+                    new DrawerListBoxItem {Name = "Saved Galleries"},
+                    new DrawerListBoxItem {Name = "History"},
                 };
 
+        public string Version => GithubController._tag.ToString(CultureInfo.InvariantCulture);
+
         public int SelectedSite { get; set; }
+
         public bool IsUpdateAvailable { get; set; }
 
         public ICommand OpenLinkCommand { get; }

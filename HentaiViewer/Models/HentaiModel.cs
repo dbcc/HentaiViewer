@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using HentaiViewer.Common;
-using HentaiViewer.Properties;
 using HentaiViewer.ViewModels;
 using HentaiViewer.Views;
 using Newtonsoft.Json;

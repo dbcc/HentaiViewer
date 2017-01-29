@@ -33,13 +33,13 @@
 							<ColumnDefinition Width="80" />
 							<ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>
-						<Button Grid.Column="0" Margin="5,-5,5,-5" Padding="5,1" Height="25" Width="35" Background="Transparent"
-						        BorderThickness="0"
+						<Button Grid.Column="0" Margin="5,-5,5,-5" Padding="5,1" Height="25" Width="35"
+						        BorderThickness="0" Background="Transparent"
 						        Command="{Binding DeleteCommand}">
 							<materialDesign:PackIcon Kind="Close" Height="16" />
 						</Button>
-						<Button Grid.Column="1" Margin="10,-5,15,-5" Padding="5,1" Height="25" Width="35" Background="Transparent"
-						        BorderThickness="0"
+						<Button Grid.Column="1" Margin="10,-5,15,-5" Padding="5,1" Height="25" Width="35"
+						        BorderThickness="0" Background="Transparent"
 						        Command="{Binding ViewCommand}">
 							<materialDesign:PackIcon Kind="Eye" Height="16" />
 						</Button>

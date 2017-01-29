@@ -21,16 +21,16 @@ namespace HentaiViewer.ViewModels {
 
             //RefreshExHentaiAsync();
             RefreshExHentaiCommand = new ActionCommand(RefreshExHentaiAsync);
-            LoadMoreExHentaiCommand = new ActionCommand(async () => { await LoadExHentaiPage(1); });
+            LoadMoreExHentaiCommand = new ActionCommand(async () => { await LoadExHentaiPageAsync(1); });
             LoadPrevExHentaiCommand = new ActionCommand(async () => {
                 if (ExHentaiLoadedPage == 0) return;
-                await LoadExHentaiPage(-1);
+                await LoadExHentaiPageAsync(-1);
             });
             HomeCommand = new ActionCommand(async () => {
                 if (ExHentaiPageLoading) return;
                 ExHentaiLoadedPage = 0;
                 NextExHentaiPage = 1;
-                await LoadExHentaiPage(0);
+                await LoadExHentaiPageAsync(0);
             });
             Setting = SettingsController.Settings;
         }
@@ -49,17 +49,19 @@ namespace HentaiViewer.ViewModels {
         public ICommand HomeCommand { get; }
 
         private async void RefreshExHentaiAsync() {
-            await LoadExHentaiPage(0);
+            await LoadExHentaiPageAsync(0);
         }
 
-        private async Task LoadExHentaiPage(int value) {
+        private async Task LoadExHentaiPageAsync(int value) {
             SettingsController.Save();
             var pass = SettingsController.Settings.ExHentai.IpbPassHash;
             var memid = SettingsController.Settings.ExHentai.IpbMemberId;
             var igneous = SettingsController.Settings.ExHentai.Igneous;
-            if (string.IsNullOrEmpty(memid) || string.IsNullOrEmpty(igneous) || string.IsNullOrEmpty(pass))
+            if (string.IsNullOrEmpty(memid) || string.IsNullOrEmpty(igneous) || string.IsNullOrEmpty(pass)) {
                 MessageBox.Show("Need Cookies for Exhentai", "Cookies missing", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
+                return;
+            }
             if (ExHentaiPageLoading) return;
             ExHentaiPageLoading = true;
             NextExHentaiPage = NextExHentaiPage + value;

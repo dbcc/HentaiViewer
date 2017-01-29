@@ -12,7 +12,7 @@ using Imgur.API.Models;
 namespace HentaiViewer.Sites {
     public class Imgur {
         public static async Task<Tuple<List<object>, int>> CollectImagesTaskAsync(HentaiModel hentai) {
-            var mockUrl = "https://api.imgur.com/3/album/5F5Cy/images";
+            //var mockUrl = "https://api.imgur.com/3/album/5F5Cy/images";
 
             //https://imgur.com/a/LNKof
             var galleryId = hentai.Link.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries).Last();

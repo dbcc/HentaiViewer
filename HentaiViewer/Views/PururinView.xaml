@@ -44,7 +44,7 @@
 					<ComboBox Grid.Row="0" Grid.Column="0" Width="70" ItemsSource="{Binding SortItems}"
 					          Text="{Binding SelectedFilter}" IsReadOnly="True"
 					          VerticalAlignment="Center" Margin="10,0" />
-					<Button Grid.Column="1" Background="Transparent" Width="32" Padding="2" Margin="5,0"
+					<Button Grid.Column="1" Width="32" Padding="2" Margin="5,0"
 					        Command="{Binding LoadPrevPururinCommand}">
 						<materialDesign:PackIcon Kind="ArrowLeft" />
 					</Button>
@@ -52,16 +52,16 @@
 						<Run Text="P: " ToolTip="Page:" />
 						<Run Text="{Binding PururinLoadedPage}" />
 					</TextBlock>
-					<Button Grid.Column="3" Background="Transparent" Width="32" Padding="2" Margin="5,0"
+					<Button Grid.Column="3" Width="32" Padding="2" Margin="5,0"
 					        Command="{Binding LoadMorePururinCommand}">
 						<materialDesign:PackIcon Kind="ArrowRight" />
 					</Button>
-					<Button Grid.Row="0" Grid.Column="4" Background="Transparent" HorizontalAlignment="Center" Padding="2"
+					<Button Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" Padding="2"
 					        Margin="5,0" Width="32"
 					        Command="{Binding RefreshPururinCommand}">
 						<materialDesign:PackIcon Kind="Refresh" />
 					</Button>
-					<Button Grid.Row="0" Grid.Column="5" Background="Transparent" Width="32" HorizontalAlignment="Center" Padding="1"
+					<Button Grid.Row="0" Grid.Column="5" Width="32" HorizontalAlignment="Center" Padding="1"
 					        Margin="5,0"
 					        Command="{Binding HomeCommand}">
 						<materialDesign:PackIcon Kind="Home" />
@@ -71,7 +71,7 @@
 				       Content="{Binding Value, ElementName=Slider}" Margin="5,0" />
 				<Slider Grid.Row="0" Grid.Column="3" x:Name="Slider" Minimum="150" Maximum="850" VerticalAlignment="Center"
 				        Margin="5,0,10,0"
-				        Value="170" SmallChange="1"
+				        Value="163" SmallChange="1"
 				        IsSnapToTickEnabled="True" />
 			</Grid>
 
@@ -96,12 +96,13 @@
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
-				<Button Grid.Row="1" Background="Transparent" Margin="10,5" Command="{Binding LoadMorePururinCommand}">
+				<!--<Button Grid.Row="1" Margin="10,5" Command="{Binding LoadMorePururinCommand}"
+				        Visibility="{Binding PururinItems, Converter={StaticResource NotZeroToVisibilityConverter}}">
 					<TextBlock>
 						<Run Text="Load Page " />
 						<Run Text="{Binding NextPururinPage}" />
 					</TextBlock>
-				</Button>
+				</Button>-->
 			</Grid>
 		</ScrollViewer>
 	</Grid>
