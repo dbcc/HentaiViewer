@@ -131,8 +131,7 @@ namespace HentaiViewer.ViewModels {
                     encoder.Save(stream);
                 }
             }
-            var output = JsonConvert.SerializeObject(new InfoModel(_hentai, _images.Count), Formatting.Indented,
-                new StringEnumConverter {CamelCaseText = true});
+            var output = JsonConvert.SerializeObject(new InfoModel(_hentai, _images.Count), Formatting.Indented);
 
             File.WriteAllText(Path.Combine(folder, "INFO.json"), output);
             SaveProgress = Visibility.Collapsed;

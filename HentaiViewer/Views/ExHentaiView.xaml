@@ -15,61 +15,214 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition />
 		</Grid.RowDefinitions>
-		<materialDesign:ColorZone Background="#FF191919" materialDesign:ShadowAssist.ShadowDepth="Depth2" Padding="5">
-			<Grid Margin="3">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="Auto" />
-				</Grid.ColumnDefinitions>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
-				<TextBox VerticalAlignment="Center" Width="200" Margin="5,0" materialDesign:HintAssist.Hint="Search..."
-				         Text="{Binding Setting.ExHentai.SearchQuery, Mode=TwoWay}" PreviewKeyDown="UIElement_OnPreviewKeyDown" />
-				<Grid Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition />
-						<ColumnDefinition Width="Auto" />
-						<ColumnDefinition />
-						<ColumnDefinition Width="Auto" />
-						<ColumnDefinition Width="Auto" />
-					</Grid.ColumnDefinitions>
-					<Button Width="32" Padding="2" Margin="5,0" Command="{Binding LoadPrevExHentaiCommand}">
-						<materialDesign:PackIcon Kind="ArrowLeft" />
-					</Button>
-					<TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0">
-						<Run Text="P: " ToolTip="Page:" />
-						<Run Text="{Binding ExHentaiLoadedPage}" />
-					</TextBlock>
-					<Button Grid.Column="2" Width="32" Padding="2" Margin="5,0"
-					        Command="{Binding LoadMoreExHentaiCommand}">
-						<materialDesign:PackIcon Kind="ArrowRight" />
-					</Button>
-					<Button Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" Padding="2"
-					        Margin="5,0" Width="32"
-					        Command="{Binding RefreshExHentaiCommand}">
-						<materialDesign:PackIcon Kind="Refresh" />
-					</Button>
-					<Button Grid.Row="0" Grid.Column="4" Width="32" HorizontalAlignment="Center" Padding="1"
-					        Margin="5,0"
-					        Command="{Binding HomeCommand}">
-						<materialDesign:PackIcon Kind="Home" />
-					</Button>
+		<materialDesign:ColorZone Grid.Row="0" materialDesign:ShadowAssist.ShadowDepth="Depth2" >
+			<Expander x:Name="FilterExpander" Background="#FF191919">
+				<Expander.Header>
+					<Grid Margin="3,0">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+						<TextBox GotFocus="UIElement_OnGotFocus" VerticalAlignment="Center" Width="200" Margin="5,0" materialDesign:HintAssist.Hint="Search..."
+								Text="{Binding Setting.ExHentai.SearchQuery, Mode=TwoWay}" PreviewKeyDown="UIElement_OnPreviewKeyDown" />
+						<Grid Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition />
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition />
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+							<Button Width="32" Padding="2" Margin="5,0" Command="{Binding LoadPrevExHentaiCommand}">
+								<materialDesign:PackIcon Kind="ArrowLeft" />
+							</Button>
+							<TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0">
+							<Run Text="P: " ToolTip="Page:" />
+							<Run Text="{Binding ExHentaiLoadedPage}" />
+							</TextBlock>
+							<Button Grid.Column="2" Width="32" Padding="2" Margin="5,0"
+								Command="{Binding LoadMoreExHentaiCommand}">
+								<materialDesign:PackIcon Kind="ArrowRight" />
+							</Button>
+							<Button Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" Padding="2"
+								Margin="5,0" Width="32"
+								Command="{Binding RefreshExHentaiCommand}">
+								<materialDesign:PackIcon Kind="Refresh" />
+							</Button>
+							<Button Grid.Row="0" Grid.Column="4" Width="32" HorizontalAlignment="Center" Padding="1"
+								Margin="5,0"
+								Command="{Binding HomeCommand}">
+								<materialDesign:PackIcon Kind="Home" />
+							</Button>
+						</Grid>
+						<Label Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center"
+							Content="{Binding Value, ElementName=Slider}" Margin="5,0" />
+						<Slider Grid.Row="0" Grid.Column="3" x:Name="Slider" Minimum="150" Maximum="850" VerticalAlignment="Center"
+							Margin="5,0,10,0"
+							Value="163" SmallChange="1"
+							IsSnapToTickEnabled="True" />
+					</Grid>
+				</Expander.Header>
+				<Grid HorizontalAlignment="Center">
+					<Grid.RowDefinitions>
+						<RowDefinition />
+						<RowDefinition />
+					</Grid.RowDefinitions>
+					<StackPanel Orientation="Horizontal">
+						<materialDesign:Chip Content="DOUJINSHI"
+															IconBackground="{DynamicResource PrimaryHueDarkBrush}"
+															IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+															Margin="0 0 4 4">
+							<materialDesign:Chip.Icon>
+								<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
+															IsChecked="{Binding Setting.ExHentai.Doujinshi}">
+									<materialDesign:ToggleButtonAssist.OnContent>
+										<materialDesign:PackIcon Kind="Check" />
+									</materialDesign:ToggleButtonAssist.OnContent>
+									<materialDesign:PackIcon Kind="Close" />
+								</ToggleButton>
+							</materialDesign:Chip.Icon>
+						</materialDesign:Chip>
+						<materialDesign:Chip Content="MANGA"
+															IconBackground="{DynamicResource PrimaryHueDarkBrush}"
+															IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+															Margin="0 0 4 4">
+							<materialDesign:Chip.Icon>
+								<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
+															IsChecked="{Binding Setting.ExHentai.Manga}">
+									<materialDesign:ToggleButtonAssist.OnContent>
+										<materialDesign:PackIcon Kind="Check" />
+									</materialDesign:ToggleButtonAssist.OnContent>
+									<materialDesign:PackIcon Kind="Close" />
+								</ToggleButton>
+							</materialDesign:Chip.Icon>
+						</materialDesign:Chip>
+						<materialDesign:Chip Content="ARTIST CG"
+															IconBackground="{DynamicResource PrimaryHueDarkBrush}"
+															IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+															Margin="0 0 4 4">
+							<materialDesign:Chip.Icon>
+								<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
+															IsChecked="{Binding Setting.ExHentai.ArtistCg}">
+									<materialDesign:ToggleButtonAssist.OnContent>
+										<materialDesign:PackIcon Kind="Check" />
+									</materialDesign:ToggleButtonAssist.OnContent>
+									<materialDesign:PackIcon Kind="Close" />
+								</ToggleButton>
+							</materialDesign:Chip.Icon>
+						</materialDesign:Chip>
+						<materialDesign:Chip Content="GAME CG"
+															IconBackground="{DynamicResource PrimaryHueDarkBrush}"
+															IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+															Margin="0 0 4 4">
+							<materialDesign:Chip.Icon>
+								<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
+															IsChecked="{Binding Setting.ExHentai.GameCg}">
+									<materialDesign:ToggleButtonAssist.OnContent>
+										<materialDesign:PackIcon Kind="Check" />
+									</materialDesign:ToggleButtonAssist.OnContent>
+									<materialDesign:PackIcon Kind="Close" />
+								</ToggleButton>
+							</materialDesign:Chip.Icon>
+						</materialDesign:Chip>
+						<materialDesign:Chip Content="WESTERN"
+															IconBackground="{DynamicResource PrimaryHueDarkBrush}"
+															IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+															Margin="0 0 4 4">
+							<materialDesign:Chip.Icon>
+								<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
+															IsChecked="{Binding Setting.ExHentai.Western}">
+									<materialDesign:ToggleButtonAssist.OnContent>
+										<materialDesign:PackIcon Kind="Check" />
+									</materialDesign:ToggleButtonAssist.OnContent>
+									<materialDesign:PackIcon Kind="Close" />
+								</ToggleButton>
+							</materialDesign:Chip.Icon>
+						</materialDesign:Chip>
+					</StackPanel>
+					<StackPanel Grid.Row="1" Orientation="Horizontal">
+						<materialDesign:Chip Content="NON-H"
+															IconBackground="{DynamicResource PrimaryHueDarkBrush}"
+															IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+															Margin="0 0 4 4">
+							<materialDesign:Chip.Icon>
+								<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
+															IsChecked="{Binding Setting.ExHentai.NonH}">
+									<materialDesign:ToggleButtonAssist.OnContent>
+										<materialDesign:PackIcon Kind="Check" />
+									</materialDesign:ToggleButtonAssist.OnContent>
+									<materialDesign:PackIcon Kind="Close" />
+								</ToggleButton>
+							</materialDesign:Chip.Icon>
+						</materialDesign:Chip>
+						<materialDesign:Chip Content="IMAGE SET"
+															IconBackground="{DynamicResource PrimaryHueDarkBrush}"
+															IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+															Margin="0 0 4 4">
+							<materialDesign:Chip.Icon>
+								<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
+															IsChecked="{Binding Setting.ExHentai.ImageSet}">
+									<materialDesign:ToggleButtonAssist.OnContent>
+										<materialDesign:PackIcon Kind="Check" />
+									</materialDesign:ToggleButtonAssist.OnContent>
+									<materialDesign:PackIcon Kind="Close" />
+								</ToggleButton>
+							</materialDesign:Chip.Icon>
+						</materialDesign:Chip>
+						<materialDesign:Chip Content="COSPLAY"
+															IconBackground="{DynamicResource PrimaryHueDarkBrush}"
+															IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+															Margin="0 0 4 4">
+							<materialDesign:Chip.Icon>
+								<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
+															IsChecked="{Binding Setting.ExHentai.Cosplay}">
+									<materialDesign:ToggleButtonAssist.OnContent>
+										<materialDesign:PackIcon Kind="Check" />
+									</materialDesign:ToggleButtonAssist.OnContent>
+									<materialDesign:PackIcon Kind="Close" />
+								</ToggleButton>
+							</materialDesign:Chip.Icon>
+						</materialDesign:Chip>
+						<materialDesign:Chip Content="ASIAN PORN"
+															IconBackground="{DynamicResource PrimaryHueDarkBrush}"
+															IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+															Margin="0 0 4 4">
+							<materialDesign:Chip.Icon>
+								<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
+															IsChecked="{Binding Setting.ExHentai.AsianPorn}">
+									<materialDesign:ToggleButtonAssist.OnContent>
+										<materialDesign:PackIcon Kind="Check" />
+									</materialDesign:ToggleButtonAssist.OnContent>
+									<materialDesign:PackIcon Kind="Close" />
+								</ToggleButton>
+							</materialDesign:Chip.Icon>
+						</materialDesign:Chip>
+						<materialDesign:Chip Content="MISC"
+															IconBackground="{DynamicResource PrimaryHueDarkBrush}"
+															IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+															Margin="0 0 4 4">
+							<materialDesign:Chip.Icon>
+								<ToggleButton Style="{DynamicResource MaterialDesignActionToggleButton}"
+															IsChecked="{Binding Setting.ExHentai.Misc}">
+									<materialDesign:ToggleButtonAssist.OnContent>
+										<materialDesign:PackIcon Kind="Check" />
+									</materialDesign:ToggleButtonAssist.OnContent>
+									<materialDesign:PackIcon Kind="Close" />
+								</ToggleButton>
+							</materialDesign:Chip.Icon>
+						</materialDesign:Chip>
+					</StackPanel>
 				</Grid>
-				<Label Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center"
-				       Content="{Binding Value, ElementName=Slider}" Margin="5,0" />
-				<Slider Grid.Row="0" Grid.Column="3" x:Name="Slider" Minimum="150" Maximum="850" VerticalAlignment="Center"
-				        Margin="5,0,10,0"
-				        Value="163" SmallChange="1"
-				        IsSnapToTickEnabled="True" />
-			</Grid>
-
+		</Expander>
 		</materialDesign:ColorZone>
-
+		
 		<ScrollViewer x:Name="ScrollViewer" Grid.Row="1" VerticalScrollBarVisibility="Auto">
 			<Grid>
 				<Grid.RowDefinitions>

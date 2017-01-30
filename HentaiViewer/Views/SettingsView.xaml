@@ -27,8 +27,8 @@
 							<RowDefinition Height="35" />
 							<RowDefinition Height="35" />
 							<RowDefinition Height="35" />
-							<RowDefinition Height="40" />
-							<RowDefinition Height="35" />
+							<!--<RowDefinition Height="40" />
+							<RowDefinition Height="35" />-->
 							<RowDefinition Height="Auto" />
 							<RowDefinition Height="5" />
 						</Grid.RowDefinitions>
@@ -52,14 +52,14 @@
 						<TextBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="5,0"
 						         Text="{Binding Setting.ExHentai.Igneous, Mode=TwoWay}" />
 
-						<Label Grid.Row="4" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" Content="Other" />
-						<Separator Grid.Row="4" Grid.ColumnSpan="3" Grid.Column="0" VerticalAlignment="Bottom" Margin="5,0" />
+						<!--<Label Grid.Row="4" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" Content="Other" />-->
+						<!--<Separator Grid.Row="4" Grid.ColumnSpan="3" Grid.Column="0" VerticalAlignment="Bottom" Margin="5,0" />-->
 
 						<!--<Label Grid.Row="5" VerticalAlignment="Center" Content="Search" />
 						<TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="5,0"
 								 Text="{Binding Setting.ExHentai.SearchQuery, Mode=TwoWay}" />-->
 
-						<Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3">
+						<!--<Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3">
 							<Grid.RowDefinitions>
 								<RowDefinition />
 								<RowDefinition />
@@ -208,7 +208,7 @@
 									</materialDesign:Chip.Icon>
 								</materialDesign:Chip>
 							</StackPanel>
-						</Grid>
+						</Grid>-->
 
 					</Grid>
 				</Expander>

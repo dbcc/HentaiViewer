@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using HentaiViewer.ViewModels;
@@ -21,6 +22,13 @@ namespace HentaiViewer.Views {
             BindingOperations.GetBindingExpression((TextBox) sender, TextBox.TextProperty)?.UpdateSource();
             var datactx = (ExHentaiViewModel) DataContext;
             datactx.HomeCommand.Execute(null);
+            FilterExpander.IsExpanded = false;
+        }
+
+        private void UIElement_OnGotFocus(object sender, RoutedEventArgs e) {
+            if (!FilterExpander.IsExpanded) {
+                FilterExpander.IsExpanded = true;
+            }
         }
     }
 }
