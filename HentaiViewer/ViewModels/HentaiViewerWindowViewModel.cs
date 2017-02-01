@@ -17,7 +17,6 @@ using RestSharp;
 namespace HentaiViewer.ViewModels {
     [ImplementPropertyChanged]
     public class HentaiViewerWindowViewModel : IDisposable {
-        public static HentaiViewerWindowViewModel Instance;
         private readonly ObservableCollection<object> _imageObjects = new ObservableCollection<object>();
         private bool _adding;
 
@@ -26,9 +25,9 @@ namespace HentaiViewer.ViewModels {
         private bool _isClosing;
         //private bool _saving;
 
-        public HentaiViewerWindowViewModel(HentaiModel hentai, bool SaveEnabled = true) {
-            Instance = this;
-            _hentai = hentai;
+        public HentaiViewerWindowViewModel(HentaiModel hentai, bool saveEnabled = true) {
+            Hentai = hentai;
+            CopyLinkCommand = new ActionCommand(() => Clipboard.SetText(Hentai.Link));
             ImageObjects = new ReadOnlyObservableCollection<object>(_imageObjects);
             GetImagesCommand = new ActionCommand(async () => {
                 FetchButtonVisibility = Visibility.Collapsed;
@@ -42,7 +41,7 @@ namespace HentaiViewer.ViewModels {
                     await Task.Delay(200);
                     Loaded++;
                 }
-                this.SaveEnabled = SaveEnabled;
+                SaveEnabled = saveEnabled;
             });
             SaveImagesCommand = new ActionCommand(() => {
                 if (SaveProgress == Visibility.Collapsed) SaveImagesAsync();
@@ -53,7 +52,7 @@ namespace HentaiViewer.ViewModels {
 
         public SettingsModel Setting { get; set; }
 
-        public HentaiModel _hentai { get; set; }
+        public HentaiModel Hentai { get; set; }
 
         public int Loaded { get; private set; }
         public bool SaveEnabled { get; set; }
@@ -72,6 +71,8 @@ namespace HentaiViewer.ViewModels {
         public Visibility SaveProgress { get; set; } = Visibility.Collapsed;
 
         public int ProgressValue { get; set; }
+
+        public ICommand CopyLinkCommand { get; }
 
         public async void Dispose() {
             _isClosing = true;
@@ -109,10 +110,10 @@ namespace HentaiViewer.ViewModels {
         }
 
         private async void SaveImagesAsync() {
-            if (_hentai.Title == "lul" || !SaveEnabled) return;
+            if (Hentai.Title == "lul" || !SaveEnabled) return;
             SaveEnabled = false;
-            var folder = Path.Combine(Directory.GetCurrentDirectory(), "Saves", _hentai.Site,
-                MD5Converter.MD5Hash(_hentai.Title));
+            var folder = Path.Combine(Directory.GetCurrentDirectory(), "Saves", Hentai.Site,
+                MD5Converter.MD5Hash(Hentai.Title));
 
             if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
             SaveProgress = Visibility.Visible;
@@ -131,7 +132,7 @@ namespace HentaiViewer.ViewModels {
                     encoder.Save(stream);
                 }
             }
-            var output = JsonConvert.SerializeObject(new InfoModel(_hentai, _images.Count), Formatting.Indented);
+            var output = JsonConvert.SerializeObject(new InfoModel(Hentai, _images.Count), Formatting.Indented);
 
             File.WriteAllText(Path.Combine(folder, "INFO.json"), output);
             SaveProgress = Visibility.Collapsed;
@@ -143,6 +144,7 @@ namespace HentaiViewer.ViewModels {
             _adding = true;
             if (_imageObjects.Count > 50) {
                 _imageObjects.Clear();
+                GC.Collect();
                 GC.Collect();
                 //_imageObjects.Add(new ImageModel { PageNumber = _loaded, Source = _images[_loaded-3] });
                 //await Task.Delay(100);

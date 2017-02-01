@@ -11,17 +11,14 @@
 	xmlns:models="clr-namespace:HentaiViewer.Models"
 	x:Class="HentaiViewer.Views.HentaiViewerWindow"
 	mc:Ignorable="d"
-	Title="{Binding _hentai.Title}"
-	TitleCharacterCasing="Normal"
+	Title="{Binding Hentai.Title}"
+	TitleCharacterCasing="Normal" d:DesignHeight="800" d:DesignWidth="600"
 	Height="{Binding Setting.Other.ViewerSize.Height, Mode=TwoWay}"
 	Width="{Binding Setting.Other.ViewerSize.Width, Mode=TwoWay}" MinWidth="400" BorderThickness="1"
 	GlowBrush="Black" NonActiveGlowBrush="Black" NonActiveBorderBrush="Black" BorderBrush="Black"
 	NonActiveWindowTitleBrush="{DynamicResource WindowTitleColorBrush}"
 	d:DataContext="{d:DesignInstance {x:Type viewModel:HentaiViewerWindowViewModel}, IsDesignTimeCreatable=False}"
 	Closing="HentaiViewerWindow_OnClosed">
-	<controls:MetroWindow.Resources>
-		<Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-	</controls:MetroWindow.Resources>
 	<controls:MetroWindow.LeftWindowCommands>
 		<controls:WindowCommands>
 			<Label HorizontalAlignment="Left" Content="Viewer - Pages" />
@@ -39,6 +36,11 @@
 			             Visibility="{Binding SaveProgress}" Maximum="{Binding Pages}" Value="{Binding ProgressValue}" />
 		</controls:WindowCommands>
 	</controls:MetroWindow.LeftWindowCommands>
+	<controls:MetroWindow.RightWindowCommands>
+		<controls:WindowCommands>
+			<Button Command="{Binding CopyLinkCommand}">Copy link</Button>
+		</controls:WindowCommands>
+	</controls:MetroWindow.RightWindowCommands>
 	<Grid Margin="0" MouseDown="Grid_MouseDown">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="35" />
@@ -61,6 +63,11 @@
 		<ScrollViewer Grid.Row="1" x:Name="scviewer" Margin="0,0,0,20" CanContentScroll="True"
 		              ScrollChanged="Scviewer_OnScrollChanged">
 			<ItemsControl x:Name="Images" ItemsSource="{Binding ImageObjects}">
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<VirtualizingStackPanel IsItemsHost="True"/>
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
 						<models:ImageView />
