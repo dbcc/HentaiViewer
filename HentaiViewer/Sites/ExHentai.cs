@@ -35,9 +35,9 @@ namespace HentaiViewer.Sites {
                 var atag = await ParseHtmlStringAsync(element.InnerHtml);
 
                 client.BaseUrl = new Uri(atag.Images[0].Source);
-                var imgfromb = client.DownloadData(new RestRequest());
+                var imgfromb = await client.ExecuteGetTaskAsync(new RestRequest());
 
-                var image = BytesToBitmapImage(imgfromb);
+                var image = BytesToBitmapImage(imgfromb.RawBytes);
 
                 hents.Add(new HentaiModel {
                     Title = atag.Images[0].Title,
@@ -47,7 +47,7 @@ namespace HentaiViewer.Sites {
                     Site = "ExHentai.org",
                     Seen = HistoryController.CheckHistory(atag.Images[0].Title, atag.Links[0].GetAttribute("href"))
                 });
-                await Task.Delay(50);
+                //await Task.Delay(50);
             }
             return hents;
         }
