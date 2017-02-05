@@ -37,6 +37,8 @@ namespace HentaiViewer.ViewModels {
                 var links = await SelectSiteAsync(hentai);
                 _images = new ObservableCollection<object>(links);
                 Images = new ReadOnlyObservableCollection<object>(_images);
+                PagesList = new ReadOnlyObservableCollection<int>(_pagesList);
+                PageIntList();
                 PregressBarVisibility = Visibility.Collapsed;
                 foreach (var link in links) {
                     if (_isClosing || _imageObjects.Count == 9) break;
@@ -72,15 +74,14 @@ namespace HentaiViewer.ViewModels {
             Mode = "Long Strip";
         }
 
-        public List<int> PagesList => PageIntList();
-        private List<int> PageIntList()
+        public ReadOnlyObservableCollection<int> PagesList { get; set; }
+        public ObservableCollection<int> _pagesList = new ObservableCollection<int>();
+        private void PageIntList()
         {
-            var p = new List<int>();
             for (var i = 0; i < _images.Count; i++)
             {
-                p.Add(i);
+                _pagesList.Add(i);
             }
-            return p;
         }
 
         public SettingsModel Setting { get; set; }
