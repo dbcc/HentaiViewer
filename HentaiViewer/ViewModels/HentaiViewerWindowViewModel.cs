@@ -18,9 +18,10 @@ namespace HentaiViewer.ViewModels {
     [ImplementPropertyChanged]
     public class HentaiViewerWindowViewModel : IDisposable {
         private readonly ObservableCollection<object> _imageObjects = new ObservableCollection<object>();
+        private ObservableCollection<object> _images = new ObservableCollection<object>();
         private bool _adding;
 
-        private List<object> _images;
+        //private List<object> _images;
 
         private bool _isClosing;
         //private bool _saving;
@@ -28,12 +29,14 @@ namespace HentaiViewer.ViewModels {
         public HentaiViewerWindowViewModel(HentaiModel hentai, bool saveEnabled = true) {
             Hentai = hentai;
             CopyLinkCommand = new ActionCommand(() => Clipboard.SetText(Hentai.Link));
+            ChangeModeCommand = new ActionCommand(ChangeMode);
             ImageObjects = new ReadOnlyObservableCollection<object>(_imageObjects);
             GetImagesCommand = new ActionCommand(async () => {
                 FetchButtonVisibility = Visibility.Collapsed;
                 PregressBarVisibility = Visibility.Visible;
                 var links = await SelectSiteAsync(hentai);
-                _images = links;
+                _images = new ObservableCollection<object>(links);
+                Images = new ReadOnlyObservableCollection<object>(_images);
                 PregressBarVisibility = Visibility.Collapsed;
                 foreach (var link in links) {
                     if (_isClosing || _imageObjects.Count == 9) break;
@@ -48,6 +51,36 @@ namespace HentaiViewer.ViewModels {
             });
             Setting = SettingsController.Settings;
             if (Setting.Other.InstantFetch) GetImagesCommand.Execute(null);
+
+        }
+
+        public int SelectedPage { get; set; }
+
+        public int TransIndex { get; set; } = 1;
+
+        public string Mode { get; set; } = "Singe Page";
+
+        private void ChangeMode()
+        {
+            if (TransIndex == 1)
+            {
+                TransIndex = 0;
+                Mode = "Singe Page";
+                return;
+            }
+            TransIndex = 1;
+            Mode = "Long Strip";
+        }
+
+        public List<int> PagesList => PageIntList();
+        private List<int> PageIntList()
+        {
+            var p = new List<int>();
+            for (var i = 0; i < _images.Count; i++)
+            {
+                p.Add(i);
+            }
+            return p;
         }
 
         public SettingsModel Setting { get; set; }
@@ -58,11 +91,13 @@ namespace HentaiViewer.ViewModels {
         public bool SaveEnabled { get; set; }
 
         public ReadOnlyObservableCollection<object> ImageObjects { get; }
+        public ReadOnlyObservableCollection<object> Images { get; set; }
 
         public string Pages { get; set; } = "0 : 0";
 
         public ICommand GetImagesCommand { get; }
         public ICommand SaveImagesCommand { get; }
+        public ICommand ChangeModeCommand { get; }
 
         public Visibility FetchButtonVisibility { get; set; } = Visibility.Visible;
 

@@ -185,6 +185,12 @@
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Viewer Views\LongstripView.xaml.cs">
+      <DependentUpon>LongstripView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Viewer Views\SinglepageView.xaml.cs">
+      <DependentUpon>SinglepageView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Models\HentaiCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -245,6 +251,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Viewer Views\LongstripView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Viewer Views\SinglepageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
