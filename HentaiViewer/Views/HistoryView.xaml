@@ -21,7 +21,7 @@
 			</ListBox.Template>
 			<ListBox.ItemsPanel>
 				<ItemsPanelTemplate>
-					<VirtualizingStackPanel />
+					<VirtualizingStackPanel VirtualizationMode="Recycling" />
 				</ItemsPanelTemplate>
 			</ListBox.ItemsPanel>
 			<ListBox.ItemTemplate>

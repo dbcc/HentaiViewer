@@ -93,7 +93,7 @@ namespace HentaiViewer.Models {
                     });
             }
             else {
-                HistoryController.History.Remove(h => h.Title == Title || h.Link == Link);
+                HistoryController.History.RemoveAll(h => h.Title == Title || h.Link == Link);
             }
             HistoryController.Save();
         }
