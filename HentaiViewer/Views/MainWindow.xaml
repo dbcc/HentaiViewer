@@ -8,15 +8,13 @@
 	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 	xmlns:viewModel="clr-namespace:HentaiViewer.ViewModels"
 	xmlns:views="clr-namespace:HentaiViewer.Views"
-	xmlns:Converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
 	xmlns:tb="http://www.hardcodet.net/taskbar"
 	x:Class="HentaiViewer.Views.MainWindow"
-	mc:Ignorable="d"
+	mc:Ignorable="d" SaveWindowPosition="True"
 	Title="Hentai Viewer" Height="600" Width="1000" MinWidth="600" MinHeight="200" BorderThickness="1"
-	GlowBrush="Black" NonActiveGlowBrush="Black" NonActiveBorderBrush="Black" BorderBrush="Black"
+	 NonActiveGlowBrush="Black" NonActiveBorderBrush="Black" BorderBrush="{DynamicResource AccentColorBrush}"
 	NonActiveWindowTitleBrush="{DynamicResource WindowTitleColorBrush}"
-	d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=False}"
-	WindowStartupLocation="CenterScreen">
+	d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=False}">
 	<controls:MetroWindow.RightWindowCommands>
 		<controls:WindowCommands>
 			<Button ToolTip="Open from link" Command="{Binding OpenLinkCommand}">
