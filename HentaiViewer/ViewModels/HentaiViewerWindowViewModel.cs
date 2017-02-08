@@ -75,7 +75,7 @@ namespace HentaiViewer.ViewModels {
         }
 
         public ReadOnlyObservableCollection<int> PagesList { get; set; }
-        public ObservableCollection<int> _pagesList = new ObservableCollection<int>();
+        private readonly ObservableCollection<int> _pagesList = new ObservableCollection<int>();
         private void PageIntList()
         {
             for (var i = 0; i < _images.Count; i++)

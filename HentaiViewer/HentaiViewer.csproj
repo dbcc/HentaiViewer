@@ -124,6 +124,7 @@
     </ApplicationDefinition>
     <Compile Include="Common\EncryptedStringPropertyResolver.cs" />
     <Compile Include="Common\ExceptionHandler.cs" />
+    <Compile Include="Common\ExtensionMethods.cs" />
     <Compile Include="Common\FavoritesController.cs" />
     <Compile Include="Common\GithubController.cs" />
     <Compile Include="Common\HistoryController.cs" />
