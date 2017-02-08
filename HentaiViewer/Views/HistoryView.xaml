@@ -11,17 +11,9 @@
              d:DataContext="{d:DesignInstance {x:Type viewModel:HistoryViewModel}, IsDesignTimeCreatable=False}">
 	<Grid>
 		<ListBox HorizontalContentAlignment="Stretch" ItemsSource="{Binding HistoryItems}">
-			<ListBox.Template>
-				<ControlTemplate>
-					<ScrollViewer VirtualizingStackPanel.IsVirtualizing="True" CanContentScroll="True"
-					              VirtualizingStackPanel.VirtualizationMode="Recycling">
-						<ItemsPresenter />
-					</ScrollViewer>
-				</ControlTemplate>
-			</ListBox.Template>
 			<ListBox.ItemsPanel>
 				<ItemsPanelTemplate>
-					<VirtualizingStackPanel VirtualizationMode="Recycling" />
+                    <VirtualizingStackPanel VirtualizationMode="Recycling"/>
 				</ItemsPanelTemplate>
 			</ListBox.ItemsPanel>
 			<ListBox.ItemTemplate>
