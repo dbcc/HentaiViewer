@@ -30,6 +30,7 @@ namespace HentaiViewer.ViewModels {
             Hentai = hentai;
             CopyLinkCommand = new ActionCommand(() => Clipboard.SetText(Hentai.Link));
             ChangeModeCommand = new ActionCommand(ChangeMode);
+            JumpCommand = new ActionCommand(Jump);
             ImageObjects = new ReadOnlyObservableCollection<object>(_imageObjects);
             GetImagesCommand = new ActionCommand(async () => {
                 FetchButtonVisibility = Visibility.Collapsed;
@@ -109,6 +110,16 @@ namespace HentaiViewer.ViewModels {
         public int ProgressValue { get; set; }
 
         public ICommand CopyLinkCommand { get; }
+
+        public int JumpTonumber { get; set; }
+
+        public ICommand JumpCommand { get; }
+
+        private async void Jump() {
+            _imageObjects?.Clear();
+            Loaded = JumpTonumber;
+            await LoadMoreImagesAsync();
+        }
 
         public async void Dispose() {
             _isClosing = true;
@@ -191,7 +202,7 @@ namespace HentaiViewer.ViewModels {
             }
             for (var i = 0; i < _images.Count; i++) {
                 if (Loaded == _images.Count || i == 9) break;
-                _imageObjects.Add(new ImageModel {PageNumber = Loaded + 1, Source = _images[Loaded]});
+                _imageObjects.Add(new ImageModel {PageNumber = Loaded, Source = _images[Loaded]});
                 Loaded++;
                 await Task.Delay(100);
             }

@@ -7,7 +7,7 @@
              xmlns:models="clr-namespace:HentaiViewer.Models"
              xmlns:viewModel="clr-namespace:HentaiViewer.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"
+             d:DesignHeight="700" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance {x:Type viewModel:HentaiViewerWindowViewModel}, IsDesignTimeCreatable=False}">
 
     <Grid Margin="0" >
@@ -15,20 +15,29 @@
             <RowDefinition Height="35" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <StackPanel x:Name="stackPanel1" Grid.Row="0" Orientation="Horizontal" Margin="5,0" HorizontalAlignment="Left"
-		            VerticalAlignment="Center">
-            <Label Margin="5,0" VerticalAlignment="Center">Click to Scroll</Label>
-            <ToggleButton x:Name="toggleButton" IsChecked="{Binding Setting.Other.ClickScroll, Mode=TwoWay}" />
-            <Separator VerticalAlignment="Stretch" Height="30" />
-        </StackPanel>
-        <StackPanel Grid.Row="0" x:Name="stackPanel"
-		            Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=toggleButton}"
-		            Orientation="Horizontal" VerticalAlignment="Center" Margin="140,0,0,0">
-            <Label Margin="5,0" VerticalAlignment="Center">Scrollspeed</Label>
-            <Slider x:Name="SliderScrollSpeed" Minimum="1" Maximum="100" Value="10" Width="300" TickFrequency="1"
-			        IsSnapToTickEnabled="True" VerticalAlignment="Center" />
-            <Label HorizontalAlignment="Center" Content="{Binding Value, ElementName=SliderScrollSpeed}" />
-        </StackPanel>
+        <Grid Grid.Row="0" HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel x:Name="stackPanel1" Grid.Row="0" Orientation="Horizontal" Margin="5,0" HorizontalAlignment="Left"
+		                VerticalAlignment="Center">
+                <Button Style="{DynamicResource MaterialDesignToolButton}" VerticalAlignment="Center" Margin="5,0"
+                        Command="{Binding JumpCommand}">Jump to</Button>
+                <ComboBox ItemsSource="{Binding PagesList}" Text="0" Width="40" Margin="5,0" SelectedItem="{Binding JumpTonumber}"/>
+                <Label Margin="5,0" VerticalAlignment="Center">Click to Scroll</Label>
+                <ToggleButton x:Name="toggleButton" IsChecked="{Binding Setting.Other.ClickScroll, Mode=TwoWay}" />
+                <Separator VerticalAlignment="Stretch" Height="30" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" x:Name="stackPanel"
+		                Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=toggleButton}"
+		                Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0">
+                <Label Margin="5,0" VerticalAlignment="Center">Scrollspeed</Label>
+                <Slider x:Name="SliderScrollSpeed" Minimum="1" Maximum="100" Value="10" Width="300" TickFrequency="1"
+			            IsSnapToTickEnabled="True" VerticalAlignment="Center" />
+                <Label HorizontalAlignment="Center" Content="{Binding Value, ElementName=SliderScrollSpeed}" />
+            </StackPanel>
+        </Grid>
         <ScrollViewer Grid.Row="1" x:Name="scviewer" Margin="0,0,0,20" CanContentScroll="True"
 		              ScrollChanged="Scviewer_OnScrollChanged">
             <ItemsControl x:Name="Images" ItemsSource="{Binding ImageObjects}">

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using HentaiViewer.Models;
@@ -8,11 +9,11 @@ using Newtonsoft.Json;
 namespace HentaiViewer.Common {
     public class FavoritesController {
         private static readonly string ConfigFile = Path.Combine(Directory.GetCurrentDirectory(), "Favorites.json");
-        public static List<HentaiModel> Favorites { get; set; }
+        public static ObservableCollection<HentaiModel> Favorites { get; set; }
 
         public static List<string> FavoriteMd5s => Favorites.Select(f => f.Md5).ToList();
 
-        public static List<HentaiModel> Load() {
+        public static ObservableCollection<HentaiModel> Load() {
             if (File.Exists(ConfigFile)) {
                 var input = File.ReadAllText(ConfigFile);
 
@@ -20,10 +21,10 @@ namespace HentaiViewer.Common {
                     ObjectCreationHandling = ObjectCreationHandling.Replace,
                     ContractResolver = new EncryptedStringPropertyResolver("big-secret-memes")
                 };
-                Favorites = JsonConvert.DeserializeObject<List<HentaiModel>>(input, jsonSettings);
+                Favorites = JsonConvert.DeserializeObject<ObservableCollection<HentaiModel>>(input, jsonSettings);
             }
             else {
-                Favorites = new List<HentaiModel>();
+                Favorites = new ObservableCollection<HentaiModel>();
             }
             Save();
             return Favorites;

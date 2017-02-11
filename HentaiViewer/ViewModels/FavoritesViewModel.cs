@@ -9,12 +9,12 @@ using RestSharp;
 namespace HentaiViewer.ViewModels {
     public class FavoritesViewModel {
         public static FavoritesViewModel Instance;
-        public ObservableCollection<HentaiModel> _favorites = new ObservableCollection<HentaiModel>();
+        public readonly ObservableCollection<HentaiModel> Favorites = FavoritesController.Favorites;
 
         public FavoritesViewModel() {
             Instance = this;
-            FavoriteItems = new ReadOnlyObservableCollection<HentaiModel>(_favorites);
-            foreach (var hentaiModel in FavoritesController.Favorites) {
+            FavoriteItems = new ReadOnlyObservableCollection<HentaiModel>(Favorites);
+            foreach (var hentaiModel in Favorites) {
                 if (hentaiModel.Site == "ExHentai.org") {
                     var client = new RestClient {
                         UserAgent =
@@ -37,7 +37,6 @@ namespace HentaiViewer.ViewModels {
                     hentaiModel.Img = hentaiModel.ThumbnailLink;
                 }
                 hentaiModel.Seen = HistoryController.CheckHistory(hentaiModel.Title, hentaiModel.Link);
-                _favorites.Add(hentaiModel);
             }
         }
 

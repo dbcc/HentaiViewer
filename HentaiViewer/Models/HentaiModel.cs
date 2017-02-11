@@ -64,17 +64,11 @@ namespace HentaiViewer.Models {
             Favorite = !Favorite;
             if (Favorite) {
                 if (!FavoritesController.FavoriteMd5s.Contains(Md5)) {
-                    FavoritesController.Favorites.Add(this);
-                    FavoritesViewModel.Instance._favorites.Add(this);
+                    FavoritesController.Favorites.Insert(0, this);
                 }
             }
             else {
-                foreach (var hentaiModel in FavoritesViewModel.Instance._favorites) {
-                    if (hentaiModel.Md5 != Md5) continue;
-                    FavoritesController.Favorites.Remove(hentaiModel);
-                    FavoritesViewModel.Instance._favorites.Remove(hentaiModel);
-                    break;
-                }
+                FavoritesController.Favorites.RemoveAll(f=> f.Md5 == Md5 || f.Link == Link);
             }
             FavoritesController.Save();
         }
