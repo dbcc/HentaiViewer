@@ -21,16 +21,28 @@ namespace HentaiViewer.Sites {
             //var a = classes.Where(x => x.OuterHtml == "img");
             foreach (var element in classes) {
                 var img = await ParseHtmlStringAsync(element.InnerHtml);
-                hents.Add(new HentaiModel {
-                    Title = img.All[0].TextContent,
-                    Link = $"https://nhentai.net{element.GetAttribute("href").Replace("about:", string.Empty)}",
-                    Img = new Uri($"https:{img.Images[0].Source.Replace("about:", string.Empty)}"),
-                    ThumbnailLink = $"https:{img.Images[0].Source.Replace("about:", string.Empty)}",
-                    Site = "nHentai.net",
-                    Seen =
-                        HistoryController.CheckHistory(img.All[0].TextContent,
-                            $"https://nhentai.net{element.GetAttribute("href").Replace("about:", string.Empty)}")
-                });
+                var i =
+                    img.All.FirstOrDefault(
+                        ii =>
+                            ii.LocalName == "img" && ii.HasAttribute("data-src") &&
+                            ii.GetAttribute("data-src").StartsWith("https://t.nhentai.net/galleries/"))?.GetAttribute("data-src") ??
+                    $"https:{img.Images[0].Source.Replace("about:", string.Empty)}";
+                var title = img.All.FirstOrDefault(t => t.LocalName== "div" && t.ClassList.Contains("caption"))?.TextContent;
+                try {
+                    hents.Add(new HentaiModel {
+                        Title = title,
+                        Link = $"https://nhentai.net{element.GetAttribute("href").Replace("about:", string.Empty)}",
+                        Img = i,
+                        ThumbnailLink = i,
+                        Site = "nHentai.net",
+                        Seen =
+                            HistoryController.CheckHistory(img.All[0].TextContent,
+                                $"https://nhentai.net{element.GetAttribute("href").Replace("about:", string.Empty)}")
+                    });
+                }
+                catch (Exception ) {
+                    // hmm
+                }
             }
             return hents;
         }
@@ -80,7 +92,7 @@ namespace HentaiViewer.Sites {
             var images =
                 imgTags.Select(
                         element =>
-                            $"https:{element.GetAttribute("data-src").Replace("t.j", ".j").Replace("/t.", "/i.").Replace("t.pn", ".pn")}")
+                            $"{element.GetAttribute("data-src").Replace("t.j", ".j").Replace("/t.", "/i.").Replace("t.pn", ".pn")}")
                     .Cast<object>()
                     .ToList();
             //img link https://t.nhentai.net/galleries/775571/6.jpg
@@ -90,7 +102,16 @@ namespace HentaiViewer.Sites {
             //for (int i = 1; i <= pages; i++) {
             //	images.Add($"{imagelinktmp}{i}.jpg");
             //}
-            return new Tuple<List<object>, int>(images, pages);
+
+            var ims = new List<object>();
+            foreach (var image in images) {
+                if (image.ToString().StartsWith("http")) {
+                    ims.Add(image);
+                    continue;
+                }
+                ims.Add($"https:{image}");
+            }
+            return new Tuple<List<object>, int>(ims, pages);
         }
     }
 }
