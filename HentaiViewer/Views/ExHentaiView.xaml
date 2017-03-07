@@ -70,12 +70,23 @@
 							IsSnapToTickEnabled="True" />
 					</Grid>
 				</Expander.Header>
-				<Grid HorizontalAlignment="Center">
+				<Grid>
 					<Grid.RowDefinitions>
-						<RowDefinition />
-						<RowDefinition />
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
 					</Grid.RowDefinitions>
-					<StackPanel Orientation="Horizontal">
+                    <Grid Margin="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock VerticalAlignment="Center">Minimum Rating:</TextBlock>
+                            <materialDesign:RatingBar Value="{Binding Setting.ExHentai.MinRating, Mode=TwoWay}" Max="5" Min="1"/>
+                        </StackPanel>
+                    </Grid>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
 						<materialDesign:Chip Content="DOUJINSHI"
 															IconBackground="{DynamicResource PrimaryHueDarkBrush}"
 															IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
@@ -147,7 +158,7 @@
 							</materialDesign:Chip.Icon>
 						</materialDesign:Chip>
 					</StackPanel>
-					<StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
 						<materialDesign:Chip Content="NON-H"
 															IconBackground="{DynamicResource PrimaryHueDarkBrush}"
 															IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"

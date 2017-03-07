@@ -1,4 +1,7 @@
-﻿namespace HentaiViewer.Models {
+﻿using System.ComponentModel;
+using Newtonsoft.Json;
+
+namespace HentaiViewer.Models {
     public class SettingsModel {
         public ExhentaiOption ExHentai { get; set; } = new ExhentaiOption();
 
@@ -69,5 +72,7 @@
         public int AsianPorn { get; set; }
 
         public int Misc { get; set; }
+        [DefaultValue(2), JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+        public int MinRating { get; set; }
     }
 }

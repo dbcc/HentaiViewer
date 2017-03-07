@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -82,7 +83,10 @@ namespace HentaiViewer.ViewModels {
                                                   $"&f_cosplay={SettingsController.Settings.ExHentai.Cosplay}" +
                                                   $"&f_asianporn={SettingsController.Settings.ExHentai.AsianPorn}" +
                                                   $"&f_misc={SettingsController.Settings.ExHentai.Misc}" +
-                                                  $"&f_search={searchQuery}&f_apply=Apply+Filter");
+                                                  $"&f_search={searchQuery}&f_apply=Apply+Filter" +
+                                                  $"&advsearch=1&f_sname=on&f_stags=on&f_sr=on" +
+                                                  $"&f_srdd={SettingsController.Settings.ExHentai.MinRating}");
+            Console.WriteLine(SettingsController.Settings.ExHentai.MinRating);
             foreach (var hentaiModel in i) {
                 if (FavoritesController.FavoriteMd5s.Contains(hentaiModel.Md5)) hentaiModel.Favorite = true;
                 _exHentai.Add(hentaiModel);
