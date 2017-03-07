@@ -29,23 +29,23 @@ namespace HentaiViewer.Sites {
 
             var hents = new List<HentaiModel>();
 
-            var classes = document.All.Where(c => c.LocalName == "div" && c.ClassList.Contains("id3"));
+            var classes = document.All.Where(c => c.LocalName == "div" && c.ClassList.Contains("id1"));
             //var a = classes.Where(x => x.OuterHtml == "img");
             foreach (var element in classes) {
-                var atag = await ParseHtmlStringAsync(element.InnerHtml);
+                var id3 = element.Children.First(d => d.LocalName == "div" && d.ClassList.Contains("id3"));
+                var atag = await ParseHtmlStringAsync(id3.InnerHtml);
 
                 client.BaseUrl = new Uri(atag.Images[0].Source);
                 var imgfromb = await client.ExecuteGetTaskAsync(new RestRequest());
 
                 var image = BytesToBitmapImage(imgfromb.RawBytes);
-
                 hents.Add(new HentaiModel {
                     Title = atag.Images[0].Title,
                     Link = atag.Links[0].GetAttribute("href"),
                     Img = image,
                     ThumbnailLink = atag.Images[0].Source,
                     Site = "ExHentai.org",
-                    Seen = HistoryController.CheckHistory(atag.Images[0].Title, atag.Links[0].GetAttribute("href"))
+                    Seen = HistoryController.CheckHistory(atag.Images[0].Title, atag.Links[0].GetAttribute("href")),
                 });
                 //await Task.Delay(50);
             }

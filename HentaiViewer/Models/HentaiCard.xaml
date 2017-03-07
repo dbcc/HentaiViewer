@@ -5,14 +5,11 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="clr-namespace:HentaiViewer.Models"
 	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-	xmlns:Converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
+	xmlns:converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
 	x:Class="HentaiViewer.Models.HentaiCard"
 	mc:Ignorable="d"
 	d:DesignHeight="300" d:DesignWidth="300"
 	d:DataContext="{d:DesignInstance {x:Type local:HentaiModel}, IsDesignTimeCreatable=False}">
-	<UserControl.Resources>
-		<Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-	</UserControl.Resources>
 	<materialDesign:Card Margin="5,5,0,0">
 		<Grid x:Name="Grid">
 			<Grid.RowDefinitions>
@@ -21,7 +18,7 @@
 				<RowDefinition Height="Auto" MinHeight="30" />
 			</Grid.RowDefinitions>
 			<Image Grid.Row="0" Source="{Binding Img}" Margin="5,0" />
-
+            
 			<Separator Grid.Row="1" Style="{StaticResource MaterialDesignLightSeparator}" />
 			<TextBlock Grid.Row="2" Text="{Binding Title}" TextWrapping="Wrap" FontSize="14" ToolTip="{Binding Title}"
 			           Margin="5,0,5,5"
