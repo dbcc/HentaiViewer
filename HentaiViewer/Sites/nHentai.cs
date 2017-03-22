@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AngleSharp;
+using AngleSharp.Dom;
 using AngleSharp.Dom.Html;
 using AngleSharp.Parser.Html;
 using HentaiViewer.Common;
@@ -87,10 +88,18 @@ namespace HentaiViewer.Sites {
                 if (firstOrDefault != null)
                     hentai.Title = firstOrDefault.TextContent;
             }
-            var imgTags = document.All.Where(i => i.LocalName == "img" && i.ClassList.Contains("lazyload"));
+            var thumbnailcontainer =
+                document.All.First(
+                    c => c.LocalName == "div" && c.HasAttribute("id") && c.GetAttribute("id") == "thumbnail-container");
+            var imgt = new List<IElement>();
+            foreach (var thumbnailcontainerChild in thumbnailcontainer.Children) {
+                imgt.Add(thumbnailcontainerChild.Children[0].Children[0]);
+            }
+
+            //var imgTags = thumbnailcontainer?.Children.Where(i => i.LocalName == "img" && i.ClassList.Contains("lazyload"));
 
             var images =
-                imgTags.Select(
+                imgt?.Select(
                         element =>
                             $"{element.GetAttribute("data-src").Replace("t.j", ".j").Replace("/t.", "/i.").Replace("t.pn", ".pn")}")
                     .Cast<object>()
