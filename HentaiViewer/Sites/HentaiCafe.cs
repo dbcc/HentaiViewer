@@ -28,7 +28,7 @@ namespace HentaiViewer.Sites {
                     Img = new Uri(img.Images[0].Source),
                     ThumbnailLink = img.Images[0].Source,
                     Site = "Hentai.cafe",
-                    Seen = HistoryController.CheckHistory(title, element.GetAttribute("href"))
+                    Seen = HistoryController.CheckHistory(element.GetAttribute("href"))
                 });
             }
             return hents;
@@ -57,10 +57,10 @@ namespace HentaiViewer.Sites {
             return response.Content;
         }
 
-        public static async Task<Tuple<List<object>, int>> CollectImagesTaskAsync(HentaiModel hentai) {
+        public static async Task<Tuple<List<object>, int>> CollectImagesTaskAsync(HentaiModel hentai, Action<int, int> setPages) {
             if (Directory.Exists(hentai.SavePath) && hentai.IsSavedGallery) {
                 var files =
-                    new DirectoryInfo(hentai.SavePath).GetFileSystemInfos("*.png")
+                    new DirectoryInfo(hentai.SavePath).GetFileSystemInfos("*.???")
                         .OrderBy(fs => int.Parse(fs.Name.Split('.')[0]));
                 var paths = new List<object>();
                 files.ToList().ForEach(p => paths.Add(p.FullName));
@@ -78,48 +78,26 @@ namespace HentaiViewer.Sites {
                 var firstOrDefault = entryPage.All.FirstOrDefault(h => h.LocalName == "h3");
                 if (firstOrDefault != null) hentai.Title = firstOrDefault.TextContent;
             }
+            var blankurl = entryLink + "page/";
             if (!entryLink.EndsWith("page/1"))
                 entryLink = entryLink + "page/1";
+
             var html = await GetHtmlStringAsync(entryLink);
             var match = Regex.Match(html,
                 "<div class=\"text\">([0-9]+) ⤵</div>",
                 RegexOptions.IgnoreCase);
             var retlist = new List<object>();
             var lastChapterNumber = int.Parse(match.Groups[1].Value);
-            var slitlink = entryLink.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
-            slitlink[slitlink.Length - 1] = "1";
-            var newlink = string.Join("/", slitlink);
-            newlink = newlink.Replace(":/", "://");
-
-            var htmlimg = await GetHtmlStringAsync(newlink);
-
-            var imgLink = Regex.Match(htmlimg,
-                @"(https://cdn.hentai.cafe/manga/content/comics/.+/(?<prenum>.+ )?(?<num>[0-9]+)[\.jpg|\.png]+)");
-            retlist.Add(imgLink.Groups[1].Value);
-            var zeros = imgLink.Groups[3].Value;
-
-            var img = imgLink.Groups[1].Value.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
-            var suffixsplit = img.Last().Split(new[] {'.'}, StringSplitOptions.RemoveEmptyEntries);
-            var extension = suffixsplit.Last();
-            var list = new List<string>(img);
-            var lastseg = !string.IsNullOrEmpty(imgLink.Groups["prenum"].Value)  ? imgLink.Groups["prenum"].Value : string.Empty;
-            list.RemoveAt(img.Length - 1);
-            img = list.ToArray();
-            var nlink = string.Join("/", img).Replace(":/", "://");
-            for (var i = 2; i <= lastChapterNumber; i++) {
-                //var imgnumber = int.Parse(suffixsplit[0]);
-                //var newsuffix = i < 10 ? $"0{i}.{extension}" : $"{i}.{extension}";
-                var newsuffix = string.Empty;
-                if (zeros.StartsWith("00")) {
-                    if (i < 10) newsuffix = $"00{i}.{extension}";
-                    else if (i < 100 && i > 9) newsuffix = $"0{i}.{extension}";
-                    else if (i > 99) newsuffix = $"{i}.{extension}";
-                }
-                else {
-                    newsuffix = i < 10 ? $"0{i}.{extension}" : $"{i}.{extension}";
-                }
-                retlist.Add($"{nlink}/{lastseg}{newsuffix}");
+            setPages(0, lastChapterNumber);
+            for (var i = 1; i <= lastChapterNumber; i++) {
+                var htmlpage = await parser.ParseAsync(await GetHtmlStringAsync($"{blankurl}{i}"));
+                var img = htmlpage.All.First(im => im.LocalName == "img" && im.ClassList.Contains("open") &&
+                                                           im.HasAttribute("src") 
+                                                           && im.GetAttribute("src").Contains("https://cdn.hentai.cafe/manga/content/comics/")).GetAttribute("src");
+                retlist.Add(img);
+                setPages(i, lastChapterNumber);
             }
+
             return new Tuple<List<object>, int>(retlist, lastChapterNumber);
         }
     }

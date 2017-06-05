@@ -49,8 +49,8 @@ namespace HentaiViewer.Common {
             }
         }
 
-        public static bool CheckHistory(string title, string link) {
-            return History.Any(h => h.Title == title) || History.Any(h => h.Link == link);
+        public static bool CheckHistory(string link) {
+            return History.Any(h => h.Link == link);
         }
     }
 }

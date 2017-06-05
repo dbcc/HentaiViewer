@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -13,7 +14,7 @@ using HentaiViewer.Models;
 using RestSharp;
 
 namespace HentaiViewer.Sites {
-    public class ExHentai {
+    public static class ExHentai {
         public static async Task<List<HentaiModel>> GetLatestAsync(string url) {
             var client = new RestClient {
                 UserAgent =
@@ -45,7 +46,7 @@ namespace HentaiViewer.Sites {
                     Img = image,
                     ThumbnailLink = atag.Images[0].Source,
                     Site = "ExHentai.org",
-                    Seen = HistoryController.CheckHistory(atag.Images[0].Title, atag.Links[0].GetAttribute("href")),
+                    Seen = HistoryController.CheckHistory(atag.Links[0].GetAttribute("href")),
                 });
                 //await Task.Delay(50);
             }
@@ -109,10 +110,10 @@ namespace HentaiViewer.Sites {
             return cookieJar;
         }
 
-        public static async Task<Tuple<List<object>, int>> CollectImagesTaskAsync(HentaiModel hentai) {
+        public static async Task<Tuple<List<object>, int>> CollectImagesTaskAsync(HentaiModel hentai, Action<int, int> setPages) {
             if (Directory.Exists(hentai.SavePath) && !hentai.IsSavedGallery) {
                 var files =
-                    new DirectoryInfo(hentai.SavePath).GetFileSystemInfos("*.png")
+                    new DirectoryInfo(hentai.SavePath).GetFileSystemInfos("*.???")
                         .OrderBy(fs => int.Parse(fs.Name.Split('.')[0]));
                 var paths = new List<object>();
                 files.ToList().ForEach(p => paths.Add(p.FullName));
@@ -135,7 +136,9 @@ namespace HentaiViewer.Sites {
             var galleryid = urlsplit[urlsplit.Length - 2];
             var ptag = document.All.Where(p => p.LocalName == "p" && p.ClassList.Contains("gpc"));
             var Showingimages = ptag.First().TextContent.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
-            var pages = int.Parse(Showingimages[Showingimages.Length - 2].Trim());
+            var pn = Showingimages[Showingimages.Length - 2].Trim().Replace(",", string.Empty);
+            var pages = int.Parse(pn, CultureInfo.InvariantCulture);
+            setPages(0, pages);
             var imgpagestd =
                 document.All.Where(
                     t => t.LocalName == "a" && t.HasAttribute("href") && t.GetAttribute("href").Contains("?p="));
@@ -157,9 +160,13 @@ namespace HentaiViewer.Sites {
                 foreach (var element in atags)
                     if (!imgagelinkpages.Contains(element.GetAttribute("href")))
                         imgagelinkpages.Add(element.GetAttribute("href"));
+
+                //https://exhentai.org/s/8cbbff2c8a/1069378-1
+                imgagelinkpages = new List<string>(imgagelinkpages.OrderBy(x => int.Parse(x.Split('-').Last())));
             }
             var images = new List<object>();
-            foreach (var imgagelinkpage in imgagelinkpages) {
+            for (var index = 0; index < imgagelinkpages.Count; index++) {
+                var imgagelinkpage = imgagelinkpages[index];
                 client.BaseUrl = new Uri(imgagelinkpage);
                 var html = await ParseHtmlStringAsync(await GetHtmlStringAsync(client));
                 var atags =
@@ -167,9 +174,11 @@ namespace HentaiViewer.Sites {
                         t => t.LocalName == "img" && t.HasAttribute("id") && t.Id.Contains("img"));
                 if (atags.Count(c => c.HasAttribute("id")) == 0)
                     atags = html.All.Where(
-                        t => t.LocalName == "img" && t.HasAttribute("src") && t.GetAttribute("src").Contains("keystamp"));
-
-                images.AddRange(atags.Select(element => element.GetAttribute("src")));
+                        t => t.LocalName == "img" && t.HasAttribute("src") &&
+                             t.GetAttribute("src").Contains("keystamp"));
+                var imglist = atags.Select(element => element.GetAttribute("src"));
+                images.AddRange(imglist);
+                setPages(index, pages);
             }
             return new Tuple<List<object>, int>(images, pages);
         }

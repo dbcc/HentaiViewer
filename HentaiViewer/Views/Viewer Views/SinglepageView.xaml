@@ -7,6 +7,7 @@
              xmlns:viewModel="clr-namespace:HentaiViewer.ViewModels"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:gif="http://wpfanimatedgif.codeplex.com"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance {x:Type viewModel:HentaiViewerWindowViewModel}, IsDesignTimeCreatable=False}" 
@@ -23,7 +24,7 @@
                            IsBannerEnabled="False" ItemsSource="{Binding Images}">
             <controls:FlipView.ItemTemplate>
                 <DataTemplate>
-                    <Image Source="{Binding}"/>
+                    <Image gif:ImageBehavior.AnimatedSource="{Binding}" gif:ImageBehavior.RepeatBehavior="Forever"/>
                 </DataTemplate>
             </controls:FlipView.ItemTemplate>
         </controls:FlipView>

@@ -10,7 +10,7 @@
 	xmlns:Converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
 	x:Class="HentaiViewer.Views.CafeView"
 	mc:Ignorable="d"
-	d:DesignHeight="300" d:DesignWidth="300"
+	d:DesignHeight="300" d:DesignWidth="800"
 	d:DataContext="{d:DesignInstance {x:Type viewModel:HentaiCafeViewModel}, IsDesignTimeCreatable=False}">
 	<Grid>
 		<Grid.RowDefinitions>
@@ -21,55 +21,61 @@
 		<materialDesign:ColorZone Background="#FF191919" materialDesign:ShadowAssist.ShadowDepth="Depth2" Padding="5">
 			<Grid Margin="3">
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<TextBox VerticalAlignment="Center" Width="200" Margin="5,0" materialDesign:HintAssist.Hint="Search..."
-				         Text="{Binding Setting.Cafe.SearchQuery, Mode=TwoWay}" PreviewKeyDown="UIElement_OnPreviewKeyDown" />
-				<Grid Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition />
-						<ColumnDefinition Width="Auto" />
-						<ColumnDefinition />
-						<ColumnDefinition Width="Auto" />
-						<ColumnDefinition Width="Auto" />
-					</Grid.ColumnDefinitions>
-					<Button Width="32" Padding="2" Margin="5,0" Command="{Binding LoadPrevCafeCommand}">
-						<materialDesign:PackIcon Kind="ArrowLeft" />
-					</Button>
-					<TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0">
+			    <materialDesign:ColorZone Mode="Standard" Padding="8 4 8 4" CornerRadius="2" Panel.ZIndex="1"
+			                              Margin="5,0" VerticalAlignment="Center"
+			                              materialDesign:ShadowAssist.ShadowDepth="Depth1">
+			        <Grid>
+			            <Grid.ColumnDefinitions>
+			                <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+			            <Button Style="{DynamicResource MaterialDesignToolButton}" Command="{Binding RefreshCafeCommand}">
+			                <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
+			            </Button>
+                        <TextBox Text="{Binding Setting.Cafe.SearchQuery, Mode=TwoWay}"
+                                 PreviewKeyDown="UIElement_OnPreviewKeyDown"
+                                 Grid.Column="1" Margin="8 0 0 0" materialDesign:HintAssist.Hint="Search" 
+			                     materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0"
+			                     MinWidth="200" VerticalAlignment="Center" />
+                    </Grid>
+			    </materialDesign:ColorZone>
+                <Grid Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Button Width="32" Padding="2" Margin="5,0" Command="{Binding LoadPrevCafeCommand}">
+                        <materialDesign:PackIcon Kind="ArrowLeft" />
+                    </Button>
+                    <TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0">
 						<Run Text="P: " ToolTip="Page:" /><Run Text=" " /><Run Text="{Binding CafeLoadedPage}" />
-					</TextBlock>
-					<Button Grid.Column="2" Width="32" Padding="2" Margin="5,0"
+                    </TextBlock>
+                    <Button Grid.Column="2" Width="32" Padding="2" Margin="5,0"
 					        Command="{Binding LoadMoreCafeCommand}">
-						<materialDesign:PackIcon Kind="ArrowRight" />
-					</Button>
-					<Button Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" Padding="2"
+                        <materialDesign:PackIcon Kind="ArrowRight" />
+                    </Button>
+                    <Button Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" Padding="2"
 					        Margin="5,0" Width="32"
 					        Command="{Binding RefreshCafeCommand}">
-						<materialDesign:PackIcon Kind="Refresh" />
-					</Button>
-					<Button Grid.Row="0" Grid.Column="4" Width="32" HorizontalAlignment="Center" Padding="1"
+                        <materialDesign:PackIcon Kind="Refresh" />
+                    </Button>
+                    <Button Grid.Row="0" Grid.Column="4" Width="32" HorizontalAlignment="Center" Padding="1"
 					        Margin="5,0"
 					        Command="{Binding HomeCommand}">
-						<materialDesign:PackIcon Kind="Home" />
-					</Button>
-				</Grid>
-				<Label Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center"
-				       Content="{Binding Value, ElementName=Slider}" Margin="5,0" />
-				<Slider Grid.Row="0" Grid.Column="3" x:Name="Slider" Minimum="150" Maximum="850" VerticalAlignment="Center"
-				        Margin="5,0,10,0"
-				        Value="163" SmallChange="1"
-				        IsSnapToTickEnabled="True" />
-			</Grid>
+                        <materialDesign:PackIcon Kind="Home" />
+                    </Button>
+                </Grid>
+            </Grid>
 
 		</materialDesign:ColorZone>
 
@@ -88,7 +94,7 @@
 					</ItemsControl.ItemsPanel>
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
-							<models:HentaiCard Width="{Binding Value, ElementName=Slider}" />
+							<models:HentaiCard/>
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>

@@ -10,20 +10,7 @@
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance {x:Type viewModel:FavoritesViewModel}, IsDesignTimeCreatable=False}">
 	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="35" />
-			<RowDefinition />
-		</Grid.RowDefinitions>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition />
-		</Grid.ColumnDefinitions>
-		<Label Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"
-		       Content="{Binding Value, ElementName=Slider}" Margin="5,0" />
-		<Slider Grid.Column="1" x:Name="Slider" Minimum="100" Maximum="850" VerticalAlignment="Center" Margin="5,0,10,0"
-		        Value="150" SmallChange="1"
-		        IsSnapToTickEnabled="True" />
-		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="2" Grid.Column="0">
+		<ScrollViewer VerticalScrollBarVisibility="Auto">
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition />

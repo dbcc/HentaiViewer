@@ -75,7 +75,7 @@ namespace HentaiViewer.ViewModels {
             if (string.IsNullOrEmpty(searchquery))
                 i =
                     await Pururin.GetLatestAsync(
-                        $"http://pururin.us/browse/search/{_filters[SelectedFilter]}/{PururinLoadedPage}.html");
+                        $"http://pururin.us/browse/{SelectedFilter.ToLower().Replace(" ", "-")}?page={PururinLoadedPage}");
             else
                 i = await Pururin.GetLatestAsync(
                     $"http://pururin.us/search/more?q={searchquery.Replace(" ", "+")}&p={PururinLoadedPage}");

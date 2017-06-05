@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -43,7 +44,11 @@ namespace HentaiViewer.ViewModels {
                 PregressBarVisibility = Visibility.Collapsed;
                 foreach (var link in links) {
                     if (_isClosing || _imageObjects.Count == 9) break;
-                    _imageObjects.Add(new ImageModel {PageNumber = links.IndexOf(link) + 1, Source = link});
+                    _imageObjects.Add(new ImageModel {
+                        PageNumber = links.IndexOf(link) + 1,
+                        Source = link,
+                        IsGif = link.ToString().Contains(".gif")
+                    });
                     await Task.Delay(200);
                     Loaded++;
                 }
@@ -133,27 +138,31 @@ namespace HentaiViewer.ViewModels {
             Tuple<List<object>, int> tpl;
             switch (hentai.Site) {
                 case "Hentai.cafe":
-                    tpl = await HentaiCafe.CollectImagesTaskAsync(hentai);
+                    tpl = await HentaiCafe.CollectImagesTaskAsync(hentai, SetPages);
                     Pages = $"{tpl.Item1.Count} : {tpl.Item2}";
                     return tpl.Item1;
                 case "nHentai.net":
-                    tpl = await nHentai.CollectImagesTaskAsync(hentai);
+                    tpl = await nHentai.CollectImagesTaskAsync(hentai, SetPages);
                     Pages = $"{tpl.Item1.Count} : {tpl.Item2}";
                     return tpl.Item1;
                 case "ExHentai.org":
-                    tpl = await ExHentai.CollectImagesTaskAsync(hentai);
+                    tpl = await ExHentai.CollectImagesTaskAsync(hentai, SetPages);
                     Pages = $"{tpl.Item1.Count} : {tpl.Item2}";
                     return tpl.Item1;
                 case "Pururin.us":
-                    tpl = await Pururin.CollectImagesTaskAsync(hentai);
+                    tpl = await Pururin.CollectImagesTaskAsync(hentai, SetPages);
                     Pages = $"{tpl.Item1.Count} : {tpl.Item2}";
                     return tpl.Item1;
                 case "Imgur.com":
-                    tpl = await Sites.Imgur.CollectImagesTaskAsync(hentai);
+                    tpl = await Sites.Imgur.CollectImagesTaskAsync(hentai, SetPages);
                     Pages = $"{tpl.Item1.Count} : {tpl.Item2}";
                     return tpl.Item1;
             }
             return null;
+        }
+
+        private void SetPages(int current, int max) {
+            Pages = $"{current} : {max}";
         }
 
         private async void SaveImagesAsync() {
@@ -168,16 +177,18 @@ namespace HentaiViewer.ViewModels {
                 if (_isClosing) break;
                 var img = _images[i];
                 ProgressValue = i + 1;
-                if (img is string) {
-                    var client = new RestClient {BaseUrl = new Uri((string) img)};
-                    var imgBytes = await client.ExecuteGetTaskAsync(new RestRequest());
-                    img = ExHentai.BytesToBitmapImage(imgBytes.RawBytes);
-                }
-                var encoder = new PngBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create((BitmapSource) img));
-                using (var stream = new FileStream($"{Path.Combine(folder, $"{i + 1}.png")}", FileMode.Create)) {
-                    encoder.Save(stream);
-                }
+                await SaveImage(img.ToString(), i + 1, folder);
+                await Task.Delay(50);
+                //if (img is string) {
+                //    var client = new RestClient {BaseUrl = new Uri((string) img)};
+                //    var imgBytes = await client.ExecuteGetTaskAsync(new RestRequest());
+                //    img = ExHentai.BytesToBitmapImage(imgBytes.RawBytes);
+                //}
+                //var encoder = new PngBitmapEncoder();
+                //encoder.Frames.Add(BitmapFrame.Create((BitmapSource) img));
+                //using (var stream = new FileStream($"{Path.Combine(folder, $"{i + 1}.png")}", FileMode.Create)) {
+                //    encoder.Save(stream);
+                //}
             }
             var output = JsonConvert.SerializeObject(new InfoModel(Hentai, _images.Count), Formatting.Indented);
 
@@ -197,16 +208,37 @@ namespace HentaiViewer.ViewModels {
                 //await Task.Delay(100);
                 //_imageObjects.Add(new ImageModel { PageNumber = _loaded, Source = _images[_loaded-2] });
                 //await Task.Delay(100);
-                _imageObjects.Add(new ImageModel {PageNumber = Loaded - 1, Source = _images[Loaded - 1]});
+                _imageObjects.Add(new ImageModel {
+                    PageNumber = Loaded - 1,
+                    Source = _images[Loaded - 1],
+                    IsGif = _images[Loaded - 1].ToString().Contains(".gif")
+                });
                 await Task.Delay(100);
             }
             for (var i = 0; i < _images.Count; i++) {
                 if (Loaded == _images.Count || i == 9) break;
-                _imageObjects.Add(new ImageModel {PageNumber = Loaded, Source = _images[Loaded]});
+                _imageObjects.Add(new ImageModel {
+                    PageNumber = Loaded,
+                    Source = _images[Loaded],
+                    IsGif = _images[Loaded].ToString().Contains(".gif")
+                });
                 Loaded++;
                 await Task.Delay(100);
             }
             _adding = false;
+        }
+
+        private async Task SaveImage(string url, int num, string folder) {
+            try {
+                var lastSlash = url.LastIndexOf('/');
+                var guid = url.Substring(lastSlash + 1);
+                var client = new WebClient();
+                var extension = guid.Substring(guid.LastIndexOf(".", StringComparison.Ordinal) + 1);
+                await client.DownloadFileTaskAsync(url, Path.Combine(folder, $"{num}.{extension}"));
+            }
+            catch (Exception e) {
+                Console.WriteLine(e);
+            }
         }
 
         //			await Task.Delay(100);

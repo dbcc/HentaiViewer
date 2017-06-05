@@ -9,6 +9,7 @@
 	xmlns:viewModel="clr-namespace:HentaiViewer.ViewModels"
 	xmlns:views="clr-namespace:HentaiViewer.Views"
 	xmlns:tb="http://www.hardcodet.net/taskbar"
+	xmlns:models="clr-namespace:HentaiViewer.Models"
 	x:Class="HentaiViewer.Views.MainWindow"
 	mc:Ignorable="d" SaveWindowPosition="True"
 	Title="Hentai Viewer" Height="600" Width="1000" MinWidth="600" MinHeight="200" BorderThickness="1"
@@ -20,6 +21,9 @@
 			<Button ToolTip="Open from link" Command="{Binding OpenLinkCommand}">
 				<materialDesign:PackIcon Kind="Eye" />
 			</Button>
+            <ToggleButton IsChecked="{Binding Nsfw}">
+                NSFW
+            </ToggleButton>
 		</controls:WindowCommands>
 	</controls:MetroWindow.RightWindowCommands>
 	<controls:MetroWindow.LeftWindowCommands>
@@ -30,43 +34,36 @@
 	</controls:MetroWindow.LeftWindowCommands>
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition />
-			<RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition />
 		</Grid.ColumnDefinitions>
-		<materialDesign:ColorZone Padding="4"
-		                          materialDesign:ShadowAssist.ShadowDepth="Depth2"
-		                          Grid.Row="1" Grid.ColumnSpan="2"
-		                          Mode="PrimaryMid">
-			<StackPanel HorizontalAlignment="Left"
-			            Orientation="Vertical">
-				<TextBlock Text="{Binding Version}" />
-			</StackPanel>
-		</materialDesign:ColorZone>
-		<ListBox Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Stretch"
-		         SelectedIndex="{Binding SelectedSite, FallbackValue=0}"
-		         ItemsSource="{Binding DrawerItems}" Background="#282828">
-			<ListBox.ItemContainerStyle>
-				<Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
-					<Setter Property="IsEnabled" Value="{Binding IsEnabled}" />
-				</Style>
-			</ListBox.ItemContainerStyle>
-			<ListBox.ItemTemplate>
-				<DataTemplate>
-					<Grid>
-						<StackPanel Orientation="Horizontal">
-							<Image Source="{Binding Icon}" Margin="5,0" Height="16" MinWidth="16" VerticalAlignment="Center" />
-							<TextBlock Text="{Binding Name}" />
-						</StackPanel>
-						<Separator Visibility="{Binding Separator, Converter={StaticResource BooleanToVisibilityConverter}}"
-						           Style="{StaticResource MaterialDesignLightSeparator}" />
-					</Grid>
-				</DataTemplate>
-			</ListBox.ItemTemplate>
-		</ListBox>
+        <materialDesign:ColorZone Mode="Standard" Grid.Row="0" Grid.Column="0" VerticalAlignment="Stretch" materialDesign:ShadowAssist.ShadowDepth="Depth2">
+            <ListBox HorizontalContentAlignment="Stretch"
+		             SelectedIndex="{Binding SelectedSite, FallbackValue=0}"
+		             ItemsSource="{Binding DrawerItems}">
+			    <ListBox.ItemContainerStyle>
+				    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+					    <Setter Property="IsEnabled" Value="{Binding IsEnabled}" />
+				    </Style>
+			    </ListBox.ItemContainerStyle>
+			    <ListBox.ItemTemplate>
+				    <DataTemplate>
+					    <Grid>
+						    <StackPanel Orientation="Horizontal">
+							    <Image Source="{Binding Icon}" Margin="5,0" Height="16" MinWidth="16" VerticalAlignment="Center" />
+							    <TextBlock Text="{Binding Name}" />
+						    </StackPanel>
+						    <Separator Visibility="{Binding Separator, Converter={StaticResource BooleanToVisibilityConverter}}"
+						               Style="{StaticResource MaterialDesignLightSeparator}" />
+					    </Grid>
+				    </DataTemplate>
+			    </ListBox.ItemTemplate>
+		    </ListBox>
+        </materialDesign:ColorZone>
 		<Grid Grid.Row="0" Grid.Column="1">
 			<materialDesign:Transitioner SelectedIndex="{Binding SelectedSite}">
 				<views:SettingsView />
@@ -74,7 +71,7 @@
 				<!--workaround-->
 				<views:ExHentaiView />
 				<views:nHentaiView />
-				<views:PururinView />
+				<!--<views:PururinView />-->
 				<views:CafeView />
 				<Separator />
 				<!--workaround-->
@@ -91,6 +88,21 @@
 				</tb:TaskbarIcon.ContextMenu>
 			</tb:TaskbarIcon>
 		</Grid>
+		<materialDesign:ColorZone Padding="4"
+		                          materialDesign:ShadowAssist.ShadowDepth="Depth2"
+		                          Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0"
+		                          Mode="PrimaryMid">
+            <Grid>
+			    <StackPanel HorizontalAlignment="Left"
+			                Orientation="Vertical">
+				    <TextBlock Text="{Binding Version}" />
+			    </StackPanel>
+			    <StackPanel HorizontalAlignment="Right"
+			                Orientation="Vertical">
+				    <TextBlock Text="{Binding UniqueId}" />
+			    </StackPanel>
+            </Grid>
+		</materialDesign:ColorZone>
 	</Grid>
 
 </controls:MetroWindow>

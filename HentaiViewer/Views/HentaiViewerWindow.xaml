@@ -23,7 +23,7 @@
         <controls:WindowCommands>
             <Button ToolTip="Change Mode!" Command="{Binding ChangeModeCommand}" Content="{Binding Mode}"/>
             <Label HorizontalAlignment="Left" Content="Viewer - Pages" />
-			<TextBlock>
+			<TextBlock VerticalAlignment="Center" Margin="4,0">
 				<Run Text="{Binding Loaded, Mode=OneWay}" /><Run Text=" " /><Run Text=" / " /><Run Text=" " />
 				<Run Text="{Binding Pages}" />
 				<Run Text=" D:" />

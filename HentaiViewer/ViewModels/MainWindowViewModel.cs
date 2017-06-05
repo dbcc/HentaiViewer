@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Windows;
@@ -19,6 +20,8 @@ namespace HentaiViewer.ViewModels {
             UpdateCommand = new ActionCommand(OpenUpdateLink);
             CloseCommand = new ActionCommand(Application.Current.Shutdown);
             CheckUpdateAsync();
+            UniqueId = Common.UniqueId.Create();
+            //Console.WriteLine(new List<string>()[5]);
         }
 
         public IEnumerable<object> DrawerItems
@@ -28,7 +31,7 @@ namespace HentaiViewer.ViewModels {
                     new DrawerListBoxItem {Separator = true, IsEnabled = false},
                     new DrawerListBoxItem {Name = "ExHentai", Icon = "/Assets/faviconExHentai.ico"},
                     new DrawerListBoxItem {Name = "nHentai", Icon = "/Assets/faviconnHentai.ico"},
-                    new DrawerListBoxItem {Name = "Pururin", Icon = "/Assets/faviconPururin.ico"},
+                    //new DrawerListBoxItem {Name = "Pururin", Icon = "/Assets/faviconPururin.ico"},
                     new DrawerListBoxItem {Name = "Cafe"},
                     new DrawerListBoxItem {Separator = true, IsEnabled = false},
                     new DrawerListBoxItem {Name = "Favorites"},
@@ -47,6 +50,10 @@ namespace HentaiViewer.ViewModels {
         public ICommand UpdateCommand { get; }
 
         public ICommand CloseCommand { get; }
+
+        public string UniqueId { get; set; }
+
+        public bool Nsfw { get; set; }
 
         private async void CheckUpdateAsync() {
             IsUpdateAvailable = await GithubController.CheckForUpdateAsync();

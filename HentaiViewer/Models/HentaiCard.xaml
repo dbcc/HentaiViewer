@@ -6,52 +6,61 @@
 	xmlns:local="clr-namespace:HentaiViewer.Models"
 	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 	xmlns:converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
+	xmlns:views="clr-namespace:HentaiViewer.Views"
 	x:Class="HentaiViewer.Models.HentaiCard"
-	mc:Ignorable="d"
-	d:DesignHeight="300" d:DesignWidth="300"
+	mc:Ignorable="d" Width="144" Height="250"
+	d:DesignHeight="230" d:DesignWidth="170" Margin="6,6,3,3"
 	d:DataContext="{d:DesignInstance {x:Type local:HentaiModel}, IsDesignTimeCreatable=False}">
-	<materialDesign:Card Margin="5,5,0,0">
-		<Grid x:Name="Grid">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="*" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" MinHeight="30" />
-			</Grid.RowDefinitions>
-			<Image Grid.Row="0" Source="{Binding Img}" Margin="5,0" />
-            
-			<Separator Grid.Row="1" Style="{StaticResource MaterialDesignLightSeparator}" />
-			<TextBlock Grid.Row="2" Text="{Binding Title}" TextWrapping="Wrap" FontSize="14" ToolTip="{Binding Title}"
-			           Margin="5,0,5,5"
-			           FontWeight="Medium" HorizontalAlignment="Left" />
-			<Canvas Grid.Row="0" Grid.RowSpan="3" Background="Black" Opacity="0.5"
+    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth2" x:Name="Grid" 
+                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <Image Grid.Row="0" Source="{Binding Img}" />
+            <Image Grid.Row="0" Source="{Binding Img}" Margin="5"
+                   Visibility="{Binding DataContext.Nsfw, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:MainWindow}},
+                Converter={StaticResource BooleanToVisibilityConverter}, Mode=TwoWay}" >
+                <Image.Effect>
+                    <BlurEffect Radius="10" RenderingBias="Quality" KernelType="Box"/>
+                </Image.Effect>
+            </Image>
+            <Canvas Grid.Row="0" Background="Black" Opacity="0.5"
 			        Visibility="{Binding Seen, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
-			<Grid Grid.Row="0"
+            <Grid Grid.Row="0"
 			      Visibility="{Binding IsMouseOver, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Grid, Mode=OneWay}">
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-					<RowDefinition />
-				</Grid.RowDefinitions>
-				<Canvas Background="Black" Opacity="0.6" Grid.RowSpan="2" />
-				<Label Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding Site}" />
-				<StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
-					<Button Command="{Binding ViewCommand}">View</Button>
-					<Button Margin="5" Command="{Binding MarkasReadCommand}"
-					        Visibility="{Binding IsSavedGallery, Converter={StaticResource BooleanToVisibilityConverter}}">
-						Mark as read
-					</Button>
-					<Button Command="{Binding FavoriteCommand}"
-					        Visibility="{Binding IsSavedGallery, Converter={StaticResource BooleanToVisibilityConverter}}">
-						Favorite
-					</Button>
-				</StackPanel>
-				<Button BorderThickness="0" Grid.Row="0" HorizontalAlignment="Left" Padding="3" Background="Transparent"
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <materialDesign:ColorZone Mode="Standard" VerticalAlignment="Bottom" Padding="4,8">
+                    <Grid>
+                        <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding Site}" />
+                    </Grid>
+                </materialDesign:ColorZone>
+                <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
+                    <Button Command="{Binding ViewCommand}" Content="View"/>
+                    <Button Margin="5" Command="{Binding MarkasReadCommand}"
+					        Visibility="{Binding IsSavedGallery, Converter={StaticResource BooleanToVisibilityConverter}}" Content="Mark as read"/>
+                    <Button Command="{Binding FavoriteCommand}"
+					        Visibility="{Binding IsSavedGallery, Converter={StaticResource BooleanToVisibilityConverter}}" Content="Favorite"/>
+                </StackPanel>
+                <Button BorderThickness="0" Grid.Row="0" HorizontalAlignment="Left" Padding="3" Background="Transparent"
 				        Command="{Binding OpenLinkCommand}" ToolTip="Open Site" Margin="5,0">
-					<materialDesign:PackIcon Kind="link" Width="25" Height="25" />
-				</Button>
-			</Grid>
-			<materialDesign:PackIcon Grid.Row="0" Kind="Heart" HorizontalAlignment="Right" Foreground="Red" Margin="5"
+                    <materialDesign:PackIcon Kind="link" Width="25" Height="25" />
+                </Button>
+            </Grid>
+            <materialDesign:ColorZone Grid.Row="2" Mode="Standard" VerticalAlignment="Stretch">
+                <TextBlock Text="{Binding Title}" TextWrapping="WrapWithOverflow" FontSize="14" ToolTip="{Binding Title}"
+                           Margin="5,0,5,5" VerticalAlignment="Center"
+                           FontWeight="Medium" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis" />
+            </materialDesign:ColorZone>
+            <materialDesign:PackIcon Grid.Row="0" Kind="Heart" HorizontalAlignment="Right" Foreground="Red" Margin="5"
 			                         Width="25" Height="25"
 			                         Visibility="{Binding Favorite, Converter={StaticResource BooleanToVisibilityConverter}}" />
-		</Grid>
-	</materialDesign:Card>
+        </Grid>
+    </materialDesign:Card>
 </UserControl>

@@ -78,7 +78,7 @@ namespace HentaiViewer.Models {
             if (toggle) Seen = !Seen;
             else Seen = true;
             if (Seen) {
-                if (!HistoryController.CheckHistory(Title, Link))
+                if (!HistoryController.CheckHistory(Link))
                     HistoryController.History.Insert(0, new HistoryModel {
                         Date = DateTime.Now,
                         Title = Title,
@@ -87,7 +87,7 @@ namespace HentaiViewer.Models {
                     });
             }
             else {
-                HistoryController.History.RemoveAll(h => h.Title == Title || h.Link == Link);
+                HistoryController.History.RemoveAll(h => h.Link == Link);
             }
             HistoryController.Save();
         }

@@ -37,8 +37,7 @@ namespace HentaiViewer.Sites {
                         ThumbnailLink = i,
                         Site = "nHentai.net",
                         Seen =
-                            HistoryController.CheckHistory(img.All[0].TextContent,
-                                $"https://nhentai.net{element.GetAttribute("href").Replace("about:", string.Empty)}")
+                            HistoryController.CheckHistory($"https://nhentai.net{element.GetAttribute("href").Replace("about:", string.Empty)}")
                     });
                 }
                 catch (Exception ) {
@@ -70,10 +69,10 @@ namespace HentaiViewer.Sites {
         }
 
 
-        public static async Task<Tuple<List<object>, int>> CollectImagesTaskAsync(HentaiModel hentai) {
+        public static async Task<Tuple<List<object>, int>> CollectImagesTaskAsync(HentaiModel hentai, Action<int, int> setPages) {
             if (Directory.Exists(hentai.SavePath) && hentai.IsSavedGallery) {
                 var files =
-                    new DirectoryInfo(hentai.SavePath).GetFileSystemInfos("*.png")
+                    new DirectoryInfo(hentai.SavePath).GetFileSystemInfos("*.???")
                         .OrderBy(fs => int.Parse(fs.Name.Split('.')[0]));
                 var paths = new List<object>();
                 files.ToList().ForEach(p => paths.Add(p.FullName));
@@ -83,6 +82,7 @@ namespace HentaiViewer.Sites {
             var document = await ParseHtmlStringAsync(await GetHtmlStringAsync(url));
             var pages =
                 int.Parse(Regex.Match(document.DocumentElement.OuterHtml, "<div>([0-9]+) pages</div>").Groups[1].Value);
+            setPages(0, pages);
             if (hentai.Title == "lul") {
                 var firstOrDefault = document.All.FirstOrDefault(h => h.LocalName == "h1");
                 if (firstOrDefault != null)
@@ -95,7 +95,6 @@ namespace HentaiViewer.Sites {
             foreach (var thumbnailcontainerChild in thumbnailcontainer.Children) {
                 imgt.Add(thumbnailcontainerChild.Children[0].Children[0]);
             }
-
             //var imgTags = thumbnailcontainer?.Children.Where(i => i.LocalName == "img" && i.ClassList.Contains("lazyload"));
 
             var images =
@@ -111,7 +110,7 @@ namespace HentaiViewer.Sites {
             //for (int i = 1; i <= pages; i++) {
             //	images.Add($"{imagelinktmp}{i}.jpg");
             //}
-
+            setPages(images.Count, pages);
             var ims = new List<object>();
             foreach (var image in images) {
                 if (image.ToString().StartsWith("http")) {
