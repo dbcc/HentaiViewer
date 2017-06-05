@@ -8,12 +8,12 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance {x:Type local:ImageModel}, IsDesignTimeCreatable=False}">
-	<Grid>
+    <Grid>
         <Image Source="{Binding Source}" ImageFailed="Image_OnImageFailed" />
-		<Label Content="{Binding PageNumber}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5"
-		       Foreground="{DynamicResource AccentColorBrush}" FontSize="20" FontWeight="Bold" />
-		<Label Content="GIF" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5"
-		       Foreground="{DynamicResource AccentColorBrush}" FontSize="20" FontWeight="Bold" 
+        <Label Content="{Binding PageNumber}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5"
+               Foreground="{DynamicResource AccentColorBrush}" FontSize="20" FontWeight="Bold" />
+        <Label Content="GIF" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5"
+               Foreground="{DynamicResource AccentColorBrush}" FontSize="20" FontWeight="Bold"
                Visibility="{Binding IsGif, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
-	</Grid>
+    </Grid>
 </UserControl>

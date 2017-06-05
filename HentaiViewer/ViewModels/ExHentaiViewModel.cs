@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -7,11 +8,9 @@ using HentaiViewer.Common;
 using HentaiViewer.Models;
 using HentaiViewer.Sites;
 using HentaiViewer.Views;
-using PropertyChanged;
 
 namespace HentaiViewer.ViewModels {
-    [ImplementPropertyChanged]
-    public class ExHentaiViewModel {
+    public class ExHentaiViewModel : INotifyPropertyChanged {
         public static ExHentaiViewModel Instance;
 
         private readonly ObservableCollection<HentaiModel> _exHentai = new ObservableCollection<HentaiModel>();
@@ -24,11 +23,15 @@ namespace HentaiViewer.ViewModels {
             RefreshExHentaiCommand = new ActionCommand(RefreshExHentaiAsync);
             LoadMoreExHentaiCommand = new ActionCommand(async () => { await LoadExHentaiPageAsync(1); });
             LoadPrevExHentaiCommand = new ActionCommand(async () => {
-                if (ExHentaiLoadedPage == 0) return;
+                if (ExHentaiLoadedPage == 0) {
+                    return;
+                }
                 await LoadExHentaiPageAsync(-1);
             });
             HomeCommand = new ActionCommand(async () => {
-                if (ExHentaiPageLoading) return;
+                if (ExHentaiPageLoading) {
+                    return;
+                }
                 ExHentaiLoadedPage = 0;
                 NextExHentaiPage = 1;
                 await LoadExHentaiPageAsync(0);
@@ -49,6 +52,8 @@ namespace HentaiViewer.ViewModels {
 
         public ICommand HomeCommand { get; }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private async void RefreshExHentaiAsync() {
             await LoadExHentaiPageAsync(0);
         }
@@ -63,15 +68,20 @@ namespace HentaiViewer.ViewModels {
                     MessageBoxIcon.Error);
                 return;
             }
-            if (ExHentaiPageLoading) return;
+            if (ExHentaiPageLoading) {
+                return;
+            }
             ExHentaiPageLoading = true;
             NextExHentaiPage = NextExHentaiPage + value;
             ExHentaiLoadedPage = ExHentaiLoadedPage + value;
-            if (_exHentai.Count > 0) _exHentai.Clear();
+            if (_exHentai.Count > 0) {
+                _exHentai.Clear();
+            }
             ExHentaiView.Instance.ScrollViewer.ScrollToTop();
             var searchQuery = string.Empty;
-            if (!string.IsNullOrEmpty(SettingsController.Settings.ExHentai.SearchQuery))
+            if (!string.IsNullOrEmpty(SettingsController.Settings.ExHentai.SearchQuery)) {
                 searchQuery = SettingsController.Settings.ExHentai.SearchQuery.Replace(" ", "" + "+");
+            }
             var i = await ExHentai.GetLatestAsync($"https://exhentai.org/?page={ExHentaiLoadedPage}" +
                                                   $"&f_doujinshi={SettingsController.Settings.ExHentai.Doujinshi}" +
                                                   $"&f_manga={SettingsController.Settings.ExHentai.Manga}" +
@@ -88,7 +98,9 @@ namespace HentaiViewer.ViewModels {
                                                   $"&f_srdd={SettingsController.Settings.ExHentai.MinRating}");
             Console.WriteLine(SettingsController.Settings.ExHentai.MinRating);
             foreach (var hentaiModel in i) {
-                if (FavoritesController.FavoriteMd5s.Contains(hentaiModel.Md5)) hentaiModel.Favorite = true;
+                if (FavoritesController.FavoriteMd5s.Contains(hentaiModel.Md5)) {
+                    hentaiModel.Favorite = true;
+                }
                 _exHentai.Add(hentaiModel);
                 await Task.Delay(10);
             }

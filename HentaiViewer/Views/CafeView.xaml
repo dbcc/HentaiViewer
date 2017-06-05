@@ -1,51 +1,52 @@
 ﻿<UserControl
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-	xmlns:local="clr-namespace:HentaiViewer.Views"
-	xmlns:models="clr-namespace:HentaiViewer.Models"
-	xmlns:viewModel="clr-namespace:HentaiViewer.ViewModels"
-	xmlns:Converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
-	x:Class="HentaiViewer.Views.CafeView"
-	mc:Ignorable="d"
-	d:DesignHeight="300" d:DesignWidth="800"
-	d:DataContext="{d:DesignInstance {x:Type viewModel:HentaiCafeViewModel}, IsDesignTimeCreatable=False}">
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition />
-		</Grid.RowDefinitions>
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:local="clr-namespace:HentaiViewer.Views"
+    xmlns:models="clr-namespace:HentaiViewer.Models"
+    xmlns:viewModel="clr-namespace:HentaiViewer.ViewModels"
+    xmlns:Converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
+    x:Class="HentaiViewer.Views.CafeView"
+    mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="800"
+    d:DataContext="{d:DesignInstance {x:Type viewModel:HentaiCafeViewModel}, IsDesignTimeCreatable=False}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
 
-		<materialDesign:ColorZone Background="#FF191919" materialDesign:ShadowAssist.ShadowDepth="Depth2" Padding="5">
-			<Grid Margin="3">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="Auto" />
-				</Grid.ColumnDefinitions>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
-			    <materialDesign:ColorZone Mode="Standard" Padding="8 4 8 4" CornerRadius="2" Panel.ZIndex="1"
-			                              Margin="5,0" VerticalAlignment="Center"
-			                              materialDesign:ShadowAssist.ShadowDepth="Depth1">
-			        <Grid>
-			            <Grid.ColumnDefinitions>
-			                <ColumnDefinition Width="Auto" />
+        <materialDesign:ColorZone Background="#FF191919" materialDesign:ShadowAssist.ShadowDepth="Depth2" Padding="5">
+            <Grid Margin="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <materialDesign:ColorZone Mode="Standard" Padding="8 4 8 4" CornerRadius="2" Panel.ZIndex="1"
+                                          Margin="5,0" VerticalAlignment="Center"
+                                          materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-			            <Button Style="{DynamicResource MaterialDesignToolButton}" Command="{Binding RefreshCafeCommand}">
-			                <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
-			            </Button>
+                        <Button Style="{DynamicResource MaterialDesignToolButton}"
+                                Command="{Binding RefreshCafeCommand}">
+                            <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
+                        </Button>
                         <TextBox Text="{Binding Setting.Cafe.SearchQuery, Mode=TwoWay}"
                                  PreviewKeyDown="UIElement_OnPreviewKeyDown"
-                                 Grid.Column="1" Margin="8 0 0 0" materialDesign:HintAssist.Hint="Search" 
-			                     materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0"
-			                     MinWidth="200" VerticalAlignment="Center" />
+                                 Grid.Column="1" Margin="8 0 0 0" materialDesign:HintAssist.Hint="Search"
+                                 materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0"
+                                 MinWidth="200" VerticalAlignment="Center" />
                     </Grid>
-			    </materialDesign:ColorZone>
+                </materialDesign:ColorZone>
                 <Grid Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -58,53 +59,53 @@
                         <materialDesign:PackIcon Kind="ArrowLeft" />
                     </Button>
                     <TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0">
-						<Run Text="P: " ToolTip="Page:" /><Run Text=" " /><Run Text="{Binding CafeLoadedPage}" />
+                        <Run Text="P: " ToolTip="Page:" /><Run Text=" " /><Run Text="{Binding CafeLoadedPage}" />
                     </TextBlock>
                     <Button Grid.Column="2" Width="32" Padding="2" Margin="5,0"
-					        Command="{Binding LoadMoreCafeCommand}">
+                            Command="{Binding LoadMoreCafeCommand}">
                         <materialDesign:PackIcon Kind="ArrowRight" />
                     </Button>
                     <Button Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" Padding="2"
-					        Margin="5,0" Width="32"
-					        Command="{Binding RefreshCafeCommand}">
+                            Margin="5,0" Width="32"
+                            Command="{Binding RefreshCafeCommand}">
                         <materialDesign:PackIcon Kind="Refresh" />
                     </Button>
                     <Button Grid.Row="0" Grid.Column="4" Width="32" HorizontalAlignment="Center" Padding="1"
-					        Margin="5,0"
-					        Command="{Binding HomeCommand}">
+                            Margin="5,0"
+                            Command="{Binding HomeCommand}">
                         <materialDesign:PackIcon Kind="Home" />
                     </Button>
                 </Grid>
             </Grid>
 
-		</materialDesign:ColorZone>
+        </materialDesign:ColorZone>
 
 
-		<ScrollViewer x:Name="ScrollViewer" Grid.Row="1" VerticalScrollBarVisibility="Auto">
-			<Grid>
-				<Grid.RowDefinitions>
-					<RowDefinition />
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
-				<ItemsControl Grid.Row="0" ItemsSource="{Binding CafeItems}">
-					<ItemsControl.ItemsPanel>
-						<ItemsPanelTemplate>
-							<WrapPanel />
-						</ItemsPanelTemplate>
-					</ItemsControl.ItemsPanel>
-					<ItemsControl.ItemTemplate>
-						<DataTemplate>
-							<models:HentaiCard/>
-						</DataTemplate>
-					</ItemsControl.ItemTemplate>
-				</ItemsControl>
-				<!--<Button Grid.Row="1" Margin="10,5" Command="{Binding LoadMoreCafeCommand}"
+        <ScrollViewer x:Name="ScrollViewer" Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <ItemsControl Grid.Row="0" ItemsSource="{Binding CafeItems}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <models:HentaiCard />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <!--<Button Grid.Row="1" Margin="10,5" Command="{Binding LoadMoreCafeCommand}"
 				        Visibility="{Binding CafeItems, Converter={StaticResource NotZeroToVisibilityConverter}}">
 					<TextBlock>
 						<Run Text="Load Page " /><Run Text=" " /><Run Text="{Binding NextCafePage}" />
 					</TextBlock>
 				</Button>-->
-			</Grid>
-		</ScrollViewer>
-	</Grid>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
 </UserControl>

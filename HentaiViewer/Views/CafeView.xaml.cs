@@ -17,7 +17,9 @@ namespace HentaiViewer.Views {
         }
 
         private void UIElement_OnPreviewKeyDown(object sender, KeyEventArgs e) {
-            if (e.Key != Key.Enter) return;
+            if (e.Key != Key.Enter) {
+                return;
+            }
             BindingOperations.GetBindingExpression((TextBox) sender, TextBox.TextProperty)?.UpdateSource();
             var datactx = (HentaiCafeViewModel) DataContext;
             datactx.HomeCommand.Execute(null);

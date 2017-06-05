@@ -1,7 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -9,12 +9,10 @@ using HentaiViewer.Common;
 using HentaiViewer.ViewModels;
 using HentaiViewer.Views;
 using Newtonsoft.Json;
-using PropertyChanged;
 using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace HentaiViewer.Models {
-    [ImplementPropertyChanged]
-    public class HentaiModel {
+    public class HentaiModel : INotifyPropertyChanged {
         public HentaiModel() {
             MarkasReadCommand = new ActionCommand(() => Mark());
             ViewCommand = new ActionCommand(View);
@@ -59,8 +57,12 @@ namespace HentaiViewer.Models {
 
         public bool Favorite { get; set; }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private void ToggleFavorite() {
-            if (!IsSavedGallery) return;
+            if (!IsSavedGallery) {
+                return;
+            }
             Favorite = !Favorite;
             if (Favorite) {
                 if (!FavoritesController.FavoriteMd5s.Contains(Md5)) {
@@ -68,23 +70,30 @@ namespace HentaiViewer.Models {
                 }
             }
             else {
-                FavoritesController.Favorites.RemoveAll(f=> f.Md5 == Md5 || f.Link == Link);
+                FavoritesController.Favorites.RemoveAll(f => f.Md5 == Md5 || f.Link == Link);
             }
             FavoritesController.Save();
         }
 
         private void Mark(bool toggle = true) {
-            if (!IsSavedGallery) return;
-            if (toggle) Seen = !Seen;
-            else Seen = true;
+            if (!IsSavedGallery) {
+                return;
+            }
+            if (toggle) {
+                Seen = !Seen;
+            }
+            else {
+                Seen = true;
+            }
             if (Seen) {
-                if (!HistoryController.CheckHistory(Link))
+                if (!HistoryController.CheckHistory(Link)) {
                     HistoryController.History.Insert(0, new HistoryModel {
                         Date = DateTime.Now,
                         Title = Title,
                         Link = Link,
                         Site = Site
                     });
+                }
             }
             else {
                 HistoryController.History.RemoveAll(h => h.Link == Link);

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Timers;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using HentaiViewer.Common;
 using HentaiViewer.ViewModels;
@@ -14,13 +11,15 @@ namespace HentaiViewer.Views {
         public HentaiViewerWindow() {
             InitializeComponent();
         }
-        
+
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.ChangedButton == MouseButton.Left) DragMove();
+            if (e.ChangedButton == MouseButton.Left) {
+                DragMove();
+            }
         }
-        
-        
+
+
         private void HentaiViewerWindow_OnClosed(object sender, EventArgs e) {
             var data = (HentaiViewerWindowViewModel) DataContext;
             data.Dispose();

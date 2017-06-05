@@ -1,10 +1,10 @@
-﻿using PropertyChanged;
+﻿using System.ComponentModel;
 
 namespace HentaiViewer.Models {
-    [ImplementPropertyChanged]
-    public class ImageModel {
+    public class ImageModel : INotifyPropertyChanged {
         public int PageNumber { get; set; }
         public object Source { get; set; }
         public bool IsGif { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

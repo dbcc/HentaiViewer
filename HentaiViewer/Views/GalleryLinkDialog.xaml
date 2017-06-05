@@ -10,28 +10,28 @@
              mc:Ignorable="d"
              Width="400"
              d:DataContext="{d:DesignInstance {x:Type viewModel:GalleryLinkDialogViewModel}, IsDesignTimeCreatable=False}">
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition />
-			<RowDefinition Height="Auto" />
-		</Grid.RowDefinitions>
-		<materialDesign:ColorZone Mode="PrimaryDark" materialDesign:ShadowAssist.ShadowDepth="Depth2">
-			<Label FontSize="16">Link to Gallery</Label>
-		</materialDesign:ColorZone>
-		<TextBox Grid.Row="1" Margin="5" materialDesign:HintAssist.Hint="Link" Text="{Binding Link}" FontSize="14" />
-		<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-			<Button Margin="5" HorizontalAlignment="Right"
-			        Command="{Binding ViewCommand}">
-				View
-			</Button>
-			<Button Margin="5" HorizontalAlignment="Right"
-			        Command="materialDesign:DialogHost.CloseDialogCommand">
-				Close
-				<Button.CommandParameter>
-					<system:Boolean>False</system:Boolean>
-				</Button.CommandParameter>
-			</Button>
-		</StackPanel>
-	</Grid>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <materialDesign:ColorZone Mode="PrimaryDark" materialDesign:ShadowAssist.ShadowDepth="Depth2">
+            <Label FontSize="16">Link to Gallery</Label>
+        </materialDesign:ColorZone>
+        <TextBox Grid.Row="1" Margin="5" materialDesign:HintAssist.Hint="Link" Text="{Binding Link}" FontSize="14" />
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Margin="5" HorizontalAlignment="Right"
+                    Command="{Binding ViewCommand}">
+                View
+            </Button>
+            <Button Margin="5" HorizontalAlignment="Right"
+                    Command="materialDesign:DialogHost.CloseDialogCommand">
+                Close
+                <Button.CommandParameter>
+                    <system:Boolean>False</system:Boolean>
+                </Button.CommandParameter>
+            </Button>
+        </StackPanel>
+    </Grid>
 </UserControl>

@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using HentaiViewer.Common;
 using HentaiViewer.Models;
 using HentaiViewer.Sites;
 using HentaiViewer.Views;
-using PropertyChanged;
 
 //using HentaiCafe = HentaiViewer.Sites.HentaiCafe;
 
 namespace HentaiViewer.ViewModels {
-    [ImplementPropertyChanged]
-    public class HentaiCafeViewModel {
+    public class HentaiCafeViewModel : INotifyPropertyChanged {
         public static HentaiCafeViewModel Instance;
 
         private readonly ObservableCollection<HentaiModel> _cafe = new ObservableCollection<HentaiModel>();
@@ -25,11 +24,15 @@ namespace HentaiViewer.ViewModels {
             RefreshCafeCommand = new ActionCommand(RefreshCafeAsync);
             LoadMoreCafeCommand = new ActionCommand(async () => { await LoadCafePage(1); });
             LoadPrevCafeCommand = new ActionCommand(async () => {
-                if (CafeLoadedPage == 1) return;
+                if (CafeLoadedPage == 1) {
+                    return;
+                }
                 await LoadCafePage(-1);
             });
             HomeCommand = new ActionCommand(async () => {
-                if (CafePageLoading) return;
+                if (CafePageLoading) {
+                    return;
+                }
                 CafeLoadedPage = 1;
                 NextCafePage = 2;
                 await LoadCafePage(0);
@@ -50,28 +53,38 @@ namespace HentaiViewer.ViewModels {
 
         public ICommand HomeCommand { get; }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private async void RefreshCafeAsync() {
             await LoadCafePage(0);
         }
 
         private async Task LoadCafePage(int value) {
             SettingsController.Save();
-            if (CafePageLoading) return;
+            if (CafePageLoading) {
+                return;
+            }
             CafePageLoading = true;
             NextCafePage = NextCafePage + value;
             CafeLoadedPage = CafeLoadedPage + value;
-            if (_cafe.Count > 0) _cafe.Clear();
+            if (_cafe.Count > 0) {
+                _cafe.Clear();
+            }
             CafeView.Instance.ScrollViewer.ScrollToTop();
             var searchquery = SettingsController.Settings.Cafe.SearchQuery;
             List<HentaiModel> i;
-            if (string.IsNullOrEmpty(searchquery))
+            if (string.IsNullOrEmpty(searchquery)) {
                 i = await HentaiCafe.GetLatestAsync($"https://hentai.cafe/page/{CafeLoadedPage}");
-            else
+            }
+            else {
                 i =
                     await HentaiCafe.GetLatestAsync(
                         $"https://hentai.cafe/page/{CafeLoadedPage}/?s={searchquery.Replace(" ", "+")}");
+            }
             foreach (var hentaiModel in i) {
-                if (FavoritesController.FavoriteMd5s.Contains(hentaiModel.Md5)) hentaiModel.Favorite = true;
+                if (FavoritesController.FavoriteMd5s.Contains(hentaiModel.Md5)) {
+                    hentaiModel.Favorite = true;
+                }
                 _cafe.Add(hentaiModel);
                 await Task.Delay(10);
             }

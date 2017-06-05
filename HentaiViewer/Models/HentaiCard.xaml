@@ -1,17 +1,17 @@
 ﻿<UserControl
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:local="clr-namespace:HentaiViewer.Models"
-	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-	xmlns:converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
-	xmlns:views="clr-namespace:HentaiViewer.Views"
-	x:Class="HentaiViewer.Models.HentaiCard"
-	mc:Ignorable="d" Width="144" Height="250"
-	d:DesignHeight="230" d:DesignWidth="170" Margin="6,6,3,3"
-	d:DataContext="{d:DesignInstance {x:Type local:HentaiModel}, IsDesignTimeCreatable=False}">
-    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth2" x:Name="Grid" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:HentaiViewer.Models"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
+    xmlns:views="clr-namespace:HentaiViewer.Views"
+    x:Class="HentaiViewer.Models.HentaiCard"
+    mc:Ignorable="d" Width="144" Height="250"
+    d:DesignHeight="230" d:DesignWidth="170" Margin="6,6,3,3"
+    d:DataContext="{d:DesignInstance {x:Type local:HentaiModel}, IsDesignTimeCreatable=False}">
+    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth2" x:Name="Grid"
                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid>
             <Grid.RowDefinitions>
@@ -22,15 +22,15 @@
             <Image Grid.Row="0" Source="{Binding Img}" />
             <Image Grid.Row="0" Source="{Binding Img}" Margin="5"
                    Visibility="{Binding DataContext.Nsfw, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:MainWindow}},
-                Converter={StaticResource BooleanToVisibilityConverter}, Mode=TwoWay}" >
+                Converter={StaticResource BooleanToVisibilityConverter}, Mode=TwoWay}">
                 <Image.Effect>
-                    <BlurEffect Radius="10" RenderingBias="Quality" KernelType="Box"/>
+                    <BlurEffect Radius="10" RenderingBias="Quality" KernelType="Box" />
                 </Image.Effect>
             </Image>
             <Canvas Grid.Row="0" Background="Black" Opacity="0.5"
-			        Visibility="{Binding Seen, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
+                    Visibility="{Binding Seen, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
             <Grid Grid.Row="0"
-			      Visibility="{Binding IsMouseOver, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Grid, Mode=OneWay}">
+                  Visibility="{Binding IsMouseOver, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Grid, Mode=OneWay}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
@@ -41,26 +41,31 @@
                         <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding Site}" />
                     </Grid>
                 </materialDesign:ColorZone>
-                <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
-                    <Button Command="{Binding ViewCommand}" Content="View"/>
+                <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Margin="5">
+                    <Button Command="{Binding ViewCommand}" Content="View" />
                     <Button Margin="5" Command="{Binding MarkasReadCommand}"
-					        Visibility="{Binding IsSavedGallery, Converter={StaticResource BooleanToVisibilityConverter}}" Content="Mark as read"/>
+                            Visibility="{Binding IsSavedGallery, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            Content="Mark as read" />
                     <Button Command="{Binding FavoriteCommand}"
-					        Visibility="{Binding IsSavedGallery, Converter={StaticResource BooleanToVisibilityConverter}}" Content="Favorite"/>
+                            Visibility="{Binding IsSavedGallery, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            Content="Favorite" />
                 </StackPanel>
-                <Button BorderThickness="0" Grid.Row="0" HorizontalAlignment="Left" Padding="3" Background="Transparent"
-				        Command="{Binding OpenLinkCommand}" ToolTip="Open Site" Margin="5,0">
+                <Button BorderThickness="0" Grid.Row="0" HorizontalAlignment="Left" Padding="3"
+                        Background="Transparent"
+                        Command="{Binding OpenLinkCommand}" ToolTip="Open Site" Margin="5,0">
                     <materialDesign:PackIcon Kind="link" Width="25" Height="25" />
                 </Button>
             </Grid>
             <materialDesign:ColorZone Grid.Row="2" Mode="Standard" VerticalAlignment="Stretch">
-                <TextBlock Text="{Binding Title}" TextWrapping="WrapWithOverflow" FontSize="14" ToolTip="{Binding Title}"
+                <TextBlock Text="{Binding Title}" TextWrapping="WrapWithOverflow" FontSize="14"
+                           ToolTip="{Binding Title}"
                            Margin="5,0,5,5" VerticalAlignment="Center"
                            FontWeight="Medium" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis" />
             </materialDesign:ColorZone>
             <materialDesign:PackIcon Grid.Row="0" Kind="Heart" HorizontalAlignment="Right" Foreground="Red" Margin="5"
-			                         Width="25" Height="25"
-			                         Visibility="{Binding Favorite, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                     Width="25" Height="25"
+                                     Visibility="{Binding Favorite, Converter={StaticResource BooleanToVisibilityConverter}}" />
         </Grid>
     </materialDesign:Card>
 </UserControl>

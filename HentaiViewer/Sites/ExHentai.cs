@@ -46,7 +46,7 @@ namespace HentaiViewer.Sites {
                     Img = image,
                     ThumbnailLink = atag.Images[0].Source,
                     Site = "ExHentai.org",
-                    Seen = HistoryController.CheckHistory(atag.Links[0].GetAttribute("href")),
+                    Seen = HistoryController.CheckHistory(atag.Links[0].GetAttribute("href"))
                 });
                 //await Task.Delay(50);
             }
@@ -70,7 +70,9 @@ namespace HentaiViewer.Sites {
         }
 
         public static BitmapImage BytesToBitmapImage(byte[] bytes) {
-            if (bytes == null) return null;
+            if (bytes == null) {
+                return null;
+            }
             using (var mem = new MemoryStream(bytes, 0, bytes.Length)) {
                 mem.Position = 0;
                 var image = new BitmapImage();
@@ -110,14 +112,15 @@ namespace HentaiViewer.Sites {
             return cookieJar;
         }
 
-        public static async Task<Tuple<List<object>, int>> CollectImagesTaskAsync(HentaiModel hentai, Action<int, int> setPages) {
+        public static async Task<(List<object>, int)> CollectImagesTaskAsync(HentaiModel hentai,
+            Action<int, int> setPages) {
             if (Directory.Exists(hentai.SavePath) && !hentai.IsSavedGallery) {
                 var files =
                     new DirectoryInfo(hentai.SavePath).GetFileSystemInfos("*.???")
                         .OrderBy(fs => int.Parse(fs.Name.Split('.')[0]));
                 var paths = new List<object>();
                 files.ToList().ForEach(p => paths.Add(p.FullName));
-                return new Tuple<List<object>, int>(new List<object>(paths), files.Count());
+                return (new List<object>(paths), files.Count());
             }
             var url = hentai.Link;
             var client = new RestClient {
@@ -128,15 +131,18 @@ namespace HentaiViewer.Sites {
                 BaseUrl = new Uri(url),
                 CookieContainer = GetCookies()
             };
-            if (hentai.Link.Contains("g.e-hentai.org"))
+            if (hentai.Link.Contains("g.e-hentai.org")) {
                 client.CookieContainer.Add(new Cookie("nw", "1", "/", "g.e-hentai.org"));
+            }
             var document = await ParseHtmlStringAsync(await GetHtmlStringAsync(client));
-            if (hentai.Title == "lul") hentai.Title = document.Title.Replace(" - ExHentai.org", string.Empty);
+            if (hentai.Title == "lul") {
+                hentai.Title = document.Title.Replace(" - ExHentai.org", string.Empty);
+            }
             var urlsplit = url.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
             var galleryid = urlsplit[urlsplit.Length - 2];
             var ptag = document.All.Where(p => p.LocalName == "p" && p.ClassList.Contains("gpc"));
-            var Showingimages = ptag.First().TextContent.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
-            var pn = Showingimages[Showingimages.Length - 2].Trim().Replace(",", string.Empty);
+            var showingimages = ptag.First().TextContent.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+            var pn = showingimages[showingimages.Length - 2].Trim().Replace(",", string.Empty);
             var pages = int.Parse(pn, CultureInfo.InvariantCulture);
             setPages(0, pages);
             var imgpagestd =
@@ -145,7 +151,9 @@ namespace HentaiViewer.Sites {
             var impagelink = new List<string> {url};
             foreach (var element in imgpagestd) {
                 var link = element.GetAttribute("href");
-                if (!impagelink.Contains(link)) impagelink.Add(link);
+                if (!impagelink.Contains(link)) {
+                    impagelink.Add(link);
+                }
             }
 
             var imgagelinkpages = new List<string>();
@@ -157,9 +165,11 @@ namespace HentaiViewer.Sites {
                         t =>
                             t.LocalName == "a" && t.HasAttribute("href") &&
                             t.GetAttribute("href").Contains($"{galleryid}-"));
-                foreach (var element in atags)
-                    if (!imgagelinkpages.Contains(element.GetAttribute("href")))
+                foreach (var element in atags) {
+                    if (!imgagelinkpages.Contains(element.GetAttribute("href"))) {
                         imgagelinkpages.Add(element.GetAttribute("href"));
+                    }
+                }
 
                 //https://exhentai.org/s/8cbbff2c8a/1069378-1
                 imgagelinkpages = new List<string>(imgagelinkpages.OrderBy(x => int.Parse(x.Split('-').Last())));
@@ -172,15 +182,16 @@ namespace HentaiViewer.Sites {
                 var atags =
                     html.All.Where(
                         t => t.LocalName == "img" && t.HasAttribute("id") && t.Id.Contains("img"));
-                if (atags.Count(c => c.HasAttribute("id")) == 0)
+                if (atags.Count(c => c.HasAttribute("id")) == 0) {
                     atags = html.All.Where(
                         t => t.LocalName == "img" && t.HasAttribute("src") &&
                              t.GetAttribute("src").Contains("keystamp"));
+                }
                 var imglist = atags.Select(element => element.GetAttribute("src"));
                 images.AddRange(imglist);
                 setPages(index, pages);
             }
-            return new Tuple<List<object>, int>(images, pages);
+            return (images, pages);
         }
     }
 

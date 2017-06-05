@@ -11,8 +11,9 @@ namespace HentaiViewer {
     /// </summary>
     public partial class App : Application {
         private async void AppStartup(object sender, StartupEventArgs args) {
-            if (!Debugger.IsAttached)
+            if (!Debugger.IsAttached) {
                 ExceptionHandler.AddGlobalHandlers();
+            }
 
             HistoryController.Load();
             SettingsController.Load();

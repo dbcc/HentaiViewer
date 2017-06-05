@@ -57,14 +57,15 @@ namespace HentaiViewer.Sites {
             return response.Content;
         }
 
-        public static async Task<Tuple<List<object>, int>> CollectImagesTaskAsync(HentaiModel hentai, Action<int, int> setPages) {
+        public static async Task<(List<object>, int)> CollectImagesTaskAsync(HentaiModel hentai,
+            Action<int, int> setPages) {
             if (Directory.Exists(hentai.SavePath) && hentai.IsSavedGallery) {
                 var files =
                     new DirectoryInfo(hentai.SavePath).GetFileSystemInfos("*.???")
                         .OrderBy(fs => int.Parse(fs.Name.Split('.')[0]));
                 var paths = new List<object>();
                 files.ToList().ForEach(p => paths.Add(p.FullName));
-                return new Tuple<List<object>, int>(new List<object>(paths), files.Count());
+                return (new List<object>(paths), files.Count());
             }
             var url = hentai.Link;
             //Let's create a new parser using this configuration
@@ -76,11 +77,14 @@ namespace HentaiViewer.Sites {
                     .GetAttribute("href");
             if (hentai.Title == "lul") {
                 var firstOrDefault = entryPage.All.FirstOrDefault(h => h.LocalName == "h3");
-                if (firstOrDefault != null) hentai.Title = firstOrDefault.TextContent;
+                if (firstOrDefault != null) {
+                    hentai.Title = firstOrDefault.TextContent;
+                }
             }
             var blankurl = entryLink + "page/";
-            if (!entryLink.EndsWith("page/1"))
+            if (!entryLink.EndsWith("page/1")) {
                 entryLink = entryLink + "page/1";
+            }
 
             var html = await GetHtmlStringAsync(entryLink);
             var match = Regex.Match(html,
@@ -92,13 +96,15 @@ namespace HentaiViewer.Sites {
             for (var i = 1; i <= lastChapterNumber; i++) {
                 var htmlpage = await parser.ParseAsync(await GetHtmlStringAsync($"{blankurl}{i}"));
                 var img = htmlpage.All.First(im => im.LocalName == "img" && im.ClassList.Contains("open") &&
-                                                           im.HasAttribute("src") 
-                                                           && im.GetAttribute("src").Contains("https://cdn.hentai.cafe/manga/content/comics/")).GetAttribute("src");
+                                                   im.HasAttribute("src")
+                                                   && im.GetAttribute("src")
+                                                       .Contains("https://cdn.hentai.cafe/manga/content/comics/"))
+                    .GetAttribute("src");
                 retlist.Add(img);
                 setPages(i, lastChapterNumber);
             }
 
-            return new Tuple<List<object>, int>(retlist, lastChapterNumber);
+            return (retlist, lastChapterNumber);
         }
     }
 }

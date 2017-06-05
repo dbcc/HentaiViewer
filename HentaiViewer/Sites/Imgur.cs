@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,7 +11,8 @@ using Imgur.API.Models;
 
 namespace HentaiViewer.Sites {
     public class Imgur {
-        public static async Task<Tuple<List<object>, int>> CollectImagesTaskAsync(HentaiModel hentai, Action<int, int> setPages) {
+        public static async Task<(List<object>, int)> CollectImagesTaskAsync(HentaiModel hentai,
+            Action<int, int> setPages) {
             //var mockUrl = "https://api.imgur.com/3/album/5F5Cy/images";
 
             //https://imgur.com/a/LNKof
@@ -26,9 +26,11 @@ namespace HentaiViewer.Sites {
             }
             catch (ImgurException e) {
                 hentai.Title = e.Message;
-                return new Tuple<List<object>, int>(new List<object>(), 0);
+                return (new List<object>(), 0);
             }
-            if (hentai.Title == "lul") hentai.Title = album.Title ?? album.Link;
+            if (hentai.Title == "lul") {
+                hentai.Title = album.Title ?? album.Link;
+            }
             if (Directory.Exists(hentai.SavePath)) {
                 //var files = Directory.GetFiles(hentai.SavePath, "*.png");
                 var files =
@@ -36,12 +38,13 @@ namespace HentaiViewer.Sites {
                         .OrderBy(fs => int.Parse(fs.Name.Split('.')[0]));
                 var paths = new List<object>();
                 files.ToList().ForEach(p => paths.Add(p.FullName));
-                if (files.ToList().Count == album.ImagesCount)
+                if (files.ToList().Count == album.ImagesCount) {
                     setPages(files.Count(), album.ImagesCount);
-                    return new Tuple<List<object>, int>(new List<object>(paths), album.ImagesCount);
+                }
+                return (new List<object>(paths), album.ImagesCount);
             }
             setPages(album.Images.Count(), album.ImagesCount);
-            return new Tuple<List<object>, int>(new List<object>(album.Images.Select(i => i.Link).ToList()),
+            return (new List<object>(album.Images.Select(i => i.Link).ToList()),
                 album.ImagesCount);
         }
     }

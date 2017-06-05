@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -7,11 +8,9 @@ using HentaiViewer.Common;
 using HentaiViewer.Models;
 using HentaiViewer.Sites;
 using HentaiViewer.Views;
-using PropertyChanged;
 
 namespace HentaiViewer.ViewModels {
-    [ImplementPropertyChanged]
-    public class PururinViewModel {
+    public class PururinViewModel : INotifyPropertyChanged {
         public static PururinViewModel Instance;
 
         private readonly Dictionary<string, int> _filters = new Dictionary<string, int> {
@@ -33,11 +32,15 @@ namespace HentaiViewer.ViewModels {
             RefreshPururinCommand = new ActionCommand(RefreshPururinAsync);
             LoadMorePururinCommand = new ActionCommand(async () => { await LoadPururinPageAsync(1); });
             LoadPrevPururinCommand = new ActionCommand(async () => {
-                if (PururinLoadedPage == 1) return;
+                if (PururinLoadedPage == 1) {
+                    return;
+                }
                 await LoadPururinPageAsync(-1);
             });
             HomeCommand = new ActionCommand(async () => {
-                if (PururinPageLoading) return;
+                if (PururinPageLoading) {
+                    return;
+                }
                 PururinLoadedPage = 1;
                 NextPururinPage = 2;
                 await LoadPururinPageAsync(0);
@@ -61,26 +64,36 @@ namespace HentaiViewer.ViewModels {
 
         public ICommand HomeCommand { get; }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
 
         private async Task LoadPururinPageAsync(int value, bool delete = true) {
             SettingsController.Save();
-            if (PururinPageLoading) return;
+            if (PururinPageLoading) {
+                return;
+            }
             PururinPageLoading = true;
             NextPururinPage = NextPururinPage + value;
             PururinLoadedPage = PururinLoadedPage + value;
-            if (_Pururin.Count > 0 && delete) _Pururin.Clear();
+            if (_Pururin.Count > 0 && delete) {
+                _Pururin.Clear();
+            }
             PururinView.Instance.ScrollViewer.ScrollToTop();
             var searchquery = SettingsController.Settings.Pururin.SearchQuery;
             List<HentaiModel> i;
-            if (string.IsNullOrEmpty(searchquery))
+            if (string.IsNullOrEmpty(searchquery)) {
                 i =
                     await Pururin.GetLatestAsync(
                         $"http://pururin.us/browse/{SelectedFilter.ToLower().Replace(" ", "-")}?page={PururinLoadedPage}");
-            else
+            }
+            else {
                 i = await Pururin.GetLatestAsync(
                     $"http://pururin.us/search/more?q={searchquery.Replace(" ", "+")}&p={PururinLoadedPage}");
+            }
             foreach (var hentaiModel in i) {
-                if (FavoritesController.FavoriteMd5s.Contains(hentaiModel.Md5)) hentaiModel.Favorite = true;
+                if (FavoritesController.FavoriteMd5s.Contains(hentaiModel.Md5)) {
+                    hentaiModel.Favorite = true;
+                }
                 _Pururin.Add(hentaiModel);
                 await Task.Delay(10);
             }

@@ -72,6 +72,7 @@ namespace HentaiViewer.Models {
         public int AsianPorn { get; set; }
 
         public int Misc { get; set; }
+
         [DefaultValue(2), JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
         public int MinRating { get; set; }
     }

@@ -52,7 +52,9 @@ namespace HentaiViewer.Models {
         private string DaysSinceUpdate() {
             var dateNow = DateTime.Now;
             var diff = dateNow - Date;
-            if (diff.Days < 0) return "Unknown";
+            if (diff.Days < 0) {
+                return "Unknown";
+            }
             return diff.Days == 0 ? "Today" : $"{diff.Days} day(s) ago";
         }
     }

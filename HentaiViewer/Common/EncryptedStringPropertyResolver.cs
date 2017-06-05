@@ -12,15 +12,15 @@ using Newtonsoft.Json.Serialization;
 
 namespace HentaiViewer.Common {
     [AttributeUsage(AttributeTargets.Property)]
-    public class JsonEncryptAttribute : Attribute {
-    }
+    public class JsonEncryptAttribute : Attribute { }
 
     public class EncryptedStringPropertyResolver : DefaultContractResolver {
         private readonly byte[] encryptionKeyBytes;
 
         public EncryptedStringPropertyResolver(string encryptionKey) {
-            if (encryptionKey == null)
+            if (encryptionKey == null) {
                 throw new ArgumentNullException("encryptionKey");
+            }
 
             // Hash the key to ensure it is exactly 256 bits long, as required by AES-256
             using (var sha = new SHA256Managed()) {
@@ -36,9 +36,10 @@ namespace HentaiViewer.Common {
             // and attach an EncryptedStringValueProvider instance to them
             foreach (var prop in props.Where(p => p.PropertyType == typeof(string))) {
                 var pi = type.GetProperty(prop.UnderlyingName);
-                if (pi != null && pi.GetCustomAttribute(typeof(JsonEncryptAttribute), true) != null)
+                if (pi != null && pi.GetCustomAttribute(typeof(JsonEncryptAttribute), true) != null) {
                     prop.ValueProvider =
                         new EncryptedStringValueProvider(pi, encryptionKeyBytes);
+                }
             }
 
             return props;
@@ -87,7 +88,9 @@ namespace HentaiViewer.Common {
                 using (var aes = new AesManaged {Key = encryptionKey}) {
                     var iv = new byte[16];
                     var bytesRead = inputStream.Read(iv, 0, 16);
-                    if (bytesRead < 16) throw new CryptographicException("IV is missing or invalid.");
+                    if (bytesRead < 16) {
+                        throw new CryptographicException("IV is missing or invalid.");
+                    }
 
                     var decryptor = aes.CreateDecryptor(encryptionKey, iv);
                     using (var cryptoStream = new CryptoStream(inputStream, decryptor, CryptoStreamMode.Read)) {

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Management;
+﻿using System.Management;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace HentaiViewer.Common {
     public class UniqueId {
@@ -24,9 +20,10 @@ namespace HentaiViewer.Common {
                 @"win32_logicaldisk.deviceid=""" + drive + @":""");
             dsk.Get();
             var volumeSerial = dsk["VolumeSerialNumber"].ToString();
-            return Sha256(cpuInfo+volumeSerial);
+            return Sha256(cpuInfo + volumeSerial);
         }
-        static string Sha256(string password) {
+
+        private static string Sha256(string password) {
             var crypt = new SHA256Managed();
             var hash = new StringBuilder();
             var crypto = crypt.ComputeHash(Encoding.UTF8.GetBytes(password), 0, Encoding.UTF8.GetByteCount(password));

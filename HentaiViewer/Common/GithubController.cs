@@ -95,9 +95,11 @@ namespace HentaiViewer.Common {
         //public string assets_url { get; set; }
         //public string upload_url { get; set; }
         public string html_url { get; set; }
+
         //public int id { get; set; }
         public string tag_name { get; set; }
         //public string name { get; set; }
+
         //public string target_commitish { get; set; }
         //public bool draft { get; set; }
         //public Author author { get; set; }

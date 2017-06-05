@@ -1,30 +1,32 @@
 ﻿<UserControl x:Class="HentaiViewer.Views.Viewer_Views.SinglepageView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HentaiViewer.Views.Viewer_Views"
              xmlns:viewModel="clr-namespace:HentaiViewer.ViewModels"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:gif="http://wpfanimatedgif.codeplex.com"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
-             d:DataContext="{d:DesignInstance {x:Type viewModel:HentaiViewerWindowViewModel}, IsDesignTimeCreatable=False}" 
+             d:DataContext="{d:DesignInstance {x:Type viewModel:HentaiViewerWindowViewModel}, IsDesignTimeCreatable=False}"
              PreviewKeyDown="Flip_OnPreviewKeyDown">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <materialDesign:ColorZone>
-            <ComboBox HorizontalAlignment="Center" Width="40" ItemsSource="{Binding PagesList}" SelectedItem="{Binding SelectedPage}"/>
+            <ComboBox HorizontalAlignment="Center" Width="40" ItemsSource="{Binding PagesList}"
+                      SelectedItem="{Binding SelectedPage}" />
         </materialDesign:ColorZone>
-        <controls:FlipView x:Name="Flip" Grid.Row="1" MouseHoverBorderEnabled="False" SelectedIndex="{Binding SelectedPage}"
+        <controls:FlipView x:Name="Flip" Grid.Row="1" MouseHoverBorderEnabled="False"
+                           SelectedIndex="{Binding SelectedPage}"
                            IsBannerEnabled="False" ItemsSource="{Binding Images}">
             <controls:FlipView.ItemTemplate>
                 <DataTemplate>
-                    <Image gif:ImageBehavior.AnimatedSource="{Binding}" gif:ImageBehavior.RepeatBehavior="Forever"/>
+                    <Image gif:ImageBehavior.AnimatedSource="{Binding}" gif:ImageBehavior.RepeatBehavior="Forever" />
                 </DataTemplate>
             </controls:FlipView.ItemTemplate>
         </controls:FlipView>

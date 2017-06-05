@@ -1,11 +1,10 @@
-﻿using System.Windows.Input;
+﻿using System.ComponentModel;
+using System.Windows.Input;
 using HentaiViewer.Common;
 using HentaiViewer.Models;
-using PropertyChanged;
 
 namespace HentaiViewer.ViewModels {
-    [ImplementPropertyChanged]
-    public class SettingsViewModel {
+    public class SettingsViewModel : INotifyPropertyChanged {
         public SettingsViewModel() {
             SaveCommand = new ActionCommand(() => {
                 SettingsController.Settings = Setting;
@@ -25,5 +24,6 @@ namespace HentaiViewer.ViewModels {
         //public string SearchQuery => SettingsController.Settings.SearchQuery;
 
         public ICommand SaveCommand { get; }
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

@@ -19,12 +19,24 @@ namespace HentaiViewer.Common {
                     NullValueHandling = NullValueHandling.Ignore
                 };
                 Settings = JsonConvert.DeserializeObject<SettingsModel>(input, jsonSettings);
-                if (Settings.ExHentai == null) Settings.ExHentai = new ExhentaiOption();
-                if (Settings.nHentai == null) Settings.nHentai = new nHentaiOption();
-                if (Settings.Cafe == null) Settings.Cafe = new HentaiCafeOption();
-                if (Settings.Pururin == null) Settings.Pururin = new PururinOption();
-                if (Settings.Other == null) Settings.Other = new ApplicationOption {ViewerSize = new ViewerSize()};
-                if (Settings.Other.ViewerSize == null) Settings.Other.ViewerSize = new ViewerSize();
+                if (Settings.ExHentai == null) {
+                    Settings.ExHentai = new ExhentaiOption();
+                }
+                if (Settings.nHentai == null) {
+                    Settings.nHentai = new nHentaiOption();
+                }
+                if (Settings.Cafe == null) {
+                    Settings.Cafe = new HentaiCafeOption();
+                }
+                if (Settings.Pururin == null) {
+                    Settings.Pururin = new PururinOption();
+                }
+                if (Settings.Other == null) {
+                    Settings.Other = new ApplicationOption {ViewerSize = new ViewerSize()};
+                }
+                if (Settings.Other.ViewerSize == null) {
+                    Settings.Other.ViewerSize = new ViewerSize();
+                }
             }
             else {
                 Settings = new SettingsModel {
@@ -48,7 +60,9 @@ namespace HentaiViewer.Common {
             var output = JsonConvert.SerializeObject(Settings, jsonSettings);
 
             var folder = Path.GetDirectoryName(ConfigFile);
-            if (folder != null && !Directory.Exists(folder)) Directory.CreateDirectory(folder);
+            if (folder != null && !Directory.Exists(folder)) {
+                Directory.CreateDirectory(folder);
+            }
             try {
                 File.WriteAllText(ConfigFile, output);
             }

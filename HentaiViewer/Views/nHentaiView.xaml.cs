@@ -7,19 +7,21 @@ namespace HentaiViewer.Views {
     /// <summary>
     ///     Interaction logic for nHentaiView.xaml
     /// </summary>
-    public partial class nHentaiView : UserControl {
-        public static nHentaiView Instance;
+    public partial class NHentaiView : UserControl {
+        public static NHentaiView Instance;
 
-        public nHentaiView() {
+        public NHentaiView() {
             Instance = this;
             InitializeComponent();
-            DataContext = new nHentaiViewModel();
+            DataContext = new NHentaiViewModel();
         }
 
         private void UIElement_OnPreviewKeyDown(object sender, KeyEventArgs e) {
-            if (e.Key != Key.Enter) return;
+            if (e.Key != Key.Enter) {
+                return;
+            }
             BindingOperations.GetBindingExpression((TextBox) sender, TextBox.TextProperty)?.UpdateSource();
-            var datactx = (nHentaiViewModel) DataContext;
+            var datactx = (NHentaiViewModel) DataContext;
             datactx.HomeCommand.Execute(null);
         }
     }

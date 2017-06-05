@@ -40,7 +40,9 @@ namespace HentaiViewer.Common {
             var output = JsonConvert.SerializeObject(History, jsonSettings);
 
             var folder = Path.GetDirectoryName(ConfigFile);
-            if (folder != null && !Directory.Exists(folder)) Directory.CreateDirectory(folder);
+            if (folder != null && !Directory.Exists(folder)) {
+                Directory.CreateDirectory(folder);
+            }
             try {
                 File.WriteAllText(ConfigFile, output);
             }

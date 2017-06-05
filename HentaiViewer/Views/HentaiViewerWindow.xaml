@@ -1,51 +1,51 @@
 ﻿<controls:MetroWindow
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:local="clr-namespace:HentaiViewer.Views"
-	xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-	xmlns:viewModel="clr-namespace:HentaiViewer.ViewModels"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:HentaiViewer.Views"
+    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:viewModel="clr-namespace:HentaiViewer.ViewModels"
     xmlns:models="clr-namespace:HentaiViewer.Models"
-	xmlns:viewerViews="clr-namespace:HentaiViewer.Views.Viewer_Views"
-	x:Class="HentaiViewer.Views.HentaiViewerWindow"
-	mc:Ignorable="d"
-	Title="{Binding Hentai.Title}"
-	TitleCharacterCasing="Normal" d:DesignHeight="800" d:DesignWidth="600"
-	Height="{Binding Setting.Other.ViewerSize.Height, Mode=TwoWay}" SaveWindowPosition="True"
-	Width="{Binding Setting.Other.ViewerSize.Width, Mode=TwoWay}" MinWidth="400" BorderThickness="1"
-	NonActiveGlowBrush="Black" NonActiveBorderBrush="Black" BorderBrush="{DynamicResource AccentColorBrush}"
-	NonActiveWindowTitleBrush="{DynamicResource WindowTitleColorBrush}"
-	d:DataContext="{d:DesignInstance {x:Type viewModel:HentaiViewerWindowViewModel}, IsDesignTimeCreatable=False}"
-	Closing="HentaiViewerWindow_OnClosed">
-	<controls:MetroWindow.LeftWindowCommands>
+    xmlns:viewerViews="clr-namespace:HentaiViewer.Views.Viewer_Views"
+    x:Class="HentaiViewer.Views.HentaiViewerWindow"
+    mc:Ignorable="d"
+    Title="{Binding Hentai.Title}"
+    TitleCharacterCasing="Normal" d:DesignHeight="800" d:DesignWidth="600"
+    Height="{Binding Setting.Other.ViewerSize.Height, Mode=TwoWay}" SaveWindowPosition="True"
+    Width="{Binding Setting.Other.ViewerSize.Width, Mode=TwoWay}" MinWidth="400" BorderThickness="1"
+    NonActiveGlowBrush="Black" NonActiveBorderBrush="Black" BorderBrush="{DynamicResource AccentColorBrush}"
+    NonActiveWindowTitleBrush="{DynamicResource WindowTitleColorBrush}"
+    d:DataContext="{d:DesignInstance {x:Type viewModel:HentaiViewerWindowViewModel}, IsDesignTimeCreatable=False}"
+    Closing="HentaiViewerWindow_OnClosed">
+    <controls:MetroWindow.LeftWindowCommands>
         <controls:WindowCommands>
-            <Button ToolTip="Change Mode!" Command="{Binding ChangeModeCommand}" Content="{Binding Mode}"/>
+            <Button ToolTip="Change Mode!" Command="{Binding ChangeModeCommand}" Content="{Binding Mode}" />
             <Label HorizontalAlignment="Left" Content="Viewer - Pages" />
-			<TextBlock VerticalAlignment="Center" Margin="4,0">
-				<Run Text="{Binding Loaded, Mode=OneWay}" /><Run Text=" " /><Run Text=" / " /><Run Text=" " />
-				<Run Text="{Binding Pages}" />
-				<Run Text=" D:" />
-				<Run Text="{Binding ImageObjects.Count, Mode=OneWay}" />
-			</TextBlock>
-			<Button Command="{Binding SaveImagesCommand}"
-			        Visibility="{Binding SaveEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
-				Save
-			</Button>
-			<ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" ToolTip="{Binding ProgressValue}"
-			             Visibility="{Binding SaveProgress}" Maximum="{Binding Pages}" Value="{Binding ProgressValue}" />
-		</controls:WindowCommands>
-	</controls:MetroWindow.LeftWindowCommands>
-	<controls:MetroWindow.RightWindowCommands>
-		<controls:WindowCommands>
-			<Button Command="{Binding CopyLinkCommand}">Copy link</Button>
-		</controls:WindowCommands>
-	</controls:MetroWindow.RightWindowCommands>
+            <TextBlock VerticalAlignment="Center" Margin="4,0">
+                <Run Text="{Binding Loaded, Mode=OneWay}" /><Run Text=" " /><Run Text=" / " /><Run Text=" " />
+                <Run Text="{Binding Pages}" />
+                <Run Text=" D:" />
+                <Run Text="{Binding ImageObjects.Count, Mode=OneWay}" />
+            </TextBlock>
+            <Button Command="{Binding SaveImagesCommand}"
+                    Visibility="{Binding SaveEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                Save
+            </Button>
+            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" ToolTip="{Binding ProgressValue}"
+                         Visibility="{Binding SaveProgress}" Maximum="{Binding Pages}" Value="{Binding ProgressValue}" />
+        </controls:WindowCommands>
+    </controls:MetroWindow.LeftWindowCommands>
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
+            <Button Command="{Binding CopyLinkCommand}">Copy link</Button>
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
     <Grid MouseDown="Grid_MouseDown">
         <materialDesign:Transitioner x:Name="Trans" SelectedIndex="{Binding TransIndex}">
-            <viewerViews:SinglepageView/>
-            <viewerViews:LongstripView/>
+            <viewerViews:SinglepageView />
+            <viewerViews:LongstripView />
         </materialDesign:Transitioner>
     </Grid>
 </controls:MetroWindow>
