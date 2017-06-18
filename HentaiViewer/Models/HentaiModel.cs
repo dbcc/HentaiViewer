@@ -113,7 +113,7 @@ namespace HentaiViewer.Models {
                 }
             }
             var viewWindow = new HentaiViewerWindow {
-                DataContext = new HentaiViewerWindowViewModel(this),
+                DataContext = new HentaiViewerWindowViewModel(this, IsSavedGallery),
                 WindowStartupLocation = WindowStartupLocation.CenterScreen
             };
             viewWindow.Show();

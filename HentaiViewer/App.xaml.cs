@@ -5,13 +5,17 @@ using HentaiViewer.Common;
 using HentaiViewer.ViewModels;
 using HentaiViewer.Views;
 
-namespace HentaiViewer {
+namespace HentaiViewer
+{
     /// <summary>
     ///     Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application {
-        private async void AppStartup(object sender, StartupEventArgs args) {
-            if (!Debugger.IsAttached) {
+    public partial class App : Application
+    {
+        private async void AppStartup(object sender, StartupEventArgs args)
+        {
+            if (!Debugger.IsAttached)
+            {
                 ExceptionHandler.AddGlobalHandlers();
             }
 
@@ -21,7 +25,8 @@ namespace HentaiViewer {
 
             await Task.Delay(200);
 
-            var mainWindow = new MainWindow {
+            var mainWindow = new MainWindow
+            {
                 DataContext = new MainWindowViewModel()
             };
             mainWindow.Show();

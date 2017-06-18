@@ -32,13 +32,10 @@ namespace HentaiViewer.Views.Viewer_Views {
                 scviewer.ScrollToVerticalOffset(x + _direction);
                 x = scviewer.VerticalOffset;
                 //todo load images
-                if (!(scviewer.VerticalOffset + scviewer.ViewportHeight >= scviewer.ExtentHeight - 50)) {
+                if (!(scviewer.VerticalOffset + scviewer.ViewportHeight >= scviewer.ExtentHeight)) {
                     return;
                 }
                 var data = (HentaiViewerWindowViewModel) DataContext;
-                if (data.ImageObjects.Count > 50) {
-                    scviewer.ScrollToTop();
-                }
                 await data.LoadMoreImagesAsync();
             }));
         }
@@ -64,16 +61,13 @@ namespace HentaiViewer.Views.Viewer_Views {
         }
 
         private async void Scviewer_OnScrollChanged(object sender, ScrollChangedEventArgs e) {
-            if (!(scviewer.VerticalOffset + scviewer.ViewportHeight >= scviewer.ExtentHeight - 100)
+            if (!(scviewer.VerticalOffset + scviewer.ViewportHeight >= scviewer.ExtentHeight)
                 || Math.Abs(scviewer.VerticalOffset) <= 0
                 || CanvasMouseover.Visibility == Visibility) {
                 return;
             }
 
             var data = (HentaiViewerWindowViewModel) DataContext;
-            if (data.ImageObjects.Count > 50) {
-                scviewer.ScrollToTop();
-            }
             await data.LoadMoreImagesAsync();
         }
     }

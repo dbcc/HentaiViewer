@@ -11,9 +11,12 @@ using HentaiViewer.Common;
 using HentaiViewer.Models;
 using HentaiViewer.Sites;
 using Newtonsoft.Json;
+using System.Linq;
 
-namespace HentaiViewer.ViewModels {
-    public class HentaiViewerWindowViewModel : IDisposable, INotifyPropertyChanged {
+namespace HentaiViewer.ViewModels
+{
+    public class HentaiViewerWindowViewModel : IDisposable, INotifyPropertyChanged
+    {
         private readonly ObservableCollection<object> _imageObjects = new ObservableCollection<object>();
         private readonly ObservableCollection<int> _pagesList = new ObservableCollection<int>();
         private bool _adding;
@@ -24,42 +27,62 @@ namespace HentaiViewer.ViewModels {
         private bool _isClosing;
         //private bool _saving;
 
-        public HentaiViewerWindowViewModel(HentaiModel hentai, bool saveEnabled = true) {
+        public HentaiViewerWindowViewModel(HentaiModel hentai, bool saveEnabled = true)
+        {
             Hentai = hentai;
             CopyLinkCommand = new ActionCommand(() => Clipboard.SetText(Hentai.Link));
             ChangeModeCommand = new ActionCommand(ChangeMode);
             JumpCommand = new ActionCommand(Jump);
             ImageObjects = new ReadOnlyObservableCollection<object>(_imageObjects);
-            GetImagesCommand = new ActionCommand(async () => {
+            GetImagesCommand = new ActionCommand(async () =>
+            {
                 FetchButtonVisibility = Visibility.Collapsed;
                 PregressBarVisibility = Visibility.Visible;
-                var links = await SelectSiteAsync(hentai);
+                var links = new List<object>();
+                if (!hentai.IsSavedGallery)
+                {
+                    var files = Directory.GetFiles(hentai.SavePath).ToList();
+                    files.ForEach(links.Add);
+                    files.Remove("INFO.json");
+                    SetPages(files.Count, files.Count);
+                }
+                else
+                {
+                    links = await SelectSiteAsync(hentai);
+                }
+
                 _images = new ObservableCollection<object>(links);
                 Images = new ReadOnlyObservableCollection<object>(_images);
                 PagesList = new ReadOnlyObservableCollection<int>(_pagesList);
                 PageIntList();
                 PregressBarVisibility = Visibility.Collapsed;
-                foreach (var link in links) {
-                    if (_isClosing || _imageObjects.Count == 3) {
+                foreach (var link in links)
+                {
+                    if (_isClosing || _imageObjects.Count == 5)
+                    {
                         break;
                     }
-                    _imageObjects.Add(new ImageModel {
+                    _imageObjects.Add(new ImageModel
+                    {
                         PageNumber = links.IndexOf(link) + 1,
                         Source = link,
                         IsGif = link.ToString().Contains(".gif")
                     });
-                    await Task.Delay(200);
+                    await Task.Delay(10);
                     Loaded++;
                 }
                 SaveEnabled = saveEnabled;
             });
-            SaveImagesCommand = new ActionCommand(() => {
-                if (SaveProgress == Visibility.Collapsed) {
+            SaveImagesCommand = new ActionCommand(() =>
+            {
+                if (SaveProgress == Visibility.Collapsed)
+                {
                     SaveImagesAsync();
                 }
             });
             Setting = SettingsController.Settings;
-            if (Setting.Other.InstantFetch) {
+            if (Setting.Other.InstantFetch)
+            {
                 GetImagesCommand.Execute(null);
             }
         }
@@ -102,7 +125,8 @@ namespace HentaiViewer.ViewModels {
 
         public ICommand JumpCommand { get; }
 
-        public async void Dispose() {
+        public async void Dispose()
+        {
             _isClosing = true;
             await Task.Delay(100);
             _imageObjects.Clear();
@@ -170,8 +194,10 @@ namespace HentaiViewer.ViewModels {
         //}
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void ChangeMode() {
-            if (TransIndex == 1) {
+        private void ChangeMode()
+        {
+            if (TransIndex == 1)
+            {
                 TransIndex = 0;
                 Mode = "Singe Page";
                 return;
@@ -180,84 +206,90 @@ namespace HentaiViewer.ViewModels {
             Mode = "Long Strip";
         }
 
-        private void PageIntList() {
-            for (var i = 0; i < _images.Count; i++) {
+        private void PageIntList()
+        {
+            for (var i = 0; i < _images.Count; i++)
+            {
                 _pagesList.Add(i);
             }
         }
 
-        private async void Jump() {
+        private async void Jump()
+        {
             _imageObjects?.Clear();
             Loaded = JumpTonumber;
             await LoadMoreImagesAsync();
         }
 
-        private async Task<List<object>> SelectSiteAsync(HentaiModel hentai) {
-            switch (hentai.Site) {
-                case "Hentai.cafe": {
-                    var (paths, count) = await HentaiCafe.CollectImagesTaskAsync(hentai, SetPages);
-                    Pages = $"{paths.Count} : {count}";
-                    return paths;
-                }
-                case "nHentai.net": {
-                    var (paths, count) = await NHentai.CollectImagesTaskAsync(hentai, SetPages);
-                    Pages = $"{paths.Count} : {count}";
-                    return paths;
-                }
-                case "ExHentai.org": {
-                    var (paths, count) = await ExHentai.CollectImagesTaskAsync(hentai, SetPages);
-                    Pages = $"{paths.Count} : {count}";
-                    return paths;
-                }
-                case "Pururin.us": {
-                    var (paths, count) = await Pururin.CollectImagesTaskAsync(hentai, SetPages);
-                    Pages = $"{paths.Count} : {count}";
-                    return paths;
-                }
-                case "Imgur.com": {
-                    var (paths, count) = await Sites.Imgur.CollectImagesTaskAsync(hentai, SetPages);
-                    Pages = $"{paths.Count} : {count}";
-                    return paths;
-                }
+        private async Task<List<object>> SelectSiteAsync(HentaiModel hentai)
+        {
+            switch (hentai.Site)
+            {
+                case "Hentai.cafe":
+                    {
+                        var (paths, count) = await HentaiCafe.CollectImagesTaskAsync(hentai, SetPages);
+                        Pages = $"{paths.Count} : {count}";
+                        return paths;
+                    }
+                case "nHentai.net":
+                    {
+                        var (paths, count) = await NHentai.CollectImagesTaskAsync(hentai, SetPages);
+                        Pages = $"{paths.Count} : {count}";
+                        return paths;
+                    }
+                case "ExHentai.org":
+                    {
+                        var (paths, count) = await ExHentai.CollectImagesTaskAsync(hentai, SetPages);
+                        Pages = $"{paths.Count} : {count}";
+                        return paths;
+                    }
+                case "Pururin.us":
+                    {
+                        var (paths, count) = await Pururin.CollectImagesTaskAsync(hentai, SetPages);
+                        Pages = $"{paths.Count} : {count}";
+                        return paths;
+                    }
+                case "Imgur.com":
+                    {
+                        var (paths, count) = await Sites.Imgur.CollectImagesTaskAsync(hentai, SetPages);
+                        Pages = $"{paths.Count} : {count}";
+                        return paths;
+                    }
                 default:
                     return null;
             }
         }
 
-        private void SetPages(int current, int max) {
+        private void SetPages(int current, int max)
+        {
             Pages = $"{current} : {max}";
         }
 
-        private async void SaveImagesAsync() {
-            if (Hentai.Title == "lul" || !SaveEnabled) {
+        private async void SaveImagesAsync()
+        {
+            if (Hentai.Title == "lul" || !SaveEnabled)
+            {
                 return;
             }
             SaveEnabled = false;
             var folder = Path.Combine(Directory.GetCurrentDirectory(), "Saves", Hentai.Site,
                 MD5Converter.MD5Hash(Hentai.Title));
 
-            if (!Directory.Exists(folder)) {
+            if (!Directory.Exists(folder))
+            {
                 Directory.CreateDirectory(folder);
             }
             SaveProgress = Visibility.Visible;
-            for (var i = 0; i < _images.Count; i++) {
-                if (_isClosing) {
+            for (var i = 0; i < _images.Count; i++)
+            {
+                if (_isClosing)
+                {
                     break;
                 }
                 var img = _images[i];
                 ProgressValue = i + 1;
                 await SaveImage(img.ToString(), i + 1, folder);
                 await Task.Delay(50);
-                //if (img is string) {
-                //    var client = new RestClient {BaseUrl = new Uri((string) img)};
-                //    var imgBytes = await client.ExecuteGetTaskAsync(new RestRequest());
-                //    img = ExHentai.BytesToBitmapImage(imgBytes.RawBytes);
-                //}
-                //var encoder = new PngBitmapEncoder();
-                //encoder.Frames.Add(BitmapFrame.Create((BitmapSource) img));
-                //using (var stream = new FileStream($"{Path.Combine(folder, $"{i + 1}.png")}", FileMode.Create)) {
-                //    encoder.Save(stream);
-                //}
             }
             var output = JsonConvert.SerializeObject(new InfoModel(Hentai, _images.Count), Formatting.Indented);
 
@@ -266,50 +298,51 @@ namespace HentaiViewer.ViewModels {
             SaveEnabled = true;
         }
 
-        public async Task LoadMoreImagesAsync() {
-            if (_adding || _images == null || _images.Count <= 9) {
+        public async Task LoadMoreImagesAsync()
+        {
+            if (_adding || _images == null || _images.Count <= 20)
+            {
                 return;
             }
             _adding = true;
-            if (_imageObjects.Count > 3) {
-                _imageObjects.Clear();
-                GC.Collect();
-                GC.Collect();
-                //_imageObjects.Add(new ImageModel { PageNumber = _loaded, Source = _images[_loaded-3] });
-                //await Task.Delay(100);
-                //_imageObjects.Add(new ImageModel { PageNumber = _loaded, Source = _images[_loaded-2] });
-                //await Task.Delay(100);
-                _imageObjects.Add(new ImageModel {
-                    PageNumber = Loaded - 1,
-                    Source = _images[Loaded - 1],
-                    IsGif = _images[Loaded - 1].ToString().Contains(".gif")
-                });
-                await Task.Delay(100);
+            if (_imageObjects.Count > 20)
+            {
+                for (var i = 0; i < 5; i++)
+                {
+                    _imageObjects.RemoveAt(i);
+                    await Task.Delay(10);
+                }
             }
-            for (var i = 0; i < _images.Count; i++) {
-                if (Loaded == _images.Count || i == 3) {
+            for (var i = 0; i < _images.Count; i++)
+            {
+                if (Loaded == _images.Count || i == 5)
+                {
                     break;
                 }
-                _imageObjects.Add(new ImageModel {
+                _imageObjects.Add(new ImageModel
+                {
                     PageNumber = Loaded,
                     Source = _images[Loaded],
                     IsGif = _images[Loaded].ToString().Contains(".gif")
                 });
                 Loaded++;
-                await Task.Delay(100);
+                await Task.Delay(10);
             }
             _adding = false;
         }
 
-        private async Task SaveImage(string url, int num, string folder) {
-            try {
+        private async Task SaveImage(string url, int num, string folder)
+        {
+            try
+            {
                 var lastSlash = url.LastIndexOf('/');
                 var guid = url.Substring(lastSlash + 1);
                 var client = new WebClient();
                 var extension = guid.Substring(guid.LastIndexOf(".", StringComparison.Ordinal) + 1);
                 await client.DownloadFileTaskAsync(url, Path.Combine(folder, $"{num}.{extension}"));
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 Console.WriteLine(e);
             }
         }
