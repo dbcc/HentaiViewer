@@ -24,11 +24,14 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center">
                 <Button Style="{DynamicResource MaterialDesignToolButton}" VerticalAlignment="Center" Margin="5,0"
-                        Command="{Binding JumpCommand}">
-                    Jump to
-                </Button>
-                <ComboBox ItemsSource="{Binding PagesList}" Text="0" Width="40" Margin="5,0"
-                          SelectedItem="{Binding JumpTonumber}" />
+                        Command="{Binding JumpCommand}">Jump to</Button>
+                <ComboBox ItemsSource="{Binding PagesList}" Text="0" Width="40" Margin="5,0" SelectedItem="{Binding JumpTonumber}">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel IsItemsHost="True" VirtualizationMode="Recycling"/>
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                </ComboBox>
                 <Label Margin="5,0" VerticalAlignment="Center">Click to Scroll</Label>
                 <ToggleButton x:Name="toggleButton" IsChecked="{Binding Setting.Other.ClickScroll, Mode=TwoWay}" />
                 <Separator VerticalAlignment="Stretch" Height="30" />
